@@ -2,7 +2,29 @@ package model;
 
 public class Card {
 	
-	private Suit suit;
+	public static enum Suit {
+		S, D, H, C;	//Space, Diamond, Heart, Club
+	}
+	
+	public static enum Rank {
+		TWO {
+			public String toString() {
+				return "2";
+			}
+		},
+		THREE {
+			public String toString() {
+				return "3";
+			}
+		},
+		FOUR {
+			public String toString() {
+				return "4";
+			}
+		}
+	}
+	
+	/*private Suit suit;
 	private Rank rank;
 	
 	public enum Suit
@@ -100,5 +122,5 @@ public class Card {
 			s.append(" ");
 		}
 		return s.toString();
-	}
+	}*/
 }

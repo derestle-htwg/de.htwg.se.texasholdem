@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Deck {
 	
-	private List<Card> deck;
+	/*private List<Card> deck;
 	
 	
 	// Create the Deck with 52 cards
@@ -36,9 +36,9 @@ public class Deck {
 	}
 	
 	
-	/* delete the first Card from Deck and return this */
+	 delete the first Card from Deck and return this 
 	public Card getCard()
 	{
 		return deck.remove(0);
-	}
+	}*/
 }
