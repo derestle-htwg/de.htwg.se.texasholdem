@@ -1,7 +1,18 @@
 package model;
 
+import model.Card.Rank;
+import model.Card.Suit;
+
 public class Card {
+
+	Rank rank;
+	Suit suit;
 	
+	public Card(Rank rank, Suit suit) {
+		this.rank = rank;
+		this.suit = suit;
+	}
+
 	public static enum Suit {
 		S, D, H, C;	//Space, Diamond, Heart, Club
 	}
@@ -21,79 +32,47 @@ public class Card {
 			public String toString() {
 				return "4";
 			}
-		}
+		},
+		FIVE {
+			public String toString() {
+				return "5";
+			}
+		},
+		SIX {
+			public String toString() {
+				return "6";
+			}
+		},
+		SEVEN {
+			public String toString() {
+				return "7";
+			}
+		},
+		EIGHT {
+			public String toString() {
+				return "8";
+			}
+		},
+		NINE {
+			public String toString() {
+				return "9";
+			}
+		},
+		TEN {
+			public String toString() {
+				return "10";
+			}
+		},
+		J, Q, K, A
+	}
+
+	public Object getRank() {
+		return this.rank;
 	}
 	
 	/*private Suit suit;
 	private Rank rank;
 	
-	public enum Suit
-	{
-		// SPADE, DIAMOND, HEART, CLUB
-		S, D, H, C;
-	}
-	
-	public enum Rank
-	{
-		TWO 	{
-					public String toString() {
-						return "2";
-				}
-		},
-		
-		THREE 	{
-					public String toString() {
-						return "3";
-					}
-				},
-		
-		FOUR	{
-					public String toString() {
-						return "4";
-					}
-				},
-		
-		FIVE	{
-					public String toString() {
-						return "5";
-					}
-				},
-				
-		SIX		{
-					public String toString() {
-						return "6";
-					}
-				},
-		
-		SEVEN 	{
-					public String toString() {
-						return "7";
-					}
-				},
-			
-		EIGHT	{
-					public String toString() {
-						return "8";
-					}
-				},
-		
-		NINE	{
-					public String toString() {
-						return "9";
-					}
-				},
-	
-		TEN		{
-					public String toString() {
-						return "10";
-					}
-				},
-				
-		J, Q, K, A;
-				// JACK, QUEEN, KING, ACE
-		
-				
-	}
 	
 	public Card(Rank rank, Suit suit)
 	{
