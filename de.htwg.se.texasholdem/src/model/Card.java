@@ -66,8 +66,12 @@ public class Card {
 		J, Q, K, A
 	}
 
-	public Object getRank() {
+	public Rank getRank() {
 		return this.rank;
+	}
+
+	public Suit getSuit() {
+		return this.suit;
 	}
 	
 	/*private Suit suit;

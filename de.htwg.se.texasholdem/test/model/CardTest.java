@@ -21,4 +21,10 @@ public class CardTest {
 		Assert.assertEquals(Card.Rank.THREE, c1.getRank());
 	}
 
+	@Test
+	public void getSuit_inputDiamondAce_returnsDiamond(){
+		c1 = new Card(Card.Rank.A, Card.Suit.D);
+		Assert.assertEquals(Card.Suit.D, c1.getSuit());
+	}
+	
 }
