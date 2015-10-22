@@ -14,7 +14,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCard_inputNone_returnsOneCard() {
+	public void getCard_inputDeckWith52Cards_returnsOneCard() {
 		Card c = d.getCard();
 		Assert.assertEquals(Card.class, c.getClass());
 	}
