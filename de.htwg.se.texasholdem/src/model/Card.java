@@ -3,6 +3,7 @@ package model;
 public class Card {
 
 	public static enum Rank {
+		// Sinnloses Kommentar
 		TWO {
 			@Override
 			public String toString() {
