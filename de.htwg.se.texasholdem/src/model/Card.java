@@ -129,8 +129,6 @@ public class Card {
 
 	@Override
 	public String toString() {
-
-		int cardNameMaxLength = 3;
 		StringBuilder s = new StringBuilder(suit + " " + rank);
 		return s.toString();
 	}
