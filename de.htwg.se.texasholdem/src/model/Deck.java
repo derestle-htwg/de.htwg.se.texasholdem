@@ -7,11 +7,20 @@ public class Deck {
 	private LinkedList<Card> cards = new LinkedList<Card>();
 
 	public Deck(int i) {
-		cards.add(new Card(Card.Rank.SEVEN, Card.Suit.HEART));
+
+		for (Card.Rank rank : Card.Rank.values()) {
+			for (Card.Suit suit : Card.Suit.values()) {
+				cards.add(new Card(rank, suit));
+			}
+		}
 	}
 
 	public Card getCard() {
 		return cards.getFirst();
+	}
+
+	public int getNumberOfCards() {
+		return cards.size();
 	}
 
 	/*

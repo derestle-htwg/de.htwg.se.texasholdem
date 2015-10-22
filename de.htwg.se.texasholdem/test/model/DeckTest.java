@@ -18,4 +18,9 @@ public class DeckTest {
 		Card c = d.getCard();
 		Assert.assertEquals(Card.class, c.getClass());
 	}
+
+	@Test
+	public void getNumberOfCards_inputDeckWith52Cards_returnsInteger52() {
+		Assert.assertEquals(52, d.getNumberOfCards());
+	}
 }
