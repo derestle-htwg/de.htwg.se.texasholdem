@@ -1,11 +1,14 @@
-package model;
+package model.imp;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class Deck {
+import model.ICard;
+import model.IDeck;
 
-	private LinkedList<Card> cards = new LinkedList<Card>();
+public class Deck implements IDeck {
+
+	private LinkedList<ICard> cards = new LinkedList<ICard>();
 
 	public Deck(int i) {
 
@@ -16,11 +19,11 @@ public class Deck {
 		}
 	}
 
-	public Card getCard() {
+	public ICard getCard() {
 		return cards.remove();
 	}
 
-	public LinkedList<Card> getCardList() {
+	public LinkedList<ICard> getCardList() {
 		return cards;
 	}
 

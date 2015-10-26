@@ -1,4 +1,6 @@
-package model;
+package model.imp;
+
+import model.imp.Card;
 
 import org.junit.Assert;
 import org.junit.Before;

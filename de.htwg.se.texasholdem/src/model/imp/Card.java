@@ -1,6 +1,8 @@
-package model;
+package model.imp;
 
-public class Card {
+import model.ICard;
+
+public class Card implements ICard{
 
 	public static enum Rank {
 		// Sinnloses Kommentar
