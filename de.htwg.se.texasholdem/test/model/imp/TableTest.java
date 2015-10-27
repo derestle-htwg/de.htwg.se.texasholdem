@@ -25,6 +25,11 @@ public class TableTest {
 	}
 
 	@Test
+	public void addPlayer_inputP1_returnsListWithP1() {
+		Assert.assertEquals(p1, table.getPlayerList().get(table.getPlayerList().indexOf(p1)));
+	}
+
+	@Test
 	public void getNextPlayer_inputPlayerP1_returnsPlayerP2() {
 		Assert.assertEquals(p2, table.getNextPlayer(p1));
 	}
