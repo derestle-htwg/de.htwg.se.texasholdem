@@ -1,20 +1,14 @@
 package model;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import model.imp.PlaceImp;
+import java.util.List;
 
 public interface Table {
-	
-	public HashMap<Integer,PlaceImp> getPlaceMap();
 
-	public int getPot();
+	public void addPlayer(Player player);
 
-	public void setPot(int pot);
-	
-	public LinkedList<Card> getMidleCardsList();
+	public List<Player> getPlayerList();
 
-	public void setMidleCardsList(LinkedList<Card> midleCardsList);
+	public int getPotValue();
 
+	public void setPotValue(int value);
 }

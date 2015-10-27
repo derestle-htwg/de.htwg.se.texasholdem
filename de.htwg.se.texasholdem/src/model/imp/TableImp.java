@@ -1,45 +1,39 @@
 package model.imp;
 
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
-import model.Card;
+import model.Player;
 import model.Table;
 
 public class TableImp implements Table {
-	
-	private HashMap<Integer,PlaceImp> placeMap;
-	LinkedList<Card> midleCardsList;
-	private int Pot;
-	
-	public TableImp(LinkedList<Card> cardList) {
-		
-		this.placeMap = new HashMap<Integer, PlaceImp>();
-		
-		this.midleCardsList = new LinkedList<Card>();
-		this.midleCardsList = cardList;
-		
+
+	LinkedList<Player> players;
+	private int potValue;
+
+	public TableImp() {
+		players = new LinkedList<Player>();
 	}
 
-	public HashMap<Integer,PlaceImp> getPlaceMap() {
-		return placeMap;
+	public void addPlayer(Player player) {
+		players.add(player);
 	}
 
-	public int getPot() {
-		return Pot;
+	public Player getNextPlayer(Player player) {
+		int index = players.indexOf(player);
+		return players.get((index + 1) % players.size());
 	}
 
-	public void setPot(int pot) {
-		Pot = pot;
+	public List<Player> getPlayerList() {
+		return players;
 	}
 
-	public LinkedList<Card> getMidleCardsList() {
-		return midleCardsList;
+	public int getPotValue() {
+		return potValue;
 	}
 
-	public void setMidleCardsList(LinkedList<Card> midleCardsList) {
-		this.midleCardsList = midleCardsList;
+	public void setPotValue(int value) {
+		potValue = value;
 	}
-
 
 }

@@ -7,7 +7,7 @@ import model.Card;
 import model.Deck;
 
 public class DeckImp implements Deck {
-	
+
 	private LinkedList<Card> cards = new LinkedList<Card>();
 
 	public DeckImp() {
@@ -18,18 +18,6 @@ public class DeckImp implements Deck {
 		}
 	}
 
-	public LinkedList<Card> getCards() {
-		return cards;
-	}
-
-	public void setCards(LinkedList<Card> cards) {
-		this.cards = cards;
-	}
-
-	
-
-
-
 	public Card getCard() {
 		return cards.remove();
 	}
@@ -38,8 +26,16 @@ public class DeckImp implements Deck {
 		return cards;
 	}
 
+	public LinkedList<Card> getCards() {
+		return cards;
+	}
+
 	public int getNumberOfCards() {
 		return cards.size();
+	}
+
+	public void setCards(LinkedList<Card> cards) {
+		this.cards = cards;
 	}
 
 	public void shuffleDeck() {
