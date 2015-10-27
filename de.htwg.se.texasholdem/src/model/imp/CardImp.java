@@ -7,7 +7,9 @@ public class CardImp implements Card{
 	private Rank rank;
 	private Suit suit;
 
-	public CardImp() {
+	public CardImp(Rank rank, Suit suit) {
+		setRank(rank);
+		setSuit(suit);
 		
 	}
 	
@@ -15,19 +17,16 @@ public class CardImp implements Card{
 		return rank;
 	}
 
-
 	public Suit getSuit() {
 		return suit;
 	}
-
-
-	public Rank setRank(Rank rank) {
-		return this.rank = rank;
+	
+	private void setRank(Rank rank) {
+		this.rank = rank;
 	}
 
-
-	public Suit setSuit(Suit suit) {
-		return this.suit = suit;
+	private void setSuit(Suit suit) {
+		this.suit = suit;
 	}
 	
 	

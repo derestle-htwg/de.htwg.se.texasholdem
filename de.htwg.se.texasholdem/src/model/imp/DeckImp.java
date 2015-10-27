@@ -7,9 +7,15 @@ import model.Card;
 import model.Deck;
 
 public class DeckImp implements Deck {
+	
+	private LinkedList<Card> cards = new LinkedList<Card>();
 
 	public DeckImp() {
-		// TODO Auto-generated constructor stub
+		for (Rank rank : Rank.values()) {
+			for (Suit suit : Suit.values()) {
+				cards.add(new CardImp(rank, suit));
+			}
+		}
 	}
 
 	public LinkedList<Card> getCards() {
@@ -20,7 +26,7 @@ public class DeckImp implements Deck {
 		this.cards = cards;
 	}
 
-	private LinkedList<Card> cards = new LinkedList<Card>();
+	
 
 
 

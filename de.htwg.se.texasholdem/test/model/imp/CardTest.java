@@ -12,20 +12,20 @@ public class CardTest {
 
 	@Before
 	public void _setup() {
-		c1 = new CardImp(CardImp.Rank.ACE, CardImp.Suit.DIAMOND);
-		c2 = new CardImp(CardImp.Rank.THREE, CardImp.Suit.HEART);
-		c3 = new CardImp(CardImp.Rank.KING, CardImp.Suit.CLUB);
-		c4 = new CardImp(CardImp.Rank.NINE, CardImp.Suit.SPACE);
+		c1 = new CardImp(Rank.ACE, Suit.DIAMOND);
+		c2 = new CardImp(Rank.THREE, Suit.HEART);
+		c3 = new CardImp(Rank.KING, Suit.CLUB);
+		c4 = new CardImp(Rank.NINE, Suit.SPACE);
 	}
 
 	@Test
 	public void getRank_inputHeartThree_returnsThree() {
-		Assert.assertEquals(CardImp.Rank.THREE, c2.getRank());
+		Assert.assertEquals(Rank.THREE, c2.getRank());
 	}
 
 	@Test
 	public void getSuit_inputDiamondAce_returnsDiamond() {
-		Assert.assertEquals(CardImp.Suit.DIAMOND, c1.getSuit());
+		Assert.assertEquals(Suit.DIAMOND, c1.getSuit());
 	}
 
 	@Test
