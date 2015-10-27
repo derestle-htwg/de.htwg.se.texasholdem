@@ -1,13 +1,16 @@
 package model.imp;
 
-import model.IPlayer;
+import model.Player;
 
+public class PlayerImp implements Player {
 
-public class Player implements IPlayer {
-	
 	private String playerName;
 	private int playerMoney;
-	
+
+	public PlayerImp() {
+
+	}
+
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -23,6 +26,5 @@ public class Player implements IPlayer {
 	public void setPlayerMoney(int playerMoney) {
 		this.playerMoney = playerMoney;
 	}
-	
 
 }

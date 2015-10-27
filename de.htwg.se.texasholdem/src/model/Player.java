@@ -1,6 +1,6 @@
 package model;
 
-public interface IPlayer {
+public interface Player {
 	
 	public String getPlayerName();
 

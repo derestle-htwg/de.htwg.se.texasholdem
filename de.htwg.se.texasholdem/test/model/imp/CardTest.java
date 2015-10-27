@@ -1,6 +1,6 @@
 package model.imp;
 
-import model.imp.Card;
+import model.imp.CardImp;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,24 +8,24 @@ import org.junit.Test;
 
 public class CardTest {
 
-	Card c1, c2, c3, c4;
+	CardImp c1, c2, c3, c4;
 
 	@Before
 	public void _setup() {
-		c1 = new Card(Card.Rank.ACE, Card.Suit.DIAMOND);
-		c2 = new Card(Card.Rank.THREE, Card.Suit.HEART);
-		c3 = new Card(Card.Rank.KING, Card.Suit.CLUB);
-		c4 = new Card(Card.Rank.NINE, Card.Suit.SPACE);
+		c1 = new CardImp(CardImp.Rank.ACE, CardImp.Suit.DIAMOND);
+		c2 = new CardImp(CardImp.Rank.THREE, CardImp.Suit.HEART);
+		c3 = new CardImp(CardImp.Rank.KING, CardImp.Suit.CLUB);
+		c4 = new CardImp(CardImp.Rank.NINE, CardImp.Suit.SPACE);
 	}
 
 	@Test
 	public void getRank_inputHeartThree_returnsThree() {
-		Assert.assertEquals(Card.Rank.THREE, c2.getRank());
+		Assert.assertEquals(CardImp.Rank.THREE, c2.getRank());
 	}
 
 	@Test
 	public void getSuit_inputDiamondAce_returnsDiamond() {
-		Assert.assertEquals(Card.Suit.DIAMOND, c1.getSuit());
+		Assert.assertEquals(CardImp.Suit.DIAMOND, c1.getSuit());
 	}
 
 	@Test

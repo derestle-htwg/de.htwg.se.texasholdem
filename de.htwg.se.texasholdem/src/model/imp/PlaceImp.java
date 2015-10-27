@@ -2,20 +2,18 @@ package model.imp;
 
 import java.util.LinkedList;
 
-import model.IPlace;
+import model.Place;
 
-public class Place implements IPlace {
+public class PlaceImp implements Place {
 	
 	private boolean isSmalBlind;
 	private boolean isBigBlind;
-	private Player player;
-	private LinkedList<Card> holecard;
+	private PlayerImp player;
+	private LinkedList<CardImp> holecard;
 	
 	
-	public Place() {
-		
-		setPlayer(new Player());
-		holecard = new LinkedList<Card>();
+	public PlaceImp() {
+		holecard = new LinkedList<CardImp>();
 	}
 	
 	public boolean isSmalBlind() {
@@ -34,19 +32,19 @@ public class Place implements IPlace {
 		this.isBigBlind = isBigBlind;
 	}
 	
-	public LinkedList<Card> getHolecard() {
+	public LinkedList<CardImp> getHolecard() {
 		return holecard;
 	}
 	
-	public void setHolecard(LinkedList<Card> holecard) {
+	public void setHolecard(LinkedList<CardImp> holecard) {
 		this.holecard = holecard;
 	}
 	
-	public Player getPlayer() {
+	public PlayerImp getPlayer() {
 		return player;
 	}
 	
-	public void setPlayer(Player player) {
+	public void setPlayer(PlayerImp player) {
 		this.player = player;
 	}
 	

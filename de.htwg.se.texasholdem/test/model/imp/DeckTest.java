@@ -1,8 +1,8 @@
 package model.imp;
 
-import model.ICard;
-import model.imp.Card;
-import model.imp.Deck;
+import model.Card;
+import model.imp.CardImp;
+import model.imp.DeckImp;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,17 +10,17 @@ import org.junit.Test;
 
 public class DeckTest {
 
-	Deck d;
+	DeckImp d;
 
 	@Before
 	public void _setup() {
-		d = new Deck(52);
+		d = new DeckImp();
 	}
 
 	@Test
 	public void getCard_inputDeckWith52Cards_returnsOneCard() {
-		ICard c = d.getCard();
-		Assert.assertEquals(Card.class, c.getClass());
+		Card c = d.getCard();
+		Assert.assertEquals(CardImp.class, c.getClass());
 	}
 
 	@Test
