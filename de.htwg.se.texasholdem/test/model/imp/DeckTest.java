@@ -1,12 +1,12 @@
 package model.imp;
 
-import model.Card;
-import model.imp.CardImp;
-import model.imp.DeckImp;
+import java.util.LinkedList;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import model.Card;
 
 public class DeckTest {
 
@@ -24,7 +24,14 @@ public class DeckTest {
 	}
 
 	@Test
+	public void getCards_inputDeckWith52Cards_returnsCardListWith52Cards() {
+		LinkedList<Card> cardList = d.getCards();
+		Assert.assertEquals(52, cardList.size());
+	}
+
+	@Test
 	public void getNumberOfCards_inputDeckWith52Cards_returnsInteger52() {
 		Assert.assertEquals(52, d.getNumberOfCards());
 	}
+
 }
