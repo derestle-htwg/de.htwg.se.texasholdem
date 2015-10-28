@@ -1,7 +1,5 @@
 package model.imp;
 
-import model.imp.CardImp;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,21 +28,21 @@ public class CardTest {
 
 	@Test
 	public void toString_inputClubKing_returnsClubKingString() {
-		Assert.assertEquals("C K", c3.toString());
+		Assert.assertEquals("K C", c3.toString());
 	}
 
 	@Test
 	public void toString_inputDiamondAce_returnsDiamondAceString() {
-		Assert.assertEquals("D A", c1.toString());
+		Assert.assertEquals("A D", c1.toString());
 	}
 
 	@Test
 	public void toString_inputHeartThree_returnsHeartThreeString() {
-		Assert.assertEquals("H 3", c2.toString());
+		Assert.assertEquals("3 H", c2.toString());
 	}
 
 	@Test
 	public void toString_inputSpaceNine_returnsSpaceNineString() {
-		Assert.assertEquals("S 9", c4.toString());
+		Assert.assertEquals("9 S", c4.toString());
 	}
 }
