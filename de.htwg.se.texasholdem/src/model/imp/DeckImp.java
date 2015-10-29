@@ -10,12 +10,8 @@ public class DeckImp implements Deck {
 
 	private LinkedList<Card> cards = new LinkedList<Card>();
 
-	public DeckImp() {
-		for (Rank rank : Rank.values()) {
-			for (Suit suit : Suit.values()) {
-				cards.add(new CardImp(rank, suit));
-			}
-		}
+	public void addCard(Card newCard) {
+		cards.add(newCard);
 	}
 
 	public Card getCard() {

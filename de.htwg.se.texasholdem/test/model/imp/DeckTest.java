@@ -15,6 +15,12 @@ public class DeckTest {
 	@Before
 	public void _setup() {
 		d = new DeckImp();
+
+		for (Rank r : Rank.values()) {
+			for (Suit s : Suit.values()) {
+				d.addCard(new CardImp(r, s));
+			}
+		}
 	}
 
 	@Test
