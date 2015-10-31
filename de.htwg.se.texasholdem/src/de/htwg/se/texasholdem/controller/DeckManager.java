@@ -1,5 +1,7 @@
 package de.htwg.se.texasholdem.controller;
 
-public interface DeckManager {
+import de.htwg.se.texasholdem.model.Deck;
 
+public interface DeckManager {
+	public Deck getDeck();
 }
