@@ -1,10 +1,10 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Player;
-import model.Table;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Table;
 
 public class TableImp implements Table {
 

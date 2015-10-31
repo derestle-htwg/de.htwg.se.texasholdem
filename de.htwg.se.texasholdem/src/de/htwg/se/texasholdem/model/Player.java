@@ -1,4 +1,4 @@
-package model;
+package de.htwg.se.texasholdem.model;
 
 public interface Player {
 

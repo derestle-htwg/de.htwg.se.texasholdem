@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Player;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.imp.PlayerImp;
+import de.htwg.se.texasholdem.model.imp.TableImp;
 
 public class TableTest {
 	private TableImp table;

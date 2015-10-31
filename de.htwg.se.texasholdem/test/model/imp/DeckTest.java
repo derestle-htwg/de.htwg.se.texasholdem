@@ -6,7 +6,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Card;
+import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.imp.CardImp;
+import de.htwg.se.texasholdem.model.imp.DeckImp;
+import de.htwg.se.texasholdem.model.imp.Rank;
+import de.htwg.se.texasholdem.model.imp.Suit;
 
 public class DeckTest {
 

@@ -1,10 +1,10 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-import model.Card;
-import model.Deck;
+import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Deck;
 
 public class DeckImp implements Deck {
 

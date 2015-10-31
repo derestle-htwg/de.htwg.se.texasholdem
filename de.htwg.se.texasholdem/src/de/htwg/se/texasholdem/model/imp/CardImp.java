@@ -1,6 +1,6 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
-import model.Card;
+import de.htwg.se.texasholdem.model.Card;
 
 public class CardImp implements Card {
 

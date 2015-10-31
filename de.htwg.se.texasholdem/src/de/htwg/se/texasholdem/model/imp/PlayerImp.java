@@ -1,6 +1,6 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
-import model.Player;
+import de.htwg.se.texasholdem.model.Player;
 
 public class PlayerImp implements Player {
 
