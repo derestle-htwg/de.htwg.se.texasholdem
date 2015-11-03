@@ -1,14 +1,10 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
-
-public class CardTest {
+public class CardImpTest {
 
 	CardImp c1, c2, c3, c4;
 

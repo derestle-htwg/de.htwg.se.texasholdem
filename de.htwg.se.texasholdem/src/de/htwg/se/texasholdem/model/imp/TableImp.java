@@ -8,8 +8,10 @@ import de.htwg.se.texasholdem.model.Table;
 
 public class TableImp implements Table {
 
-	LinkedList<Player> players;
+	private LinkedList<Player> players;
 	private int potValue;
+	private int BigBlindValue;
+	private int SmallBlindValue;
 
 	public TableImp() {
 		players = new LinkedList<Player>();
@@ -34,6 +36,22 @@ public class TableImp implements Table {
 
 	public void setPotValue(int value) {
 		potValue = value;
+	}
+
+	public int getBigBlindValue() {
+		return BigBlindValue;
+	}
+
+	public void setBigBlindValue(int bigBlindValue) {
+		BigBlindValue = bigBlindValue;
+	}
+
+	public int getSmallBlindValue() {
+		return SmallBlindValue;
+	}
+
+	public void setSmallBlindValue() {
+		SmallBlindValue = BigBlindValue / 2;
 	}
 
 }
