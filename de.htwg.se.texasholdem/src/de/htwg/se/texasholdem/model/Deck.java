@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public interface Deck {
 
+	public void addCard(Card newCard);
+
 	public Card getCard();
 
 	public LinkedList<Card> getCards();
