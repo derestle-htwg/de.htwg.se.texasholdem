@@ -2,6 +2,7 @@ package de.htwg.se.texasholdem.model.imp;
 
 import de.htwg.se.texasholdem.model.Card;
 
+
 public class CardImp implements Card {
 
 	private Rank rank;
