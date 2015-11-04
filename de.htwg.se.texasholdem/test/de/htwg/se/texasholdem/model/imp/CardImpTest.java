@@ -6,43 +6,34 @@ import org.junit.Test;
 
 public class CardImpTest {
 
-	CardImp c1, c2, c3, c4;
+	CardImp card;
 
 	@Before
 	public void _setup() {
-		c1 = new CardImp(Rank.ACE, Suit.DIAMOND);
-		c2 = new CardImp(Rank.THREE, Suit.HEART);
-		c3 = new CardImp(Rank.KING, Suit.CLUB);
-		c4 = new CardImp(Rank.NINE, Suit.SPACE);
+		card = new CardImp(Rank.TWO, Suit.HEART);
 	}
 
 	@Test
-	public void getRank_inputHeartThree_returnsThree() {
-		Assert.assertEquals(Rank.THREE, c2.getRank());
+	public void getRank_inputRanksAndSuits_returnsTrue() {
+		StringBuilder sb = new StringBuilder();
+
+		for (Rank r : Rank.values()) {
+			for (Suit s : Suit.values()) {
+				card = new CardImp(r, s);
+				sb.setLength(0);
+				sb.append(r + " " + s);
+				Assert.assertEquals(sb.toString(), card.toString());
+			}
+		}
 	}
 
 	@Test
-	public void getSuit_inputDiamondAce_returnsDiamond() {
-		Assert.assertEquals(Suit.DIAMOND, c1.getSuit());
+	public void getRank_inputTwoOfHearts_returnsTwo() {
+		Assert.assertEquals(Rank.TWO, card.getRank());
 	}
 
 	@Test
-	public void toString_inputClubKing_returnsClubKingString() {
-		Assert.assertEquals("K C", c3.toString());
-	}
-
-	@Test
-	public void toString_inputDiamondAce_returnsDiamondAceString() {
-		Assert.assertEquals("A D", c1.toString());
-	}
-
-	@Test
-	public void toString_inputHeartThree_returnsHeartThreeString() {
-		Assert.assertEquals("3 H", c2.toString());
-	}
-
-	@Test
-	public void toString_inputSpaceNine_returnsSpaceNineString() {
-		Assert.assertEquals("9 S", c4.toString());
+	public void getSuit_inputTwoOfHearts_returnsHearts() {
+		Assert.assertEquals(Suit.HEART, card.getSuit());
 	}
 }
