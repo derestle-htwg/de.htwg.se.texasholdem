@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
 
 public class PlayerManagerImp implements PlayerManager {
 
@@ -14,7 +13,7 @@ public class PlayerManagerImp implements PlayerManager {
 		playerList = new LinkedList<Player>();
 	}
 
-	public void addPlayer(PlayerImp player) {
+	public void addPlayer(Player player) {
 		playerList.add(player);
 	}
 
