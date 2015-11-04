@@ -11,12 +11,13 @@ public class DeckManagerImp implements DeckManager {
 
 	Deck deck = new DeckImp();
 
-	public Deck getDeck() {
+	public Deck getShuffledDeck() {
 		for (Suit s : Suit.values()) {
 			for (Rank r : Rank.values()) {
 				deck.addCard(new CardImp(r, s));
 			}
 		}
+		deck.shuffleDeck();
 		return deck;
 	}
 

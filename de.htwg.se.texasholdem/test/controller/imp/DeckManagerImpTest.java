@@ -18,6 +18,6 @@ public class DeckManagerImpTest {
 
 	@Test
 	public void getDeck_inputNothing_returnsDeckWith52Cards() {
-		Assert.assertEquals(52, deckManager.getDeck().getCards().size());
+		Assert.assertEquals(52, deckManager.getShuffledDeck().getCards().size());
 	}
 }
