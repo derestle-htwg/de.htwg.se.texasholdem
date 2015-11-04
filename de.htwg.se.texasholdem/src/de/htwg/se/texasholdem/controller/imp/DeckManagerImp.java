@@ -9,15 +9,33 @@ import de.htwg.se.texasholdem.model.imp.Suit;
 
 public class DeckManagerImp implements DeckManager {
 
-	Deck deck = new DeckImp();
+	private final Deck deck;
 
-	public Deck getShuffledDeck() {
+	public DeckManagerImp() {
+		deck = new DeckImp();
+	}
+
+	public void createShuffledDeck() {
+
+		emptyDeck();
+
 		for (Suit s : Suit.values()) {
 			for (Rank r : Rank.values()) {
 				deck.addCard(new CardImp(r, s));
 			}
 		}
+
 		deck.shuffleDeck();
+	}
+
+	public void emptyDeck() {
+
+		while (!deck.getCards().isEmpty()) {
+			deck.getCards().removeFirst();
+		}
+	}
+
+	public Deck getDeck() {
 		return deck;
 	}
 

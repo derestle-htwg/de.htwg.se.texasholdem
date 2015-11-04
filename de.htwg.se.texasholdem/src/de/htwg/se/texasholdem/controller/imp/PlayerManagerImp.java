@@ -7,6 +7,7 @@ import de.htwg.se.texasholdem.model.Player;
 
 public class PlayerManagerImp implements PlayerManager {
 
+	// Muss vielleicht großgeschrieben werden
 	private final LinkedList<Player> playerList;
 
 	public PlayerManagerImp(LinkedList<Player> playerList) {
