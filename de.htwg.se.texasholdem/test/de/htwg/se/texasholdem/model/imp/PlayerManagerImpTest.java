@@ -1,11 +1,14 @@
 package de.htwg.se.texasholdem.model.imp;
 
+import java.util.LinkedList;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.imp.PlayerManagerImp;
+import de.htwg.se.texasholdem.model.Player;
 
 public class PlayerManagerImpTest {
 
@@ -13,7 +16,8 @@ public class PlayerManagerImpTest {
 
 	@Before
 	public void _setup() {
-		playerManager = new PlayerManagerImp();
+		LinkedList<Player> playerList = new LinkedList<Player>();
+		playerManager = new PlayerManagerImp(playerList);
 	}
 
 	@Test

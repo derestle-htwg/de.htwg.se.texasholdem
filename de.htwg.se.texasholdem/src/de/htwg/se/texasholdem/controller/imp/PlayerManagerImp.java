@@ -7,10 +7,10 @@ import de.htwg.se.texasholdem.model.Player;
 
 public class PlayerManagerImp implements PlayerManager {
 
-	private LinkedList<Player> playerList;
+	private final LinkedList<Player> playerList;
 
-	public PlayerManagerImp() {
-		playerList = new LinkedList<Player>();
+	public PlayerManagerImp(LinkedList<Player> playerList) {
+		this.playerList = playerList;
 	}
 
 	public void addPlayer(Player player) {
