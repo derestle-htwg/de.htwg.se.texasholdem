@@ -11,6 +11,7 @@ import de.htwg.se.texasholdem.model.imp.TableImp;
 public class TableManagerImp implements TableManager {
 
 	private final Table table;
+
 	private final PlayerManager playerManager;
 
 	public TableManagerImp() {
@@ -22,8 +23,21 @@ public class TableManagerImp implements TableManager {
 		playerManager.addPlayer(player);
 	}
 
+	public int getBigBlind() {
+		return table.getBigBlind();
+	}
+
 	public LinkedList<Player> getPlayerList() {
 		return playerManager.getPlayerList();
+	}
+
+	public int getSmallBlind() {
+		return table.getSmallBlind();
+	}
+
+	public void setSmallBlind(int smallBlind) {
+		table.setSmallBlind(smallBlind);
+
 	}
 
 }

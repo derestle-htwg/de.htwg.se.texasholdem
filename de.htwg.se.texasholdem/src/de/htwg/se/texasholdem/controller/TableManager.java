@@ -8,6 +8,11 @@ public interface TableManager {
 
 	void addPlayer(Player player);
 
+	int getBigBlind();
+
 	LinkedList<Player> getPlayerList();
 
+	int getSmallBlind();
+
+	void setSmallBlind(int smallBlind);
 }

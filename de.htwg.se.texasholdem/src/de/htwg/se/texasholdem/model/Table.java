@@ -6,9 +6,15 @@ public interface Table {
 
 	public void addPlayer(Player player);
 
+	public int getBigBlind();
+
 	public List<Player> getPlayerList();
 
-	public int getPotValue();
+	public int getPot();
 
-	public void setPotValue(int value);
+	public int getSmallBlind();
+
+	public void setPot(int value);
+
+	public void setSmallBlind(int smallBlind);
 }

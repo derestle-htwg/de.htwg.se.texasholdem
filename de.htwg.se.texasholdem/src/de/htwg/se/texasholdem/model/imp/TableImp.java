@@ -10,8 +10,7 @@ public class TableImp implements Table {
 
 	private LinkedList<Player> players;
 	private int potValue;
-	private int BigBlindValue;
-	private int SmallBlindValue;
+	private int smallBlind;
 
 	public TableImp() {
 		players = new LinkedList<Player>();
@@ -19,6 +18,10 @@ public class TableImp implements Table {
 
 	public void addPlayer(Player player) {
 		players.add(player);
+	}
+
+	public int getBigBlind() {
+		return smallBlind * 2;
 	}
 
 	public Player getNextPlayer(Player player) {
@@ -30,28 +33,20 @@ public class TableImp implements Table {
 		return players;
 	}
 
-	public int getPotValue() {
+	public int getPot() {
 		return potValue;
 	}
 
-	public void setPotValue(int value) {
+	public int getSmallBlind() {
+		return smallBlind;
+	}
+
+	public void setPot(int value) {
 		potValue = value;
 	}
 
-	public int getBigBlindValue() {
-		return BigBlindValue;
-	}
-
-	public void setBigBlindValue(int bigBlindValue) {
-		BigBlindValue = bigBlindValue;
-	}
-
-	public int getSmallBlindValue() {
-		return SmallBlindValue;
-	}
-
-	public void setSmallBlindValue() {
-		SmallBlindValue = BigBlindValue / 2;
+	public void setSmallBlind(int smallBlind) {
+		this.smallBlind = smallBlind;
 	}
 
 }
