@@ -2,23 +2,28 @@ package de.htwg.se.texasholdem.controller.imp;
 
 import java.util.LinkedList;
 
+import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.TableManager;
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Table;
+import de.htwg.se.texasholdem.model.imp.TableImp;
 
 public class TableManagerImp implements TableManager {
 
-	public TableManagerImp() {
+	private final Table table;
+	private final PlayerManager playerManager;
 
+	public TableManagerImp() {
+		table = new TableImp();
+		playerManager = new PlayerManagerImp(table.getPlayerList());
 	}
 
 	public void addPlayer(Player player) {
-		// TODO Auto-generated method stub
-
+		playerManager.addPlayer(player);
 	}
 
 	public LinkedList<Player> getPlayerList() {
-		// TODO Auto-generated method stub
-		return null;
+		return playerManager.getPlayerList();
 	}
 
 }
