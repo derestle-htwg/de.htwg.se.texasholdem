@@ -17,9 +17,13 @@ public interface TableManager {
 
 	int getSmallBlind();
 
+	boolean hasMoney(Player player);
+
 	void resetGame();
 
 	void setHoleCards(Player player);
+
+	void setPlayerMoney(Player player, int money);
 
 	void setSmallBlind(int smallBlind);
 }

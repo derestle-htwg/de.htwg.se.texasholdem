@@ -46,4 +46,12 @@ public class PlayerManagerImpTest {
 
 		Assert.assertEquals(2, playerManager.getPlayerList().size());
 	}
+
+	@Test
+	public void getPlayerMoney_input3000Cash_returns3000Cash() {
+		Player player = new PlayerImp("Gustav");
+		playerManager.addPlayer(player);
+		playerManager.setPlayerMoney(player, 3000);
+		Assert.assertEquals(3000, playerManager.getPlayerMoney(player));
+	}
 }

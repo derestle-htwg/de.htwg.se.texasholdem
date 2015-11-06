@@ -13,11 +13,13 @@ import de.htwg.se.texasholdem.model.imp.PlayerImp;
 public class TableManagerImpTest {
 
 	TableManager tableManager;
+	Player player;
 
 	@Before
 	public void _setup() {
 		tableManager = new TableManagerImp();
 		tableManager.resetGame();
+		player = new PlayerImp("Christian");
 	}
 
 	@Test
@@ -28,8 +30,6 @@ public class TableManagerImpTest {
 
 	@Test
 	public void getHoleCards_inputTwoCardsForPlayer_returnsTwoCards() {
-		Player player = new PlayerImp("Ralf");
-
 		tableManager.addPlayer(player);
 		tableManager.setHoleCards(player);
 
@@ -50,5 +50,21 @@ public class TableManagerImpTest {
 	public void getSmallBlind_inputSmallBlindTwoThousand_returnSmallBlindTwoThousand() {
 		tableManager.setSmallBlind(2000);
 		Assert.assertEquals(2000, tableManager.getSmallBlind());
+	}
+
+	@Test
+	public void hasMoney_inputPlayerWithMoney_returnsTrue() {
+		tableManager.addPlayer(player);
+		tableManager.setPlayerMoney(player, 3000);
+
+		Assert.assertTrue(tableManager.hasMoney(player));
+	}
+
+	@Test
+	public void hasMoney_inputPlayerWithoutMoney_returnsFalse() {
+		tableManager.addPlayer(player);
+		tableManager.setPlayerMoney(player, 0);
+
+		Assert.assertFalse(tableManager.hasMoney(player));
 	}
 }

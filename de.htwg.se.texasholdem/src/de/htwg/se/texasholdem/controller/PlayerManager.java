@@ -13,6 +13,10 @@ public interface PlayerManager {
 
 	LinkedList<Player> getPlayerList();
 
+	int getPlayerMoney(Player player);
+
 	void setHoleCard(Player player, Card holeCard);
+
+	void setPlayerMoney(Player player, int money);
 
 }

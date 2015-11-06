@@ -28,8 +28,16 @@ public class PlayerManagerImp implements PlayerManager {
 		return playerList;
 	}
 
+	public int getPlayerMoney(Player player) {
+		return player.getPlayerMoney();
+	}
+
 	public void setHoleCard(Player player, Card holeCard) {
 		player.setHoleCard(holeCard);
+	}
+
+	public void setPlayerMoney(Player player, int money) {
+		player.setPlayerMoney(money);
 	}
 
 }

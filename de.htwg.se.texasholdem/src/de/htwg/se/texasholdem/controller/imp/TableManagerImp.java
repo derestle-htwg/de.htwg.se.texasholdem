@@ -42,6 +42,14 @@ public class TableManagerImp implements TableManager {
 		return table.getSmallBlind();
 	}
 
+	public boolean hasMoney(Player player) {
+		if (playerManager.getPlayerMoney(player) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void resetGame() {
 		deckManager.createShuffledDeck();
 	}
@@ -50,6 +58,10 @@ public class TableManagerImp implements TableManager {
 		for (int i = 0; i < 2; i++) {
 			playerManager.setHoleCard(player, deckManager.getDeck().getCard());
 		}
+	}
+
+	public void setPlayerMoney(Player player, int money) {
+		playerManager.setPlayerMoney(player, money);
 	}
 
 	public void setSmallBlind(int smallBlind) {
