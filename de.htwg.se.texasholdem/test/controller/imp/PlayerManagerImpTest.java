@@ -1,4 +1,4 @@
-package de.htwg.se.texasholdem.model.imp;
+package controller.imp;
 
 import java.util.LinkedList;
 
@@ -10,6 +10,10 @@ import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.imp.PlayerManagerImp;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.imp.CardImp;
+import de.htwg.se.texasholdem.model.imp.PlayerImp;
+import de.htwg.se.texasholdem.model.imp.Rank;
+import de.htwg.se.texasholdem.model.imp.Suit;
 
 public class PlayerManagerImpTest {
 
