@@ -1,14 +1,13 @@
-package model.imp;
+package de.htwg.se.texasholdem.model.imp;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.TableImp;
 
-public class TableTest {
+public class TableImpTest {
+
 	private TableImp table;
 
 	private Player p1, p2, p3;
@@ -32,6 +31,12 @@ public class TableTest {
 	}
 
 	@Test
+	public void getBigBlind_inputSmallBlind_returnBigBlind() {
+		table.setSmallBlind(10);
+		Assert.assertEquals(20, table.getBigBlind());
+	}
+
+	@Test
 	public void getNextPlayer_inputPlayerP1_returnsPlayerP2() {
 		Assert.assertEquals(p2, table.getNextPlayer(p1));
 	}
@@ -48,9 +53,15 @@ public class TableTest {
 	}
 
 	@Test
-	public void getPotValue_inputPotWithOneThousand_returnsOneThousand() {
-		table.setPotValue(1000);
-		Assert.assertEquals(1000, table.getPotValue());
+	public void getPot_inputPotWithOneThousand_returnsOneThousand() {
+		table.setPot(1000);
+		Assert.assertEquals(1000, table.getPot());
+	}
+
+	@Test
+	public void getSmallBlind_inputBigBlind_returnSmallBlind() {
+		table.setSmallBlind(10);
+		Assert.assertEquals(10, table.getSmallBlind());
 	}
 
 }

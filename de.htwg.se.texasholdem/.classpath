@@ -18,5 +18,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="output" path="target/classes"/>
+=======
+	<classpathentry kind="lib" path="/Users/Hawk30100/git/de.htwg.se.texasholdem/de.htwg.se.texasholdem/libs/mockito-all-1.9.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
+>>>>>>> branch 'master' of https://github.com/vgoh/de.htwg.se.texasholdem.git
 </classpath>

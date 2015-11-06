@@ -17,7 +17,16 @@ public class DeckManagerImpTest {
 	}
 
 	@Test
+	public void emptyDeck_inputShuffledDeck_emptyList() {
+		deckManager.createShuffledDeck();
+		deckManager.emptyDeck();
+
+		Assert.assertTrue(deckManager.getDeck().getCards().isEmpty());
+	}
+
+	@Test
 	public void getDeck_inputNothing_returnsDeckWith52Cards() {
+		deckManager.createShuffledDeck();
 		Assert.assertEquals(52, deckManager.getDeck().getCards().size());
 	}
 }

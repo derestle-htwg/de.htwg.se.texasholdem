@@ -8,8 +8,9 @@ import de.htwg.se.texasholdem.model.Table;
 
 public class TableImp implements Table {
 
-	LinkedList<Player> players;
+	private LinkedList<Player> players;
 	private int potValue;
+	private int smallBlind;
 
 	public TableImp() {
 		players = new LinkedList<Player>();
@@ -17,6 +18,10 @@ public class TableImp implements Table {
 
 	public void addPlayer(Player player) {
 		players.add(player);
+	}
+
+	public int getBigBlind() {
+		return smallBlind * 2;
 	}
 
 	public Player getNextPlayer(Player player) {
@@ -28,12 +33,20 @@ public class TableImp implements Table {
 		return players;
 	}
 
-	public int getPotValue() {
+	public int getPot() {
 		return potValue;
 	}
 
-	public void setPotValue(int value) {
+	public int getSmallBlind() {
+		return smallBlind;
+	}
+
+	public void setPot(int value) {
 		potValue = value;
+	}
+
+	public void setSmallBlind(int smallBlind) {
+		this.smallBlind = smallBlind;
 	}
 
 }
