@@ -13,6 +13,6 @@ public interface PlayerManager {
 
 	LinkedList<Player> getPlayerList();
 
-	void setHoleCards(Player player, LinkedList<Card> holeCards);
+	void setHoleCard(Player player, Card holeCard);
 
 }

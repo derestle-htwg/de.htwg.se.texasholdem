@@ -28,8 +28,8 @@ public class PlayerManagerImp implements PlayerManager {
 		return playerList;
 	}
 
-	public void setHoleCards(Player player, LinkedList<Card> holeCards) {
-		player.setHoleCards(holeCards);
+	public void setHoleCard(Player player, Card holeCard) {
+		player.setHoleCard(holeCard);
 	}
 
 }

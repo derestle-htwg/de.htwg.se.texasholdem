@@ -10,7 +10,7 @@ public interface Player {
 
 	public String getPlayerName();
 
-	public void setHoleCards(LinkedList<Card> holeCards);
+	public void setHoleCard(Card holeCard);
 
 	public void setPlayerMoney(int playerMoney);
 }

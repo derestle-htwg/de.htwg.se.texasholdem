@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.imp.PlayerManagerImp;
-import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
@@ -27,17 +26,17 @@ public class PlayerManagerImpTest {
 
 	@Test
 	public void getHoleCards_inputTwoCards_returnsTwoCards() {
-		LinkedList<Card> holeCards = new LinkedList<Card>();
-		holeCards.add(new CardImp(Rank.ACE, Suit.CLUB));
-		holeCards.add(new CardImp(Rank.EIGHT, Suit.DIAMOND));
-
 		Player player = new PlayerImp("Gustav");
 		playerManager.addPlayer(player);
 
-		playerManager.setHoleCards(player, holeCards);
+		CardImp holeCard1 = new CardImp(Rank.ACE, Suit.CLUB);
+		CardImp holeCard2 = new CardImp(Rank.EIGHT, Suit.DIAMOND);
 
-		Assert.assertEquals(holeCards.get(0), playerManager.getHoleCards(player).get(0));
-		Assert.assertEquals(holeCards.get(1), playerManager.getHoleCards(player).get(1));
+		playerManager.setHoleCard(player, holeCard1);
+		playerManager.setHoleCard(player, holeCard2);
+
+		Assert.assertEquals(holeCard1, playerManager.getHoleCards(player).get(0));
+		Assert.assertEquals(holeCard2, playerManager.getHoleCards(player).get(1));
 	}
 
 	@Test

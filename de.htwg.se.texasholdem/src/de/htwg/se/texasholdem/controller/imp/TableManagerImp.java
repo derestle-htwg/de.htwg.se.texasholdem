@@ -22,14 +22,6 @@ public class TableManagerImp implements TableManager {
 		playerManager = new PlayerManagerImp(table.getPlayerList());
 	}
 
-	public void setHoleCards(Player player) {
-		LinkedList<Card> holeCards = new LinkedList<Card>();
-		for (int i = 0; i < 2; i++) {
-			holeCards.add(deckManager.getDeck().getCard());
-		}
-		playerManager.setHoleCards(player, holeCards);
-	}
-
 	public void addPlayer(Player player) {
 		playerManager.addPlayer(player);
 	}
@@ -54,9 +46,14 @@ public class TableManagerImp implements TableManager {
 		deckManager.createShuffledDeck();
 	}
 
+	public void setHoleCards(Player player) {
+		for (int i = 0; i < 2; i++) {
+			playerManager.setHoleCard(player, deckManager.getDeck().getCard());
+		}
+	}
+
 	public void setSmallBlind(int smallBlind) {
 		table.setSmallBlind(smallBlind);
-
 	}
 
 }

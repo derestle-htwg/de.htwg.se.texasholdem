@@ -13,6 +13,11 @@ public class PlayerImp implements Player {
 
 	public PlayerImp(String name) {
 		setPlayerName(name);
+		holeCards = new LinkedList<Card>();
+	}
+
+	public LinkedList<Card> getHoleCards() {
+		return holeCards;
 	}
 
 	public int getPlayerMoney() {
@@ -23,20 +28,16 @@ public class PlayerImp implements Player {
 		return playerName;
 	}
 
+	public void setHoleCard(Card holeCard) {
+		this.holeCards.add(holeCard);
+	}
+
 	public void setPlayerMoney(int playerMoney) {
 		this.playerCash = playerMoney;
 	}
 
 	private void setPlayerName(String playerName) {
 		this.playerName = playerName;
-	}
-
-	public LinkedList<Card> getHoleCards() {
-		return holeCards;
-	}
-
-	public void setHoleCards(LinkedList<Card> holeCards) {
-		this.holeCards = holeCards;
 	}
 
 }

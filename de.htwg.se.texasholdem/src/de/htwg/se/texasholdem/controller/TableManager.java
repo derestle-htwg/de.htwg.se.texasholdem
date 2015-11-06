@@ -7,8 +7,6 @@ import de.htwg.se.texasholdem.model.Player;
 
 public interface TableManager {
 
-	void setHoleCards(Player player);
-
 	void addPlayer(Player player);
 
 	int getBigBlind();
@@ -20,6 +18,8 @@ public interface TableManager {
 	int getSmallBlind();
 
 	void resetGame();
+
+	void setHoleCards(Player player);
 
 	void setSmallBlind(int smallBlind);
 }
