@@ -2,8 +2,10 @@ package de.htwg.se.texasholdem.controller.imp;
 
 import java.util.LinkedList;
 
+import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.TableManager;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.model.imp.TableImp;
@@ -11,12 +13,21 @@ import de.htwg.se.texasholdem.model.imp.TableImp;
 public class TableManagerImp implements TableManager {
 
 	private final Table table;
-
 	private final PlayerManager playerManager;
+	private final DeckManager deckManager;
 
 	public TableManagerImp() {
 		table = new TableImp();
+		deckManager = new DeckManagerImp();
 		playerManager = new PlayerManagerImp(table.getPlayerList());
+	}
+
+	public void setHoleCards(Player player) {
+		LinkedList<Card> holeCards = new LinkedList<Card>();
+		for (int i = 0; i < 2; i++) {
+			holeCards.add(deckManager.getDeck().getCard());
+		}
+		playerManager.setHoleCards(player, holeCards);
 	}
 
 	public void addPlayer(Player player) {
@@ -27,12 +38,20 @@ public class TableManagerImp implements TableManager {
 		return table.getBigBlind();
 	}
 
+	public LinkedList<Card> getHoleCards(Player player) {
+		return playerManager.getHoleCards(player);
+	}
+
 	public LinkedList<Player> getPlayerList() {
 		return playerManager.getPlayerList();
 	}
 
 	public int getSmallBlind() {
 		return table.getSmallBlind();
+	}
+
+	public void resetGame() {
+		deckManager.createShuffledDeck();
 	}
 
 	public void setSmallBlind(int smallBlind) {
