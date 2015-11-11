@@ -1,5 +1,6 @@
 package de.htwg.se.texasholdem.controller.imp;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,13 +13,25 @@ public class GameManagerImp implements de.htwg.se.texasholdem.controller.GameMan
 
 	private ModelManager modelManager;
 
+	private List<Player> activePlayers;
+
 	public GameManagerImp(ModelManager modelManager) {
 		this.modelManager = modelManager;
+		this.activePlayers = new LinkedList<Player>();
 	}
 
 	public void addPlayer(Player player) {
 		modelManager.addPlayer(player);
+	}
 
+	public void clearActivePlayers() {
+		while (!activePlayers.isEmpty()) {
+			activePlayers.remove(0);
+		}
+	}
+
+	public List<Player> getActivePlayers() {
+		return activePlayers;
 	}
 
 	public List<Player> getPlayerList() {
@@ -27,6 +40,14 @@ public class GameManagerImp implements de.htwg.se.texasholdem.controller.GameMan
 
 	public Player getStartPlayer() {
 		return startPlayer;
+	}
+
+	public void setPlayerActive(Player player) {
+		activePlayers.add(player);
+	}
+
+	public void setPlayerNotActive(Player player) {
+		activePlayers.remove(player);
 	}
 
 	public void setStartPlayer() {

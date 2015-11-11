@@ -8,9 +8,17 @@ public interface GameManager {
 
 	void addPlayer(Player player);
 
+	void clearActivePlayers();
+
+	List<Player> getActivePlayers();
+
 	List<Player> getPlayerList();
 
 	Player getStartPlayer();
+
+	void setPlayerActive(Player player);
+
+	void setPlayerNotActive(Player player);
 
 	void setStartPlayer();
 }
