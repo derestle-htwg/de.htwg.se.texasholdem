@@ -7,9 +7,13 @@ import de.htwg.se.texasholdem.model.Player;
 
 public interface ModelManager {
 
+	void addHoleCard();
+
 	void addPlayer(Player player);
 
 	int getBigBlind();
+
+	List<Card> getHoleCards();
 
 	List<Card> getHoleCards(Player player);
 
