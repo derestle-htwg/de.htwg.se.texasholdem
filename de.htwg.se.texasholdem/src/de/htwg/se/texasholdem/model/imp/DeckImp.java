@@ -28,6 +28,10 @@ public class DeckImp implements Deck {
 	}
 
 	public void shuffleDeck() {
-		Collections.shuffle(this.cards);
+		List<Card> tmpList = new LinkedList<Card>(cards);
+
+		do {
+			Collections.shuffle(this.cards);
+		} while (tmpList.get(0).toString().equals(cards.get(0).toString()));
 	}
 }
