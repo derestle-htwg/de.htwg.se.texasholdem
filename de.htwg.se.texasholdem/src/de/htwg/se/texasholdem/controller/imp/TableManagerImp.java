@@ -4,13 +4,13 @@ import java.util.LinkedList;
 
 import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.controller.PlayerManager;
-import de.htwg.se.texasholdem.controller.TableManager;
+import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.model.imp.TableImp;
 
-public class TableManagerImp implements TableManager {
+public class TableManagerImp implements ModelManager {
 
 	private final Table table;
 	private final PlayerManager playerManager;

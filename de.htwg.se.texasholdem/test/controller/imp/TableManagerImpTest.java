@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.texasholdem.controller.TableManager;
+import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.imp.TableManagerImp;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
@@ -12,7 +12,7 @@ import de.htwg.se.texasholdem.model.imp.PlayerImp;
 
 public class TableManagerImpTest {
 
-	TableManager tableManager;
+	ModelManager tableManager;
 	Player player;
 
 	@Before

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 
-public interface TableManager {
+public interface ModelManager {
 
 	void addPlayer(Player player);
 
