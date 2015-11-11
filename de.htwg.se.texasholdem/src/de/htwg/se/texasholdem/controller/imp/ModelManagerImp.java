@@ -10,13 +10,13 @@ import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.model.imp.TableImp;
 
-public class TableManagerImp implements ModelManager {
+public class ModelManagerImp implements ModelManager {
 
 	private final Table table;
 	private final PlayerManager playerManager;
 	private final DeckManager deckManager;
 
-	public TableManagerImp() {
+	public ModelManagerImp() {
 		table = new TableImp();
 		deckManager = new DeckManagerImp();
 		playerManager = new PlayerManagerImp(table.getPlayerList());

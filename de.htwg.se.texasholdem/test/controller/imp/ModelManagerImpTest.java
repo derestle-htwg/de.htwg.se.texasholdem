@@ -5,19 +5,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.ModelManager;
-import de.htwg.se.texasholdem.controller.imp.TableManagerImp;
+import de.htwg.se.texasholdem.controller.imp.ModelManagerImp;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
 
-public class TableManagerImpTest {
+public class ModelManagerImpTest {
 
 	ModelManager tableManager;
 	Player player;
 
 	@Before
 	public void _setup() {
-		tableManager = new TableManagerImp();
+		tableManager = new ModelManagerImp();
 		tableManager.resetGame();
 		player = new PlayerImp("Christian");
 	}
