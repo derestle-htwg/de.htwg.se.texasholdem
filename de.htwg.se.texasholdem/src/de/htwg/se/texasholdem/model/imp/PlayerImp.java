@@ -1,6 +1,7 @@
 package de.htwg.se.texasholdem.model.imp;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
@@ -9,14 +10,14 @@ public class PlayerImp implements Player {
 
 	private String playerName;
 	private int playerCash;
-	private LinkedList<Card> holeCards;
+	private List<Card> holeCards;
 
 	public PlayerImp(String name) {
 		setPlayerName(name);
 		holeCards = new LinkedList<Card>();
 	}
 
-	public LinkedList<Card> getHoleCards() {
+	public List<Card> getHoleCards() {
 		return holeCards;
 	}
 

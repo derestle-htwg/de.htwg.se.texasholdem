@@ -1,10 +1,10 @@
 package de.htwg.se.texasholdem.model;
 
-import java.util.LinkedList;
+import java.util.List;
 
 public interface Player {
 
-	public LinkedList<Card> getHoleCards();
+	public List<Card> getHoleCards();
 
 	public int getPlayerMoney();
 

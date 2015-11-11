@@ -31,7 +31,7 @@ public class DeckManagerImp implements DeckManager {
 	public void emptyDeck() {
 
 		while (!deck.getCards().isEmpty()) {
-			deck.getCards().removeFirst();
+			deck.getCards().remove(0);
 		}
 	}
 

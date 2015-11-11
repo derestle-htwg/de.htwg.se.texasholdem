@@ -1,6 +1,6 @@
 package de.htwg.se.texasholdem.model.imp;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class DeckImpTest {
 
 	@Test
 	public void getCards_inputDeckWith52Cards_returnsCardListWith52Cards() {
-		LinkedList<Card> cardList = deck.getCards();
+		List<Card> cardList = deck.getCards();
 		Assert.assertEquals(52, cardList.size());
 	}
 

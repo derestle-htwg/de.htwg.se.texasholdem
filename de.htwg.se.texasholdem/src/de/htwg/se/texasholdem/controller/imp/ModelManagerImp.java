@@ -1,10 +1,10 @@
 package de.htwg.se.texasholdem.controller.imp;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import de.htwg.se.texasholdem.controller.DeckManager;
-import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.ModelManager;
+import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
@@ -30,11 +30,11 @@ public class ModelManagerImp implements ModelManager {
 		return table.getBigBlind();
 	}
 
-	public LinkedList<Card> getHoleCards(Player player) {
+	public List<Card> getHoleCards(Player player) {
 		return playerManager.getHoleCards(player);
 	}
 
-	public LinkedList<Player> getPlayerList() {
+	public List<Player> getPlayerList() {
 		return playerManager.getPlayerList();
 	}
 
@@ -43,11 +43,7 @@ public class ModelManagerImp implements ModelManager {
 	}
 
 	public boolean hasMoney(Player player) {
-		if (playerManager.getPlayerMoney(player) > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return playerManager.getPlayerMoney(player) > 0;
 	}
 
 	public void resetGame() {

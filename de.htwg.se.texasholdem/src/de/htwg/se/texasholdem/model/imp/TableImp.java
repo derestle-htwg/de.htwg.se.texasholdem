@@ -8,7 +8,7 @@ import de.htwg.se.texasholdem.model.Table;
 
 public class TableImp implements Table {
 
-	private LinkedList<Player> players;
+	private List<Player> players;
 	private int potValue;
 	private int smallBlind;
 

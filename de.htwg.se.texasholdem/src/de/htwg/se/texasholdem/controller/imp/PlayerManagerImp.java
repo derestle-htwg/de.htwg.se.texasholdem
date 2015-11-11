@@ -1,6 +1,5 @@
 package de.htwg.se.texasholdem.controller.imp;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import de.htwg.se.texasholdem.controller.PlayerManager;
@@ -10,21 +9,21 @@ import de.htwg.se.texasholdem.model.Player;
 public class PlayerManagerImp implements PlayerManager {
 
 	// Muss vielleicht großgeschrieben werden
-	private final LinkedList<Player> playerList;
+	private final List<Player> playerList;
 
 	public PlayerManagerImp(List<Player> list) {
-		this.playerList = (LinkedList<Player>) list;
+		this.playerList = list;
 	}
 
 	public void addPlayer(Player player) {
 		playerList.add(player);
 	}
 
-	public LinkedList<Card> getHoleCards(Player player) {
+	public List<Card> getHoleCards(Player player) {
 		return player.getHoleCards();
 	}
 
-	public LinkedList<Player> getPlayerList() {
+	public List<Player> getPlayerList() {
 		return playerList;
 	}
 

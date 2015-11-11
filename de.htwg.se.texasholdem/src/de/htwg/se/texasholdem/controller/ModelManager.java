@@ -1,6 +1,6 @@
 package de.htwg.se.texasholdem.controller;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
@@ -11,9 +11,9 @@ public interface ModelManager {
 
 	int getBigBlind();
 
-	LinkedList<Card> getHoleCards(Player player);
+	List<Card> getHoleCards(Player player);
 
-	LinkedList<Player> getPlayerList();
+	List<Player> getPlayerList();
 
 	int getSmallBlind();
 

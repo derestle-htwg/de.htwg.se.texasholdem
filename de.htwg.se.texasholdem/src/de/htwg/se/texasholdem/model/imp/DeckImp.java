@@ -2,23 +2,24 @@ package de.htwg.se.texasholdem.model.imp;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Deck;
 
 public class DeckImp implements Deck {
 
-	private LinkedList<Card> cards = new LinkedList<Card>();
+	private List<Card> cards = new LinkedList<Card>();
 
 	public void addCard(Card newCard) {
 		cards.add(newCard);
 	}
 
 	public Card getCard() {
-		return cards.remove();
+		return cards.remove(0);
 	}
 
-	public LinkedList<Card> getCards() {
+	public List<Card> getCards() {
 		return cards;
 	}
 
