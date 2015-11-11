@@ -24,12 +24,20 @@ public class ModelManagerImp implements ModelManager {
 		playerManager = new PlayerManagerImp(table.getPlayerList());
 	}
 
+	public void addHoleCard() {
+		table.addHoleCard(deckManager.getDeck().getCard());
+	}
+
 	public void addPlayer(Player player) {
 		playerManager.addPlayer(player);
 	}
 
 	public int getBigBlind() {
 		return table.getBigBlind();
+	}
+
+	public List<Card> getHoleCards() {
+		return table.getHoleCards();
 	}
 
 	public List<Card> getHoleCards(Player player) {

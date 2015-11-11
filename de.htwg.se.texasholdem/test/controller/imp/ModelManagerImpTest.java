@@ -37,6 +37,15 @@ public class ModelManagerImpTest {
 	}
 
 	@Test
+	public void getHoleCards_inputThreeHoleCards_returnsListWithThreeHoleCards() {
+		for (int i = 0; i < 3; i++) {
+			modelManager.addHoleCard();
+		}
+
+		Assert.assertEquals(3, modelManager.getHoleCards().size());
+	}
+
+	@Test
 	public void getHoleCards_inputTwoCardsForPlayer_returnsTwoCards() {
 		modelManager.setHoleCards(p1);
 

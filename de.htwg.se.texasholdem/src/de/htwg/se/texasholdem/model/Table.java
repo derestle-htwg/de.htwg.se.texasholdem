@@ -4,9 +4,13 @@ import java.util.List;
 
 public interface Table {
 
+	public void addHoleCard(Card card);
+
 	public void addPlayer(Player player);
 
 	public int getBigBlind();
+
+	public List<Card> getHoleCards();
 
 	public List<Player> getPlayerList();
 

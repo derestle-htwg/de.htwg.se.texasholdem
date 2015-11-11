@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.se.texasholdem.controller.DeckManager;
+import de.htwg.se.texasholdem.controller.imp.DeckManagerImp;
 import de.htwg.se.texasholdem.model.Player;
 
 public class TableImpTest {
@@ -34,6 +36,18 @@ public class TableImpTest {
 	public void getBigBlind_inputSmallBlind_returnBigBlind() {
 		table.setSmallBlind(10);
 		Assert.assertEquals(20, table.getBigBlind());
+	}
+
+	@Test
+	public void getHoleCards_inputThreeHoleCards_returnsListWithThreeHoleCards() {
+		DeckManager deckManager = new DeckManagerImp();
+		deckManager.createShuffledDeck();
+
+		for (int i = 0; i < 3; i++) {
+			table.addHoleCard(deckManager.getDeck().getCard());
+		}
+
+		Assert.assertEquals(3, table.getHoleCards().size());
 	}
 
 	@Test
