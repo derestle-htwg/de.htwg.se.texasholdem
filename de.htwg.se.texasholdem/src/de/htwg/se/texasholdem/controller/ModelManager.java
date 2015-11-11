@@ -17,8 +17,6 @@ public interface ModelManager {
 
 	int getSmallBlind();
 
-	Player getStartPlayer();
-
 	boolean hasMoney(Player player);
 
 	void resetGame();
@@ -28,6 +26,4 @@ public interface ModelManager {
 	void setPlayerMoney(Player player, int money);
 
 	void setSmallBlind(int smallBlind);
-
-	void setStartPlayer();
 }

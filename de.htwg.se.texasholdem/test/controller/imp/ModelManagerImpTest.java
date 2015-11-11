@@ -72,10 +72,4 @@ public class ModelManagerImpTest {
 		Assert.assertFalse(modelManager.hasMoney(p1));
 	}
 
-	@Test
-	public void setStartPlayer_inputThreePlayers_returnsOneRandomPlayerOutOfTheseThree() {
-		modelManager.setStartPlayer();
-		Assert.assertEquals(PlayerImp.class, modelManager.getStartPlayer().getClass());
-		Assert.assertTrue(modelManager.getPlayerList().contains(modelManager.getStartPlayer()));
-	}
 }
