@@ -1,6 +1,7 @@
 package de.htwg.se.texasholdem.controller.imp;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.controller.ModelManager;
@@ -13,8 +14,12 @@ import de.htwg.se.texasholdem.model.imp.TableImp;
 public class ModelManagerImp implements ModelManager {
 
 	private final Table table;
+
 	private final PlayerManager playerManager;
+
 	private final DeckManager deckManager;
+
+	private Player startPlayer;
 
 	public ModelManagerImp() {
 		table = new TableImp();
@@ -42,6 +47,10 @@ public class ModelManagerImp implements ModelManager {
 		return table.getSmallBlind();
 	}
 
+	public Player getStartPlayer() {
+		return startPlayer;
+	}
+
 	public boolean hasMoney(Player player) {
 		return playerManager.getPlayerMoney(player) > 0;
 	}
@@ -62,6 +71,11 @@ public class ModelManagerImp implements ModelManager {
 
 	public void setSmallBlind(int smallBlind) {
 		table.setSmallBlind(smallBlind);
+	}
+
+	public void setStartPlayer() {
+		int randomNumber = ThreadLocalRandom.current().nextInt(0, playerManager.getPlayerList().size());
+		startPlayer = playerManager.getPlayerList().get(randomNumber);
 	}
 
 }
