@@ -29,10 +29,7 @@ public class DeckManagerImp implements DeckManager {
 	}
 
 	public void emptyDeck() {
-
-		while (!deck.getCards().isEmpty()) {
-			deck.getCards().remove(0);
-		}
+		deck.getCards().clear();
 	}
 
 	public Deck getDeck() {

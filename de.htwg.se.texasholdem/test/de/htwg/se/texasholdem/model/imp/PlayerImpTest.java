@@ -32,12 +32,20 @@ public class PlayerImpTest {
 
 		firstCard = new CardImp(Rank.ACE, Suit.HEART);
 		secondCard = new CardImp(Rank.ACE, Suit.CLUB);
+
+		playerTwo.setHoleCard(firstCard);
+		playerTwo.setHoleCard(secondCard);
+	}
+
+	@Test
+	public void clearHoleCards_inputTwoHoleCards_getHoleCardsReturnsEmptyList() {
+		Assert.assertTrue(playerTwo.getHoleCards().size() != 0);
+		playerTwo.clearHoleCards();
+		Assert.assertEquals(0, playerTwo.getHoleCards().size());
 	}
 
 	@Test
 	public void getHoleCards_inputHolecardslistToPlayerTwo_returnPlayerTwoHoleCards() {
-		playerTwo.setHoleCard(firstCard);
-		playerTwo.setHoleCard(secondCard);
 		Assert.assertEquals(firstCard, playerTwo.getHoleCards().get(0));
 		Assert.assertEquals(secondCard, playerTwo.getHoleCards().get(1));
 	}

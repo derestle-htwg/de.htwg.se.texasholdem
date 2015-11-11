@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface Player {
 
+	public void clearHoleCards();
+
 	public List<Card> getHoleCards();
 
 	public int getPlayerMoney();

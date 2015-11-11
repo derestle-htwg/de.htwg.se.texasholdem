@@ -9,12 +9,19 @@ import de.htwg.se.texasholdem.model.Player;
 public class PlayerImp implements Player {
 
 	private String playerName;
+
 	private int playerCash;
 	private List<Card> holeCards;
 
 	public PlayerImp(String name) {
 		setPlayerName(name);
 		holeCards = new LinkedList<Card>();
+	}
+
+	public void clearHoleCards() {
+		while (!holeCards.isEmpty()) {
+			holeCards.remove(0);
+		}
 	}
 
 	public List<Card> getHoleCards() {

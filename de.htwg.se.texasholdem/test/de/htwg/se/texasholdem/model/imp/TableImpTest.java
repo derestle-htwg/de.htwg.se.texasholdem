@@ -25,11 +25,27 @@ public class TableImpTest {
 		table.addPlayer(p1);
 		table.addPlayer(p2);
 		table.addPlayer(p3);
+
+		DeckManager deckManager = new DeckManagerImp();
+		deckManager.createShuffledDeck();
+
+		for (int i = 0; i < 3; i++) {
+			table.addCommunityCard(deckManager.getDeck().getCard());
+		}
 	}
 
 	@Test
 	public void addPlayer_inputP1_returnsListWithP1() {
 		Assert.assertEquals(p1, table.getPlayerList().get(table.getPlayerList().indexOf(p1)));
+	}
+
+	@Test
+	public void clearCommunityCards_inputThreeCommunityCards_getCommunityCardsIsEmpty() {
+		Assert.assertFalse(table.getCommunityCards().isEmpty());
+
+		table.clearCommunityCards();
+
+		Assert.assertTrue(table.getCommunityCards().isEmpty());
 	}
 
 	@Test
@@ -39,15 +55,8 @@ public class TableImpTest {
 	}
 
 	@Test
-	public void getHoleCards_inputThreeHoleCards_returnsListWithThreeHoleCards() {
-		DeckManager deckManager = new DeckManagerImp();
-		deckManager.createShuffledDeck();
-
-		for (int i = 0; i < 3; i++) {
-			table.addHoleCard(deckManager.getDeck().getCard());
-		}
-
-		Assert.assertEquals(3, table.getHoleCards().size());
+	public void getCommunityCards_inputThreeCommunityCards_returnsListWithThreeCommunityCards() {
+		Assert.assertEquals(3, table.getCommunityCards().size());
 	}
 
 	@Test

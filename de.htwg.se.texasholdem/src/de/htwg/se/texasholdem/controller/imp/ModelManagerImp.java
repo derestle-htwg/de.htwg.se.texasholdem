@@ -6,6 +6,7 @@ import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Deck;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.model.imp.TableImp;
@@ -24,8 +25,8 @@ public class ModelManagerImp implements ModelManager {
 		playerManager = new PlayerManagerImp(table.getPlayerList());
 	}
 
-	public void addHoleCard() {
-		table.addHoleCard(deckManager.getDeck().getCard());
+	public void addCommunityCard() {
+		table.addCommunityCard(deckManager.getDeck().getCard());
 	}
 
 	public void addPlayer(Player player) {
@@ -36,8 +37,12 @@ public class ModelManagerImp implements ModelManager {
 		return table.getBigBlind();
 	}
 
-	public List<Card> getHoleCards() {
-		return table.getHoleCards();
+	public List<Card> getCommunityCards() {
+		return table.getCommunityCards();
+	}
+
+	public Deck getDeck() {
+		return deckManager.getDeck();
 	}
 
 	public List<Card> getHoleCards(Player player) {
@@ -46,6 +51,10 @@ public class ModelManagerImp implements ModelManager {
 
 	public List<Player> getPlayerList() {
 		return playerManager.getPlayerList();
+	}
+
+	public int getPot() {
+		return table.getPot();
 	}
 
 	public int getSmallBlind() {
@@ -57,7 +66,19 @@ public class ModelManagerImp implements ModelManager {
 	}
 
 	public void resetGame() {
+		// Create new Deck
 		deckManager.createShuffledDeck();
+
+		// Clear CommunityCards on Table
+		table.clearCommunityCards();
+
+		// Clear HoleCards on each Players Hand
+		for (Player p : playerManager.getPlayerList()) {
+			p.clearHoleCards();
+		}
+
+		// Clear Pot on Table
+		table.setPot(0);
 	}
 
 	public void setHoleCards(Player player) {
@@ -68,6 +89,11 @@ public class ModelManagerImp implements ModelManager {
 
 	public void setPlayerMoney(Player player, int money) {
 		playerManager.setPlayerMoney(player, money);
+	}
+
+	public void setPot(int potValue) {
+		table.setPot(potValue);
+
 	}
 
 	public void setSmallBlind(int smallBlind) {

@@ -28,6 +28,11 @@ public class ModelManagerImpTest {
 		modelManager.addPlayer(p2);
 		modelManager.addPlayer(p3);
 
+		modelManager.setHoleCards(p1);
+
+		for (int i = 0; i < 3; i++) {
+			modelManager.addCommunityCard();
+		}
 	}
 
 	@Test
@@ -37,21 +42,16 @@ public class ModelManagerImpTest {
 	}
 
 	@Test
-	public void getHoleCards_inputThreeHoleCards_returnsListWithThreeHoleCards() {
-		for (int i = 0; i < 3; i++) {
-			modelManager.addHoleCard();
-		}
-
-		Assert.assertEquals(3, modelManager.getHoleCards().size());
-	}
-
-	@Test
-	public void getHoleCards_inputTwoCardsForPlayer_returnsTwoCards() {
-		modelManager.setHoleCards(p1);
-
+	public void getCards_inputTwoCardsForPlayer_returnsTwoCards() {
 		Assert.assertEquals(CardImp.class, modelManager.getHoleCards(p1).get(0).getClass());
 		Assert.assertEquals(CardImp.class, modelManager.getHoleCards(p1).get(1).getClass());
 		Assert.assertEquals(2, modelManager.getHoleCards(p1).size());
+	}
+
+	@Test
+	public void getCommunityCards_inputThreeCommunityCards_returnsListWithThreeCommunityCards() {
+
+		Assert.assertEquals(3, modelManager.getCommunityCards().size());
 	}
 
 	@Test
@@ -79,6 +79,23 @@ public class ModelManagerImpTest {
 		modelManager.setPlayerMoney(p1, 0);
 
 		Assert.assertFalse(modelManager.hasMoney(p1));
+	}
+
+	@Test
+	public void resetGame_inputPotAndHoleCardsAndShuffledDeckAndCommunityCards_clearsAllListsAndPot() {
+		modelManager.setPot(3000);
+
+		Assert.assertFalse(modelManager.getPot() == 0);
+		Assert.assertFalse(modelManager.getHoleCards(p1).isEmpty());
+		Assert.assertFalse(modelManager.getDeck().getCards().size() == 52);
+		Assert.assertFalse(modelManager.getCommunityCards().isEmpty());
+
+		modelManager.resetGame();
+
+		Assert.assertTrue(modelManager.getPot() == 0);
+		Assert.assertTrue(modelManager.getHoleCards(p1).isEmpty());
+		Assert.assertTrue(modelManager.getDeck().getCards().size() == 52);
+		Assert.assertTrue(modelManager.getCommunityCards().isEmpty());
 	}
 
 }

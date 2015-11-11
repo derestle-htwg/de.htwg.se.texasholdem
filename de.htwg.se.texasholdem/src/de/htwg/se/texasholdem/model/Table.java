@@ -4,21 +4,23 @@ import java.util.List;
 
 public interface Table {
 
-	public void addHoleCard(Card card);
+	void addCommunityCard(Card card);
 
-	public void addPlayer(Player player);
+	void addPlayer(Player player);
 
-	public int getBigBlind();
+	void clearCommunityCards();
 
-	public List<Card> getHoleCards();
+	int getBigBlind();
 
-	public List<Player> getPlayerList();
+	List<Card> getCommunityCards();
 
-	public int getPot();
+	List<Player> getPlayerList();
 
-	public int getSmallBlind();
+	int getPot();
 
-	public void setPot(int value);
+	int getSmallBlind();
 
-	public void setSmallBlind(int smallBlind);
+	void setPot(int value);
+
+	void setSmallBlind(int smallBlind);
 }

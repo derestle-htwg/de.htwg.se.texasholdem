@@ -12,27 +12,31 @@ public class TableImp implements Table {
 	private List<Player> players;
 	private int potValue;
 	private int smallBlind;
-	private List<Card> holeCards;
+	private List<Card> communityCards;
 
 	public TableImp() {
 		players = new LinkedList<Player>();
-		holeCards = new LinkedList<Card>();
+		communityCards = new LinkedList<Card>();
 	}
 
-	public void addHoleCard(Card card) {
-		holeCards.add(card);
+	public void addCommunityCard(Card card) {
+		communityCards.add(card);
 	}
 
 	public void addPlayer(Player player) {
 		players.add(player);
 	}
 
+	public void clearCommunityCards() {
+		communityCards.clear();
+	}
+
 	public int getBigBlind() {
 		return smallBlind * 2;
 	}
 
-	public List<Card> getHoleCards() {
-		return holeCards;
+	public List<Card> getCommunityCards() {
+		return communityCards;
 	}
 
 	public Player getNextPlayer(Player player) {

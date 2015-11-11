@@ -25,9 +25,7 @@ public class GameManagerImp implements de.htwg.se.texasholdem.controller.GameMan
 	}
 
 	public void clearActivePlayers() {
-		while (!activePlayers.isEmpty()) {
-			activePlayers.remove(0);
-		}
+		activePlayers.clear();
 	}
 
 	public List<Player> getActivePlayers() {
