@@ -21,4 +21,6 @@ public interface EvaluationManager {
 
 	List<Card> isFlush(List<Card> sevenCards);
 
+	List<Card> isFullHouse(List<Card> sevenCards);
+
 }

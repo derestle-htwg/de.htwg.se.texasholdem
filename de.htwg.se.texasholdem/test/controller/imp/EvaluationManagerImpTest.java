@@ -21,8 +21,9 @@ public class EvaluationManagerImpTest {
 	private List<Card> sevenCards;
 
 	private Card aceH, aceD, aceC, aceS;
+	private Card eightH, eightD;
 	private Card sevenH, sevenD;
-	private Card twoH, threeH, fourH, fiveH, sixH, eightH;
+	private Card twoH, threeH, fourH, fiveH, sixH;
 
 	@Before
 	public void _setup() {
@@ -35,6 +36,7 @@ public class EvaluationManagerImpTest {
 		aceS = new CardImp(Rank.ACE, Suit.SPACE);
 
 		eightH = new CardImp(Rank.EIGHT, Suit.HEART);
+		eightD = new CardImp(Rank.EIGHT, Suit.DIAMOND);
 
 		sevenH = new CardImp(Rank.SEVEN, Suit.HEART);
 		sevenD = new CardImp(Rank.SEVEN, Suit.DIAMOND);
@@ -48,6 +50,68 @@ public class EvaluationManagerImpTest {
 		threeH = new CardImp(Rank.THREE, Suit.HEART);
 
 		twoH = new CardImp(Rank.TWO, Suit.HEART);
+	}
+
+	@Test
+	public void isFullHouse_inputSevenCardsWithFullHouseTwoPairs_returnsListWithFullHouse() {
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+
+		sevenCards.add(aceC);
+		sevenCards.add(aceD);
+		sevenCards.add(aceH);
+
+		sevenCards.add(eightH);
+		sevenCards.add(eightD);
+
+		List<Card> fullHouse = evaluationManager.isFullHouse(sevenCards);
+
+		Assert.assertNotNull(fullHouse);
+
+		Assert.assertTrue(fullHouse.contains(aceC));
+		Assert.assertTrue(fullHouse.contains(aceD));
+		Assert.assertTrue(fullHouse.contains(aceH));
+		Assert.assertTrue(fullHouse.contains(eightH));
+		Assert.assertTrue(fullHouse.contains(eightD));
+	}
+
+	@Test
+	public void isFullHouse_inputSevenCardsWithFullHouse_returnsListWithFullHouse() {
+		sevenCards.add(aceC);
+		sevenCards.add(aceD);
+		sevenCards.add(aceH);
+
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		List<Card> fullHouse = evaluationManager.isFullHouse(sevenCards);
+
+		Assert.assertNotNull(fullHouse);
+
+		Assert.assertTrue(fullHouse.contains(aceC));
+		Assert.assertTrue(fullHouse.contains(aceD));
+		Assert.assertTrue(fullHouse.contains(aceH));
+		Assert.assertTrue(fullHouse.contains(sevenD));
+		Assert.assertTrue(fullHouse.contains(sevenH));
+	}
+
+	@Test
+	public void isFullHouse_inputSevenCardsWithNoFullHouse_returnsNull() {
+		sevenCards.add(aceC);
+		sevenCards.add(aceD);
+		sevenCards.add(aceH);
+
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		List<Card> fullHouse = evaluationManager.isFullHouse(sevenCards);
+
+		Assert.assertNull(fullHouse);
 	}
 
 	@Test

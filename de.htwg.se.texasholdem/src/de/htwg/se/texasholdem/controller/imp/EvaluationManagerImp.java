@@ -118,10 +118,24 @@ public class EvaluationManagerImp implements EvaluationManager {
 	public HashMap<Card, Card> isOnePair(List<Card> sevenCards) {
 		HashMap<Card, Card> pairs = findPairs(sevenCards);
 
-		if (pairs.size() != 1) {
-			return null;
-		} else {
+		if (pairs.size() == 1) {
 			return pairs;
+		} else if (pairs.size() > 1) {
+			List<Card> oneCardOfEachPair = new LinkedList<Card>();
+			Card highestCard;
+
+			oneCardOfEachPair.addAll(pairs.keySet());
+			highestCard = getHighestCard(oneCardOfEachPair);
+
+			for (Object card : pairs.keySet().toArray()) {
+				if (card != highestCard) {
+					pairs.remove(card);
+				}
+			}
+
+			return pairs;
+		} else {
+			return null;
 		}
 	}
 
@@ -212,5 +226,28 @@ public class EvaluationManagerImp implements EvaluationManager {
 			}
 		}
 		return null;
+	}
+
+	public List<Card> isFullHouse(List<Card> sevenCards) {
+
+		List<Card> fullHouse = new LinkedList<Card>();
+		fullHouse.addAll(isThreeOfAKind(sevenCards));
+
+		if (fullHouse.size() == 0) {
+			return null;
+		} else {
+			sevenCards.removeAll(fullHouse);
+			HashMap<Card, Card> onePair = isOnePair(sevenCards);
+			if (onePair == null || onePair.size() == 0) {
+				return null;
+			} else {
+				for (HashMap.Entry<Card, Card> entry : onePair.entrySet()) {
+					fullHouse.add(entry.getKey());
+					fullHouse.add(entry.getValue());
+				}
+
+				return fullHouse;
+			}
+		}
 	}
 }
