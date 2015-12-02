@@ -6,6 +6,7 @@ import java.util.List;
 
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.imp.Rank;
 
 public class EvaluationManagerImp implements EvaluationManager {
 
@@ -30,26 +31,6 @@ public class EvaluationManagerImp implements EvaluationManager {
 		}
 		// Size of HashMap equals number of pairs found in 'sevenCards'
 		return pairs;
-	}
-
-	public HashMap<Card, Card> isOnePair(List<Card> sevenCards) {
-		HashMap<Card, Card> pairs = findPairs(sevenCards);
-
-		if (pairs.size() != 1) {
-			return null;
-		} else {
-			return pairs;
-		}
-	}
-
-	public HashMap<Card, Card> isTwoPair(List<Card> sevenCards) {
-		HashMap<Card, Card> pairs = findPairs(sevenCards);
-
-		if (pairs.size() != 2) {
-			return null;
-		} else {
-			return pairs;
-		}
 	}
 
 	// Finds sameOfAKind in List 'sevenCards' and adds them to another list
@@ -82,6 +63,41 @@ public class EvaluationManagerImp implements EvaluationManager {
 		return null;
 	}
 
+	public Card getHighestCard(List<Card> sevenCards) {
+		Card highestCard = null;
+
+		// Hint: ordinal() returns index of element in enum
+		// if highestCard is null or the index in enum of card c is higher than
+		// highestcard, then highestCard is set to c
+		for (Card c : sevenCards) {
+			if (highestCard == null || c.getRank().ordinal() > highestCard.getRank().ordinal()) {
+				highestCard = c;
+			}
+		}
+
+		return highestCard;
+	}
+
+	public HashMap<Card, Card> isOnePair(List<Card> sevenCards) {
+		HashMap<Card, Card> pairs = findPairs(sevenCards);
+
+		if (pairs.size() != 1) {
+			return null;
+		} else {
+			return pairs;
+		}
+	}
+
+	public HashMap<Card, Card> isTwoPair(List<Card> sevenCards) {
+		HashMap<Card, Card> pairs = findPairs(sevenCards);
+
+		if (pairs.size() != 2) {
+			return null;
+		} else {
+			return pairs;
+		}
+	}
+
 	public List<Card> isThreeOfAKind(List<Card> sevenCards) {
 		List<Card> cardsOfSameKind = findCardsofSameKind(sevenCards);
 
@@ -102,18 +118,67 @@ public class EvaluationManagerImp implements EvaluationManager {
 		}
 	}
 
-	public Card getHighestCard(List<Card> sevenCards) {
-		Card highestCard = null;
+	private List<Card> sortToLowestCard(List<Card> straight) {
+		List<Card> sortedStraight = new LinkedList<Card>();
 
-		// Hint: ordinal() returns index of element in enum
-		// if highestCard is null or the index in enum of card c is higher than
-		// highestcard, then highestCard is set to c
-		for (Card c : sevenCards) {
-			if (highestCard == null || c.getRank().ordinal() > highestCard.getRank().ordinal()) {
-				highestCard = c;
+		// for (int i = Rank.values().length; i >= 0; i--) {
+		for (int i = 0; i <= Rank.values().length; i++) {
+			for (Card c : straight) {
+				if (c.getRank().ordinal() == i) {
+					sortedStraight.add(c);
+				}
 			}
 		}
 
-		return highestCard;
+		assert (straight.size() == sortedStraight.size());
+
+		return sortedStraight;
+	}
+
+	public List<Card> isStraight(List<Card> sevenCards) {
+
+		List<Card> straight = new LinkedList<Card>();
+
+		sevenCards = sortToLowestCard(sevenCards);
+
+		// 2 For-loops to iterate over all Cards to check each card against each
+		// other (to be sure to match every combination)
+		for (Card cardOne : sevenCards) {
+			// Clear list and add first card to the list
+			straight.clear();
+			straight.add(cardOne);
+
+			for (Card cardTwo : sevenCards) {
+				if (cardOne.getRank() == Rank.ACE) {
+					if (cardTwo.getRank().ordinal() == (cardOne.getRank().ordinal() - (Rank.values().length - 1)
+							+ straight.size() - 1)) {
+						straight.add(cardTwo);
+					} else {
+						continue;
+					}
+				} else if (cardTwo.getRank().ordinal() == (cardOne.getRank().ordinal() + straight.size())) {
+					straight.add(cardTwo);
+				} else {
+					continue;
+				}
+			}
+
+			if (straight.size() == 5) {
+				return straight;
+			} else if (straight.size() >= 5) {
+				List<Card> tmpList = new LinkedList<Card>();
+				Card tmpCard;
+
+				for (int i = 0; i < 5; i++) {
+					tmpCard = getHighestCard(sevenCards);
+					tmpList.add(tmpCard);
+					sevenCards.remove(tmpCard);
+				}
+
+				return tmpList;
+			}
+
+		}
+		return null;
 	}
 }

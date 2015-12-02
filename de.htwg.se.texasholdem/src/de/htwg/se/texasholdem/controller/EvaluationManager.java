@@ -17,4 +17,6 @@ public interface EvaluationManager {
 
 	Card getHighestCard(List<Card> sevenCards);
 
+	List<Card> isStraight(List<Card> sevenCards);
+
 }

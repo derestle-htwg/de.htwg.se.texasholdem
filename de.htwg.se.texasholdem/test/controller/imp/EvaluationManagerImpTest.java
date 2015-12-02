@@ -22,7 +22,7 @@ public class EvaluationManagerImpTest {
 
 	private Card aceH, aceD, aceC, aceS;
 	private Card sevenH, sevenD;
-	private Card twoH, threeH, fourH, fiveH, sixH;
+	private Card twoH, threeH, fourH, fiveH, sixH, eightH;
 
 	@Before
 	public void _setup() {
@@ -33,6 +33,8 @@ public class EvaluationManagerImpTest {
 		aceD = new CardImp(Rank.ACE, Suit.DIAMOND);
 		aceC = new CardImp(Rank.ACE, Suit.CLUB);
 		aceS = new CardImp(Rank.ACE, Suit.SPACE);
+
+		eightH = new CardImp(Rank.EIGHT, Suit.HEART);
 
 		sevenH = new CardImp(Rank.SEVEN, Suit.HEART);
 		sevenD = new CardImp(Rank.SEVEN, Suit.DIAMOND);
@@ -46,6 +48,64 @@ public class EvaluationManagerImpTest {
 		threeH = new CardImp(Rank.THREE, Suit.HEART);
 
 		twoH = new CardImp(Rank.TWO, Suit.HEART);
+	}
+
+	@Test
+	public void isStraight_inputSevenCardsWithStraight_returnsListWithStraightCards() {
+		sevenCards.add(eightH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+
+		sevenCards.add(aceC);
+		sevenCards.add(aceH);
+
+		List<Card> straight = evaluationManager.isStraight(sevenCards);
+
+		Assert.assertNotNull(straight);
+
+		Assert.assertTrue(straight.contains(eightH));
+		Assert.assertTrue(straight.contains(sevenD));
+		Assert.assertTrue(straight.contains(sixH));
+		Assert.assertTrue(straight.contains(fiveH));
+		Assert.assertTrue(straight.contains(fourH));
+	}
+
+	@Test
+	public void isStraight_inputSevenCardsWithStraighSpecialCaseAce_returnsListWithStraightCards() {
+		sevenCards.add(aceH);
+		sevenCards.add(twoH);
+		sevenCards.add(threeH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+
+		sevenCards.add(sevenD);
+		sevenCards.add(aceH);
+
+		List<Card> straight = evaluationManager.isStraight(sevenCards);
+
+		Assert.assertNotNull(straight);
+
+		Assert.assertTrue(straight.contains(aceH));
+		Assert.assertTrue(straight.contains(twoH));
+		Assert.assertTrue(straight.contains(threeH));
+		Assert.assertTrue(straight.contains(fiveH));
+		Assert.assertTrue(straight.contains(fourH));
+	}
+
+	public void isStraight_inputSevenCardsWithNoStraight_returnsNull() {
+		sevenCards.add(eightH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(threeH);
+		sevenCards.add(aceC);
+		sevenCards.add(aceH);
+
+		List<Card> straight = evaluationManager.isStraight(sevenCards);
+
+		Assert.assertNull(straight);
 	}
 
 	@Test
