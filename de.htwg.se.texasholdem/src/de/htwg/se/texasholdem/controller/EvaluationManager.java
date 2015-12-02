@@ -23,4 +23,6 @@ public interface EvaluationManager {
 
 	List<Card> isFullHouse(List<Card> sevenCards);
 
+	List<Card> isStraightFlush(List<Card> sevenCards);
+
 }

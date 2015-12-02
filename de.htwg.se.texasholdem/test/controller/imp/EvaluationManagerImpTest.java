@@ -53,6 +53,87 @@ public class EvaluationManagerImpTest {
 	}
 
 	@Test
+	public void isStraightFlush_inputSevenCardsWithStraightFlush5Cards_returnsListWithStraightFlush() {
+		sevenCards.add(twoH);
+		sevenCards.add(threeH);
+		sevenCards.add(fourH);
+		sevenCards.add(fiveH);
+		sevenCards.add(sixH);
+
+		sevenCards.add(aceD);
+		sevenCards.add(aceC);
+
+		List<Card> straightFlush = evaluationManager.isStraightFlush(sevenCards);
+
+		Assert.assertNotNull(straightFlush);
+
+		Assert.assertTrue(straightFlush.contains(twoH));
+		Assert.assertTrue(straightFlush.contains(threeH));
+		Assert.assertTrue(straightFlush.contains(fourH));
+		Assert.assertTrue(straightFlush.contains(fiveH));
+		Assert.assertTrue(straightFlush.contains(sixH));
+	}
+
+	@Test
+	public void isStraightFlush_inputSevenCardsWithStraightFlush5CardsSpecialCaseAce_returnsListWithStraightFlush() {
+		sevenCards.add(aceH);
+		sevenCards.add(twoH);
+		sevenCards.add(threeH);
+		sevenCards.add(fourH);
+		sevenCards.add(fiveH);
+
+		sevenCards.add(aceD);
+		sevenCards.add(aceC);
+
+		List<Card> straightFlush = evaluationManager.isStraightFlush(sevenCards);
+
+		Assert.assertNotNull(straightFlush);
+
+		Assert.assertTrue(straightFlush.contains(aceH));
+		Assert.assertTrue(straightFlush.contains(twoH));
+		Assert.assertTrue(straightFlush.contains(threeH));
+		Assert.assertTrue(straightFlush.contains(fourH));
+		Assert.assertTrue(straightFlush.contains(fiveH));
+	}
+
+	@Test
+	public void isStraightFlush_inputSevenCardsWithStraightFlush7Cards_returnsListWithStraightFlush() {
+		sevenCards.add(twoH);
+		sevenCards.add(threeH);
+		sevenCards.add(fourH);
+		sevenCards.add(fiveH);
+		sevenCards.add(sixH);
+		sevenCards.add(sevenH);
+		sevenCards.add(eightH);
+
+		List<Card> straightFlush = evaluationManager.isStraightFlush(sevenCards);
+
+		Assert.assertNotNull(straightFlush);
+
+		Assert.assertTrue(straightFlush.contains(fourH));
+		Assert.assertTrue(straightFlush.contains(fiveH));
+		Assert.assertTrue(straightFlush.contains(sixH));
+		Assert.assertTrue(straightFlush.contains(sevenH));
+		Assert.assertTrue(straightFlush.contains(eightH));
+	}
+
+	@Test
+	public void isStraightFlush_inputSevenCardsWithNoStraightFlush_returnsNull() {
+		sevenCards.add(twoH);
+		sevenCards.add(threeH);
+		sevenCards.add(fourH);
+		sevenCards.add(fiveH);
+
+		sevenCards.add(aceS);
+		sevenCards.add(aceD);
+		sevenCards.add(aceC);
+
+		List<Card> straightFlush = evaluationManager.isStraightFlush(sevenCards);
+
+		Assert.assertNull(straightFlush);
+	}
+
+	@Test
 	public void isFullHouse_inputSevenCardsWithFullHouseTwoPairs_returnsListWithFullHouse() {
 		sevenCards.add(sevenD);
 		sevenCards.add(sevenH);

@@ -202,7 +202,6 @@ public class EvaluationManagerImp implements EvaluationManager {
 			} else if (straight.size() >= 5) {
 				return getFiveHighestCards(straight);
 			}
-
 		}
 		return null;
 	}
@@ -249,5 +248,28 @@ public class EvaluationManagerImp implements EvaluationManager {
 				return fullHouse;
 			}
 		}
+	}
+
+	public List<Card> isStraightFlush(List<Card> sevenCards) {
+		List<Card> straightFlush = new LinkedList<Card>();
+
+		for (Suit suit : Suit.values()) {
+			straightFlush.clear();
+
+			for (Card card : sevenCards) {
+				if (suit == card.getSuit()) {
+					straightFlush.add(card);
+				}
+			}
+
+			if (straightFlush.size() >= 5) {
+				straightFlush = isStraight(straightFlush);
+				if (straightFlush.size() > 5) {
+					return getFiveHighestCards(straightFlush);
+				}
+				return straightFlush;
+			}
+		}
+		return null;
 	}
 }
