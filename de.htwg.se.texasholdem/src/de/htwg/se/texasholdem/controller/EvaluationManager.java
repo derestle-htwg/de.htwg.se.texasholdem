@@ -15,4 +15,6 @@ public interface EvaluationManager {
 
 	List<Card> isFourOfAKind(List<Card> sevenCards);
 
+	Card getHighestCard(List<Card> sevenCards);
+
 }

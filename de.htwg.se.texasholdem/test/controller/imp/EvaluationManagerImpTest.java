@@ -71,6 +71,21 @@ public class EvaluationManagerImpTest {
 	@Test
 	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsListWithThreeCards() {
 		sevenCards.add(aceH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		List<Card> sameOfAKind = evaluationManager.isFourOfAKind(sevenCards);
+
+		Assert.assertNull(sameOfAKind);
+	}
+
+	@Test
+	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsNull() {
+		sevenCards.add(aceH);
 		sevenCards.add(aceD);
 		sevenCards.add(aceC);
 
@@ -173,4 +188,18 @@ public class EvaluationManagerImpTest {
 		Assert.assertNull(pairs);
 	}
 
+	@Test
+	public void getHighestCard_inputSevenCardsWithAce_returnsAce() {
+		sevenCards.add(aceH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		Card highestCard = evaluationManager.getHighestCard(sevenCards);
+
+		Assert.assertEquals(aceH, highestCard);
+	}
 }

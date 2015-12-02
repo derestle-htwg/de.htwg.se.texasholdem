@@ -101,4 +101,17 @@ public class EvaluationManagerImp implements EvaluationManager {
 			return null;
 		}
 	}
+
+	public Card getHighestCard(List<Card> sevenCards) {
+
+		Card highestCard = null;
+
+		for (Card c : sevenCards) {
+			if (highestCard == null || c.getRank().ordinal() > highestCard.getRank().ordinal()) {
+				highestCard = c;
+			}
+		}
+
+		return highestCard;
+	}
 }
