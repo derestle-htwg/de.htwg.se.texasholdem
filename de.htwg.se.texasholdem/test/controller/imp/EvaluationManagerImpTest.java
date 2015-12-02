@@ -402,7 +402,7 @@ public class EvaluationManagerImpTest {
 	}
 
 	@Test
-	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsListWithThreeCards() {
+	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsNull() {
 		sevenCards.add(aceH);
 		sevenCards.add(sevenD);
 		sevenCards.add(sixH);
@@ -417,7 +417,7 @@ public class EvaluationManagerImpTest {
 	}
 
 	@Test
-	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsNull() {
+	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsListWithThreeCards() {
 		sevenCards.add(aceH);
 		sevenCards.add(aceD);
 		sevenCards.add(aceC);
