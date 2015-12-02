@@ -103,9 +103,11 @@ public class EvaluationManagerImp implements EvaluationManager {
 	}
 
 	public Card getHighestCard(List<Card> sevenCards) {
-
 		Card highestCard = null;
 
+		// Hint: ordinal() returns index of element in enum
+		// if highestCard is null or the index in enum of card c is higher than
+		// highestcard, then highestCard is set to c
 		for (Card c : sevenCards) {
 			if (highestCard == null || c.getRank().ordinal() > highestCard.getRank().ordinal()) {
 				highestCard = c;
