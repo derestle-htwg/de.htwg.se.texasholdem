@@ -19,4 +19,6 @@ public interface EvaluationManager {
 
 	List<Card> isStraight(List<Card> sevenCards);
 
+	List<Card> isFlush(List<Card> sevenCards);
+
 }

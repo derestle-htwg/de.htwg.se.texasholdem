@@ -51,6 +51,66 @@ public class EvaluationManagerImpTest {
 	}
 
 	@Test
+	public void isFlush_inputSevenCardsWithFlush5CardsWithSameSuits_returnsListWithFlushCards() {
+		sevenCards.add(aceH);
+		sevenCards.add(sixH);
+		sevenCards.add(sevenH);
+		sevenCards.add(fiveH);
+		sevenCards.add(threeH);
+
+		sevenCards.add(aceD);
+		sevenCards.add(aceS);
+
+		List<Card> flush = evaluationManager.isFlush(sevenCards);
+
+		Assert.assertNotNull(flush);
+
+		Assert.assertTrue(flush.contains(aceH));
+		Assert.assertTrue(flush.contains(sixH));
+		Assert.assertTrue(flush.contains(sevenH));
+		Assert.assertTrue(flush.contains(fiveH));
+		Assert.assertTrue(flush.contains(threeH));
+	}
+
+	@Test
+	public void isFlush_inputSevenCardsWithFlush7CardsWithSameSuits_returnsListWithFlushCards() {
+		sevenCards.add(fiveH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+		sevenCards.add(aceH);
+		sevenCards.add(sixH);
+		sevenCards.add(sevenH);
+		sevenCards.add(fourH);
+
+		List<Card> flush = evaluationManager.isFlush(sevenCards);
+
+		Assert.assertNotNull(flush);
+
+		Assert.assertTrue(flush.contains(aceH));
+		Assert.assertTrue(flush.contains(sixH));
+		Assert.assertTrue(flush.contains(sevenH));
+		Assert.assertTrue(flush.contains(fiveH));
+		Assert.assertTrue(flush.contains(fiveH));
+	}
+
+	@Test
+	public void isFlush_inputSevenCardsWithNoFlush_returnsNull() {
+		sevenCards.add(aceD);
+		sevenCards.add(sevenD);
+		sevenCards.add(aceD);
+
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(threeH);
+
+		sevenCards.add(aceS);
+
+		List<Card> flush = evaluationManager.isFlush(sevenCards);
+
+		Assert.assertNull(flush);
+	}
+
+	@Test
 	public void isStraight_inputSevenCardsWithStraight_returnsListWithStraightCards() {
 		sevenCards.add(eightH);
 		sevenCards.add(sevenD);

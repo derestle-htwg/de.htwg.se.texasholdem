@@ -7,8 +7,11 @@ import java.util.List;
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.imp.Rank;
+import de.htwg.se.texasholdem.model.imp.Suit;
 
 public class EvaluationManagerImp implements EvaluationManager {
+
+	// <------------- HELPER METHODS -------------->
 
 	// Finds pairs in List 'sevenCards' and add them into a HashMap
 	private HashMap<Card, Card> findPairs(List<Card> sevenCards) {
@@ -63,6 +66,38 @@ public class EvaluationManagerImp implements EvaluationManager {
 		return null;
 	}
 
+	private List<Card> sortToLowestCard(List<Card> straight) {
+		List<Card> sortedStraight = new LinkedList<Card>();
+
+		// for (int i = Rank.values().length; i >= 0; i--) {
+		for (int i = 0; i <= Rank.values().length; i++) {
+			for (Card c : straight) {
+				if (c.getRank().ordinal() == i) {
+					sortedStraight.add(c);
+				}
+			}
+		}
+
+		assert (straight.size() == sortedStraight.size());
+
+		return sortedStraight;
+	}
+
+	private List<Card> getFiveHighestCards(List<Card> sevenCards) {
+		List<Card> fiveCards = new LinkedList<Card>();
+		Card card;
+
+		for (int i = 0; i < 5; i++) {
+			card = getHighestCard(sevenCards);
+			fiveCards.add(card);
+			sevenCards.remove(card);
+		}
+
+		return fiveCards;
+	}
+
+	// <------------- EVALUATION & HELPER METHODS -------------->
+
 	public Card getHighestCard(List<Card> sevenCards) {
 		Card highestCard = null;
 
@@ -77,6 +112,8 @@ public class EvaluationManagerImp implements EvaluationManager {
 
 		return highestCard;
 	}
+
+	// <------------- EVALUATION METHODS -------------->
 
 	public HashMap<Card, Card> isOnePair(List<Card> sevenCards) {
 		HashMap<Card, Card> pairs = findPairs(sevenCards);
@@ -118,23 +155,6 @@ public class EvaluationManagerImp implements EvaluationManager {
 		}
 	}
 
-	private List<Card> sortToLowestCard(List<Card> straight) {
-		List<Card> sortedStraight = new LinkedList<Card>();
-
-		// for (int i = Rank.values().length; i >= 0; i--) {
-		for (int i = 0; i <= Rank.values().length; i++) {
-			for (Card c : straight) {
-				if (c.getRank().ordinal() == i) {
-					sortedStraight.add(c);
-				}
-			}
-		}
-
-		assert (straight.size() == sortedStraight.size());
-
-		return sortedStraight;
-	}
-
 	public List<Card> isStraight(List<Card> sevenCards) {
 
 		List<Card> straight = new LinkedList<Card>();
@@ -166,18 +186,30 @@ public class EvaluationManagerImp implements EvaluationManager {
 			if (straight.size() == 5) {
 				return straight;
 			} else if (straight.size() >= 5) {
-				List<Card> tmpList = new LinkedList<Card>();
-				Card tmpCard;
-
-				for (int i = 0; i < 5; i++) {
-					tmpCard = getHighestCard(sevenCards);
-					tmpList.add(tmpCard);
-					sevenCards.remove(tmpCard);
-				}
-
-				return tmpList;
+				return getFiveHighestCards(straight);
 			}
 
+		}
+		return null;
+	}
+
+	public List<Card> isFlush(List<Card> sevenCards) {
+		List<Card> flush = new LinkedList<Card>();
+
+		for (Suit suit : Suit.values()) {
+			flush.clear();
+
+			for (Card card : sevenCards) {
+				if (suit == card.getSuit()) {
+					flush.add(card);
+				}
+			}
+
+			if (flush.size() == 5) {
+				return flush;
+			} else if (flush.size() >= 5) {
+				return getFiveHighestCards(flush);
+			}
 		}
 		return null;
 	}
