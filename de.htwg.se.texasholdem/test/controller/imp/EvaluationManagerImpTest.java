@@ -373,6 +373,25 @@ public class EvaluationManagerImpTest {
 	}
 
 	@Test
+	public void isOnePair_inputSevenCaradsWithTwoPair_returnsHashMapWithOnePair() {
+		sevenCards.add(sevenD);
+		sevenCards.add(aceD);
+		sevenCards.add(sevenH);
+		sevenCards.add(aceH);
+
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
+
+		Assert.assertNotNull(pairs);
+
+		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
+				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
+	}
+
+	@Test
 	public void getHighestCard_inputSevenCardsWithAce_returnsAce() {
 		sevenCards.add(aceH);
 		sevenCards.add(sevenD);
