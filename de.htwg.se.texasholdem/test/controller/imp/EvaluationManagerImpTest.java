@@ -23,7 +23,7 @@ public class EvaluationManagerImpTest {
 	private Card aceH, aceD, aceC, aceS;
 	private Card eightH, eightD;
 	private Card sevenH, sevenD;
-	private Card twoH, threeH, fourH, fiveH, sixH;
+	private Card twoH, threeH, fourH, fiveH, sixH, nineH, tenH, jackH, queenH, kingH;
 
 	@Before
 	public void _setup() {
@@ -34,6 +34,16 @@ public class EvaluationManagerImpTest {
 		aceD = new CardImp(Rank.ACE, Suit.DIAMOND);
 		aceC = new CardImp(Rank.ACE, Suit.CLUB);
 		aceS = new CardImp(Rank.ACE, Suit.SPACE);
+
+		kingH = new CardImp(Rank.KING, Suit.HEART);
+
+		queenH = new CardImp(Rank.QUEEN, Suit.HEART);
+
+		jackH = new CardImp(Rank.JACK, Suit.HEART);
+
+		tenH = new CardImp(Rank.TEN, Suit.HEART);
+
+		nineH = new CardImp(Rank.NINE, Suit.HEART);
 
 		eightH = new CardImp(Rank.EIGHT, Suit.HEART);
 		eightD = new CardImp(Rank.EIGHT, Suit.DIAMOND);
@@ -50,6 +60,64 @@ public class EvaluationManagerImpTest {
 		threeH = new CardImp(Rank.THREE, Suit.HEART);
 
 		twoH = new CardImp(Rank.TWO, Suit.HEART);
+	}
+
+	@Test
+	public void isRoyalFlush_inputSevenCardsWithRoyalFlush_returnsListWithRoyalFlush() {
+		sevenCards.add(aceC);
+		sevenCards.add(aceD);
+
+		sevenCards.add(aceH);
+		sevenCards.add(kingH);
+		sevenCards.add(queenH);
+		sevenCards.add(jackH);
+		sevenCards.add(tenH);
+
+		List<Card> royalFlush = evaluationManager.isRoyalFlush(sevenCards);
+
+		Assert.assertNotNull(royalFlush);
+
+		Assert.assertTrue(royalFlush.contains(aceH));
+		Assert.assertTrue(royalFlush.contains(kingH));
+		Assert.assertTrue(royalFlush.contains(queenH));
+		Assert.assertTrue(royalFlush.contains(jackH));
+		Assert.assertTrue(royalFlush.contains(tenH));
+	}
+
+	@Test
+	public void isRoyalFlush_inputSevenCardsWithRoyalFlush7CardsStraight_returnsListWithRoyalFlush() {
+		sevenCards.add(tenH);
+		sevenCards.add(nineH);
+		sevenCards.add(eightH);
+		sevenCards.add(queenH);
+		sevenCards.add(aceH);
+		sevenCards.add(kingH);
+		sevenCards.add(jackH);
+
+		List<Card> royalFlush = evaluationManager.isRoyalFlush(sevenCards);
+
+		Assert.assertNotNull(royalFlush);
+
+		Assert.assertTrue(royalFlush.contains(aceH));
+		Assert.assertTrue(royalFlush.contains(kingH));
+		Assert.assertTrue(royalFlush.contains(queenH));
+		Assert.assertTrue(royalFlush.contains(jackH));
+		Assert.assertTrue(royalFlush.contains(tenH));
+	}
+
+	@Test
+	public void isRoyalFlush_inputSevenCardsWithNoRoyalFlush_returnsNull() {
+		sevenCards.add(tenH);
+		sevenCards.add(nineH);
+		sevenCards.add(eightH);
+		sevenCards.add(queenH);
+		sevenCards.add(aceD);
+		sevenCards.add(kingH);
+		sevenCards.add(jackH);
+
+		List<Card> royalFlush = evaluationManager.isRoyalFlush(sevenCards);
+
+		Assert.assertNull(royalFlush);
 	}
 
 	@Test

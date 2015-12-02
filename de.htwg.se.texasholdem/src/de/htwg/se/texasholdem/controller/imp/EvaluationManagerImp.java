@@ -272,4 +272,18 @@ public class EvaluationManagerImp implements EvaluationManager {
 		}
 		return null;
 	}
+
+	public List<Card> isRoyalFlush(List<Card> sevenCards) {
+		List<Card> royalFlush = new LinkedList<Card>();
+
+		royalFlush = isFlush(sevenCards);
+		if (royalFlush != null) {
+			royalFlush = isStraight(royalFlush);
+			if (royalFlush != null && getHighestCard(royalFlush).getRank() == Rank.ACE) {
+				return royalFlush;
+			}
+		}
+
+		return null;
+	}
 }

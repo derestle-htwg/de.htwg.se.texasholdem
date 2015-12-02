@@ -25,4 +25,6 @@ public interface EvaluationManager {
 
 	List<Card> isStraightFlush(List<Card> sevenCards);
 
+	List<Card> isRoyalFlush(List<Card> sevenCards);
+
 }
