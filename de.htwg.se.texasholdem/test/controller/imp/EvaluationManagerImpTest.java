@@ -1,5 +1,6 @@
 package controller.imp;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,114 +20,157 @@ public class EvaluationManagerImpTest {
 	private EvaluationManager evaluationManager;
 	private List<Card> sevenCards;
 
+	private Card aceH, aceD, aceC, aceS;
+	private Card sevenH, sevenD;
+	private Card twoH, threeH, fourH, fiveH, sixH;
+
 	@Before
 	public void _setup() {
 		evaluationManager = new EvaluationManagerImp();
 		sevenCards = new LinkedList<Card>();
+
+		aceH = new CardImp(Rank.ACE, Suit.HEART);
+		aceD = new CardImp(Rank.ACE, Suit.DIAMOND);
+		aceC = new CardImp(Rank.ACE, Suit.CLUB);
+		aceS = new CardImp(Rank.ACE, Suit.SPACE);
+
+		sevenH = new CardImp(Rank.SEVEN, Suit.HEART);
+		sevenD = new CardImp(Rank.SEVEN, Suit.DIAMOND);
+
+		sixH = new CardImp(Rank.SIX, Suit.HEART);
+
+		fiveH = new CardImp(Rank.FIVE, Suit.HEART);
+
+		fourH = new CardImp(Rank.FOUR, Suit.HEART);
+
+		threeH = new CardImp(Rank.THREE, Suit.HEART);
+
+		twoH = new CardImp(Rank.TWO, Suit.HEART);
 	}
 
 	@Test
-	public void isFourOfAKind_inputSevenCardsWithFourOfAKind_returnsTrue() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.CLUB));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.SPACE));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isFourOfAKind_inputSevenCardsWithFourOfAKind_returnsListWithFourCards() {
+		sevenCards.add(aceH);
+		sevenCards.add(aceD);
+		sevenCards.add(aceC);
+		sevenCards.add(aceS);
 
-		Assert.assertTrue(evaluationManager.isFourOfAKind(sevenCards));
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+		sevenCards.add(twoH);
+
+		List<Card> sameOfAKind = evaluationManager.isFourOfAKind(sevenCards);
+
+		Assert.assertNotNull(sameOfAKind);
+		Assert.assertTrue(sameOfAKind.contains(aceH));
+		Assert.assertTrue(sameOfAKind.contains(aceD));
+		Assert.assertTrue(sameOfAKind.contains(aceC));
+		Assert.assertTrue(sameOfAKind.contains(aceS));
 	}
 
 	@Test
-	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsTrue() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.CLUB));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.SPACE));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isThreeOfAKind_inputSevenCardsWithThreeOfAKind_returnsListWithThreeCards() {
+		sevenCards.add(aceH);
+		sevenCards.add(aceD);
+		sevenCards.add(aceC);
 
-		Assert.assertTrue(evaluationManager.isThreeOfAKind(sevenCards));
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		List<Card> sameOfAKind = evaluationManager.isThreeOfAKind(sevenCards);
+
+		Assert.assertNotNull(sameOfAKind);
+		Assert.assertTrue(sameOfAKind.contains(aceH));
+		Assert.assertTrue(sameOfAKind.contains(aceD));
+		Assert.assertTrue(sameOfAKind.contains(aceC));
 	}
 
 	@Test
-	public void isThreeOfAKind_inputSevenCardsWithTwoOfAKind_returnsFalse() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.SPACE));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isThreeOfAKind_inputSevenCardsWithTwoOfAKind_returnsNull() {
+		sevenCards.add(aceH);
+		sevenCards.add(aceD);
 
-		Assert.assertFalse(evaluationManager.isThreeOfAKind(sevenCards));
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		List<Card> sameOfAKind = evaluationManager.isThreeOfAKind(sevenCards);
+
+		Assert.assertNull(sameOfAKind);
 	}
 
 	@Test
-	public void isTwoPair_inputSevenCardsWithTwoPair_returnsTrue() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.SPACE));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isTwoPair_inputSevenCardsWithTwoPair_returnsHashMapWithTwoPair() {
+		sevenCards.add(aceH);
+		sevenCards.add(aceD);
 
-		Assert.assertTrue(evaluationManager.isTwoPair(sevenCards));
+		sevenCards.add(sevenD);
+		sevenCards.add(sevenH);
+
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		HashMap<Card, Card> pairs = evaluationManager.isTwoPair(sevenCards);
+
+		Assert.assertNotNull(pairs);
+		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
+				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
+		Assert.assertTrue((pairs.containsKey(sevenD) && pairs.containsValue(sevenH))
+				|| (pairs.containsKey(sevenH) && pairs.containsValue(sevenD)));
 	}
 
 	@Test
-	public void isTwoPair_inputSevenCardsWithNoPair_returnsFalse() {
-		sevenCards.add(new CardImp(Rank.THREE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SIX, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isTwoPair_inputSevenCardsWithNoPair_returnsNull() {
+		sevenCards.add(aceH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
 
-		Assert.assertFalse(evaluationManager.isTwoPair(sevenCards));
+		HashMap<Card, Card> pairs = evaluationManager.isTwoPair(sevenCards);
+
+		Assert.assertNull(pairs);
 	}
 
 	@Test
-	public void isOnePair_inputSevenCardsThreeOfAKind_returnsTrue() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.CLUB));
-		sevenCards.add(new CardImp(Rank.SIX, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isOnePair_inputSevenCardsWithOnePair_returnsHashMapWithOnePair() {
+		sevenCards.add(aceH);
+		sevenCards.add(aceD);
 
-		Assert.assertFalse(evaluationManager.isOnePair(sevenCards));
+		sevenCards.add(sevenD);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
+
+		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
+
+		Assert.assertNotNull(pairs);
+		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
+				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
 	}
 
 	@Test
-	public void isOnePair_inputSevenCardsWithOnePair_returnsTrue() {
-		sevenCards.add(new CardImp(Rank.ACE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SIX, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
+	public void isOnePair_inputSevenCardsWithNoPair_returnsNull() {
+		sevenCards.add(aceH);
+		sevenCards.add(sevenD);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+		sevenCards.add(twoH);
 
-		Assert.assertTrue(evaluationManager.isOnePair(sevenCards));
-	}
+		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
 
-	@Test
-	public void isOnePair_inputSevenCardsWithNoPair_returnsFalse() {
-		sevenCards.add(new CardImp(Rank.THREE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.ACE, Suit.DIAMOND));
-		sevenCards.add(new CardImp(Rank.FIVE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SIX, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.SEVEN, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.NINE, Suit.HEART));
-		sevenCards.add(new CardImp(Rank.TWO, Suit.HEART));
-
-		Assert.assertFalse(evaluationManager.isOnePair(sevenCards));
+		Assert.assertNull(pairs);
 	}
 
 }

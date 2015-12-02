@@ -10,7 +10,7 @@ import de.htwg.se.texasholdem.model.Card;
 public class EvaluationManagerImp implements EvaluationManager {
 
 	// Finds pairs in List 'sevenCards' and add them into a HashMap
-	private int findPairs(List<Card> sevenCards) {
+	private HashMap<Card, Card> findPairs(List<Card> sevenCards) {
 		HashMap<Card, Card> pairs = new HashMap<Card, Card>();
 
 		// 2 For-loops to iterate over all Cards to check each card against each
@@ -29,29 +29,31 @@ public class EvaluationManagerImp implements EvaluationManager {
 			}
 		}
 		// Size of HashMap equals number of pairs found in 'sevenCards'
-		return pairs.size();
+		return pairs;
 	}
 
-	public boolean isOnePair(List<Card> sevenCards) {
-		int ret = findPairs(sevenCards);
-		if (ret == 1) {
-			return true;
+	public HashMap<Card, Card> isOnePair(List<Card> sevenCards) {
+		HashMap<Card, Card> pairs = findPairs(sevenCards);
+
+		if (pairs.size() != 1) {
+			return null;
 		} else {
-			return false;
+			return pairs;
 		}
 	}
 
-	public boolean isTwoPair(List<Card> sevenCards) {
-		int ret = findPairs(sevenCards);
-		if (ret == 2) {
-			return true;
+	public HashMap<Card, Card> isTwoPair(List<Card> sevenCards) {
+		HashMap<Card, Card> pairs = findPairs(sevenCards);
+
+		if (pairs.size() != 2) {
+			return null;
 		} else {
-			return false;
+			return pairs;
 		}
 	}
 
 	// Finds sameOfAKind in List 'sevenCards' and adds them to another list
-	private int findCardsofSameKind(List<Card> sevenCards) {
+	private List<Card> findCardsofSameKind(List<Card> sevenCards) {
 		List<Card> cardsOfSameKind = new LinkedList<Card>();
 
 		// 2 For-loops to iterate over all Cards to check each card against each
@@ -70,34 +72,33 @@ public class EvaluationManagerImp implements EvaluationManager {
 				}
 			}
 
-			// Check list size for ThreeOfAKind(size 3) or FourOfAKind(size 4)
-			if (cardsOfSameKind.size() == 3) {
-				return 3;
-			} else if (cardsOfSameKind.size() == 4) {
-				return 4;
+			// Check list size for ThreeOfAKind(size 3) or higher and return
+			// list with cards
+			if (cardsOfSameKind.size() >= 3) {
+				return cardsOfSameKind;
 			}
 		}
 
-		return 0;
+		return null;
 	}
 
-	public boolean isThreeOfAKind(List<Card> sevenCards) {
-		int ret = findCardsofSameKind(sevenCards);
+	public List<Card> isThreeOfAKind(List<Card> sevenCards) {
+		List<Card> cardsOfSameKind = findCardsofSameKind(sevenCards);
 
-		if (ret == 3) {
-			return true;
+		if (cardsOfSameKind != null) {
+			return cardsOfSameKind;
 		} else {
-			return false;
+			return null;
 		}
 	}
 
-	public boolean isFourOfAKind(List<Card> sevenCards) {
-		int ret = findCardsofSameKind(sevenCards);
+	public List<Card> isFourOfAKind(List<Card> sevenCards) {
+		List<Card> cardsOfSameKind = findCardsofSameKind(sevenCards);
 
-		if (ret == 4) {
-			return true;
+		if (cardsOfSameKind != null) {
+			return cardsOfSameKind;
 		} else {
-			return false;
+			return null;
 		}
 	}
 }
