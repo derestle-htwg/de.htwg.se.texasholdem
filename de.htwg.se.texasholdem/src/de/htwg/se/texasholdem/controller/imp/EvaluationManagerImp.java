@@ -46,6 +46,16 @@ public class EvaluationManagerImp implements EvaluationManager {
 		// Sort the 'evalList' regarding to the winning position of the players
 		Collections.sort(evalList);
 
+		// Evaluate Kicker Card of player
+		for (EvaluationObject evalObj : evalList) {
+			for (EvaluationObject evalObj2 : evalList) {
+				if (evalObj.getRanking().ordinal() == evalObj2.getRanking().ordinal()) {
+
+					break;
+				}
+			}
+		}
+
 		return evalList;
 	}
 
