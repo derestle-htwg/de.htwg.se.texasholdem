@@ -1,30 +1,32 @@
 package de.htwg.se.texasholdem.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.imp.EvaluationObject;
 
 public interface EvaluationManager {
 
-	HashMap<Card, Card> isOnePair(List<Card> sevenCards);
+	List<Card> getHighestCard(List<Card> cards);
 
-	HashMap<Card, Card> isTwoPair(List<Card> sevenCards);
+	List<Card> isOnePair(List<Card> cards);
 
-	List<Card> isThreeOfAKind(List<Card> sevenCards);
+	List<Card> isTwoPair(List<Card> cards);
 
-	List<Card> isFourOfAKind(List<Card> sevenCards);
+	List<Card> isThreeOfAKind(List<Card> cards);
 
-	Card getHighestCard(List<Card> sevenCards);
+	List<Card> isFourOfAKind(List<Card> cards);
 
-	List<Card> isStraight(List<Card> sevenCards);
+	List<Card> isStraight(List<Card> cards);
 
-	List<Card> isFlush(List<Card> sevenCards);
+	List<Card> isFlush(List<Card> cards);
 
-	List<Card> isFullHouse(List<Card> sevenCards);
+	List<Card> isFullHouse(List<Card> cards);
 
-	List<Card> isStraightFlush(List<Card> sevenCards);
+	List<Card> isStraightFlush(List<Card> cards);
 
-	List<Card> isRoyalFlush(List<Card> sevenCards);
+	List<Card> isRoyalFlush(List<Card> cards);
 
+	List<EvaluationObject> evaluate(List<Player> players, List<Card> communityCards);
 }
