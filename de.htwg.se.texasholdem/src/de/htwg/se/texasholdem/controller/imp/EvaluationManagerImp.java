@@ -1,5 +1,6 @@
 package de.htwg.se.texasholdem.controller.imp;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,36 +12,68 @@ import de.htwg.se.texasholdem.model.imp.EvaluationObject;
 
 public class EvaluationManagerImp implements EvaluationManager {
 
-	// <------------- HELPER METHODS -------------->
+	static final class CardListRankingPair {
+		private List<Card> cards;
+		private CardRank cardRank;
+
+		private CardListRankingPair(List<Card> cards, CardRank cardRank) {
+			this.cards = cards;
+			this.cardRank = cardRank;
+		}
+
+		public List<Card> getCards() {
+			return cards;
+		}
+
+		public CardRank getCardRank() {
+			return cardRank;
+		}
+	}
 
 	public List<EvaluationObject> evaluate(List<Player> players, List<Card> communityCards) {
 		List<EvaluationObject> evalList = new LinkedList<EvaluationObject>();
 
 		// First Iteration: Set Players and the "5" winning cards out of the
 		// seven cards in sum
-		for (Player p : players) {
-			evaluateCards(p.getHoleCards(), communityCards);
+		for (Player player : players) {
+			EvaluationObject evalObj = new EvaluationObject(player);
+			CardListRankingPair clrp = (evaluateCards(player.getHoleCards(), communityCards));
+			evalObj.setCards(clrp.getCards());
+			evalObj.setRanking(clrp.getCardRank());
+			evalList.add(evalObj);
 		}
 
-		// Second Iteration: Sort the 'evalList' regarding to the winning
-		// position of the players
+		// Sort the 'evalList' regarding to the winning position of the players
+		Collections.sort(evalList);
 
 		return evalList;
 	}
 
-	private void evaluateCards(List<Card> playerCards, List<Card> communityCards) {
+	private CardListRankingPair evaluateCards(List<Card> playerCards, List<Card> communityCards) {
 		List<Card> cards = new LinkedList<Card>();
 		List<Card> winningCards = new LinkedList<Card>();
-		CardRank cardRank = CardRank.HIGHEST_CARD;
+		CardRank cardRank = CardRank.ROYAL_FLUSH;
 
+		// Add all cards to one list
 		cards.addAll(playerCards);
 		cards.addAll(communityCards);
 
-		while (winningCards.size() == 0 && cardRank.ordinal() < CardRank.values().length) {
+		// Iterate over all evaluation methods of CardRank
+		do {
 			winningCards = cardRank.evaluate(cards);
-		}
-		String str = winningCards.toString();
-		System.out.println(str);
+			if (winningCards == null && cardRank.ordinal() > 0) {
+				cardRank = CardRank.values()[cardRank.ordinal() - 1];
+			}
+		} while (winningCards == null && cardRank.ordinal() >= 0);
+
+		return new CardListRankingPair(winningCards, cardRank);
+	}
+
+	// Set's position value and changes the order of the List with
+	// EvaluationObjects
+	private List<EvaluationObject> evaluateWinner(List<EvaluationObject> evalList) {
+
+		return evalList;
 	}
 
 	// <------------- EVALUATION METHODS -------------->

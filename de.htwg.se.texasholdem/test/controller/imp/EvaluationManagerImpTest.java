@@ -1,6 +1,5 @@
 package controller.imp;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +10,10 @@ import org.junit.Test;
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.controller.imp.EvaluationManagerImp;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
+import de.htwg.se.texasholdem.model.imp.EvaluationObject;
+import de.htwg.se.texasholdem.model.imp.PlayerImp;
 import de.htwg.se.texasholdem.model.imp.Rank;
 import de.htwg.se.texasholdem.model.imp.Suit;
 
@@ -19,11 +21,14 @@ public class EvaluationManagerImpTest {
 
 	private EvaluationManager evaluationManager;
 	private List<Card> sevenCards;
+	private List<Player> players;
 
 	private Card aceH, aceD, aceC, aceS;
 	private Card eightH, eightD;
 	private Card sevenH, sevenD;
 	private Card twoH, threeH, fourH, fiveH, sixH, nineH, tenH, jackH, queenH, kingH;
+
+	private Player p1, p2, p3;
 
 	@Before
 	public void _setup() {
@@ -60,6 +65,46 @@ public class EvaluationManagerImpTest {
 		threeH = new CardImp(Rank.THREE, Suit.HEART);
 
 		twoH = new CardImp(Rank.TWO, Suit.HEART);
+
+		players = new LinkedList<Player>();
+		p1 = new PlayerImp("Max");
+		p2 = new PlayerImp("Ralf");
+		p3 = new PlayerImp("Ralf");
+
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+	}
+
+	@Test
+	public void evaluate_input_returns() {
+		List<EvaluationObject> evalList;
+		EvaluationObject evalObj;
+
+		sevenCards.add(aceC);
+		sevenCards.add(fourH);
+
+		sevenCards.add(kingH);
+		sevenCards.add(queenH);
+		sevenCards.add(threeH);
+
+		p1.setHoleCard(new CardImp(Rank.TWO, Suit.CLUB));
+		p1.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
+
+		p3.setHoleCard(new CardImp(Rank.KING, Suit.DIAMOND));
+		p3.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+
+		p2.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
+		p2.setHoleCard(new CardImp(Rank.TEN, Suit.DIAMOND));
+
+		evalList = evaluationManager.evaluate(players, sevenCards);
+
+		Assert.assertNotNull(evalList);
+		Assert.assertTrue(evalList.size() == players.size());
+
+		evalObj = evalList.get(0);
+
+		Assert.assertEquals(p3, evalObj.getPlayer());
 	}
 
 	@Test
@@ -464,13 +509,13 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		HashMap<Card, Card> pairs = evaluationManager.isTwoPair(sevenCards);
+		List<Card> pairs = evaluationManager.isTwoPair(sevenCards);
 
 		Assert.assertNotNull(pairs);
-		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
-				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
-		Assert.assertTrue((pairs.containsKey(sevenD) && pairs.containsValue(sevenH))
-				|| (pairs.containsKey(sevenH) && pairs.containsValue(sevenD)));
+		Assert.assertTrue(pairs.contains(aceH));
+		Assert.assertTrue(pairs.contains(aceD));
+		Assert.assertTrue(pairs.contains(sevenD));
+		Assert.assertTrue(pairs.contains(sevenH));
 	}
 
 	@Test
@@ -483,7 +528,7 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		HashMap<Card, Card> pairs = evaluationManager.isTwoPair(sevenCards);
+		List<Card> pairs = evaluationManager.isTwoPair(sevenCards);
 
 		Assert.assertNull(pairs);
 	}
@@ -499,11 +544,11 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
+		List<Card> pairs = evaluationManager.isOnePair(sevenCards);
 
 		Assert.assertNotNull(pairs);
-		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
-				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
+		Assert.assertTrue(pairs.contains(aceH));
+		Assert.assertTrue(pairs.contains(aceD));
 	}
 
 	@Test
@@ -516,7 +561,7 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
+		List<Card> pairs = evaluationManager.isOnePair(sevenCards);
 
 		Assert.assertNull(pairs);
 	}
@@ -532,12 +577,12 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		HashMap<Card, Card> pairs = evaluationManager.isOnePair(sevenCards);
+		List<Card> pairs = evaluationManager.isOnePair(sevenCards);
 
 		Assert.assertNotNull(pairs);
 
-		Assert.assertTrue((pairs.containsKey(aceH) && pairs.containsValue(aceD))
-				|| (pairs.containsKey(aceD) && pairs.containsValue(aceH)));
+		Assert.assertTrue(pairs.contains(aceH));
+		Assert.assertTrue(pairs.contains(aceD));
 	}
 
 	@Test
@@ -550,7 +595,7 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(threeH);
 		sevenCards.add(twoH);
 
-		Card highestCard = evaluationManager.getHighestCard(sevenCards);
+		Card highestCard = evaluationManager.getHighestCard(sevenCards).get(0);
 
 		Assert.assertEquals(aceH, highestCard);
 	}

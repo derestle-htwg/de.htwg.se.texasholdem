@@ -9,6 +9,7 @@ import de.htwg.se.texasholdem.model.Card;
 
 public enum CardRank {
 	HIGHEST_CARD {
+
 		@Override
 		public List<Card> evaluate(List<Card> cards) {
 			List<Card> highestCardList = new LinkedList<Card>();
@@ -34,10 +35,10 @@ public enum CardRank {
 			HashMap<Card, Card> pairs = findPairs(cards);
 			List<Card> listOfPairs = new LinkedList<Card>();
 
+			listOfPairs.addAll(pairs.values());
 			listOfPairs.addAll(pairs.keySet());
 
-			if (listOfPairs.size() == 1) {
-				listOfPairs.addAll(pairs.values());
+			if (pairs.size() == 1) {
 
 				return listOfPairs;
 			} else if (pairs.size() > 1) {
@@ -45,14 +46,14 @@ public enum CardRank {
 				Card highestCard;
 
 				highestCard = CardRank.HIGHEST_CARD.evaluate(listOfPairs).get(0);
+				listOfPairs.clear();
 
-				for (Object card : pairs.keySet().toArray()) {
-					if (card != highestCard) {
-						pairs.remove(card);
+				for (Map.Entry<Card, Card> entry : pairs.entrySet()) {
+					if (entry.getKey() == highestCard || entry.getValue() == highestCard) {
+						listOfPairs.add(entry.getKey());
+						listOfPairs.add(entry.getValue());
 					}
 				}
-
-				listOfPairs.addAll(pairs.values());
 
 				return listOfPairs;
 			} else {
@@ -156,11 +157,11 @@ public enum CardRank {
 	FULL_HOUSE {
 		@Override
 		public List<Card> evaluate(List<Card> cards) {
-
 			List<Card> fullHouse = new LinkedList<Card>();
-			fullHouse.addAll(CardRank.THREE_OF_A_KIND.evaluate(cards));
 
-			if (fullHouse.size() == 0) {
+			fullHouse = CardRank.THREE_OF_A_KIND.evaluate(cards);
+
+			if (fullHouse == null || fullHouse.size() == 0) {
 				return null;
 			} else {
 				cards.removeAll(fullHouse);
