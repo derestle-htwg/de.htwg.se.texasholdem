@@ -28,7 +28,7 @@ public class EvaluationManagerImpTest {
 	private Card sevenH, sevenD;
 	private Card twoH, threeH, fourH, fiveH, sixH, nineH, tenH, jackH, queenH, kingH;
 
-	private Player p1, p2, p3, p4, p5;
+	private Player p1, p2, p3;
 
 	@Before
 	public void _setup() {
@@ -70,8 +70,6 @@ public class EvaluationManagerImpTest {
 		p1 = new PlayerImp("p1");
 		p2 = new PlayerImp("p2");
 		p3 = new PlayerImp("p3");
-		p4 = new PlayerImp("p4");
-		p5 = new PlayerImp("p5");
 	}
 
 	@Test
@@ -88,6 +86,40 @@ public class EvaluationManagerImpTest {
 				+ queenH.getRank().numVal() + threeH.getRank().numVal();
 
 		Assert.assertEquals(expectedSumOfCards, actualSumOfCards);
+	}
+
+	@Test
+	public void evaluate_inputThreePlayersWithStraight_returnsSortedWinnerListWithThreePlayers() {
+		List<EvaluationObject> evalList;
+		EvaluationObject evalObj;
+
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+
+		sevenCards.add(tenH);
+		sevenCards.add(eightD);
+		sevenCards.add(sevenH);
+		sevenCards.add(sixH);
+		sevenCards.add(fiveH);
+
+		p1.setHoleCard(new CardImp(Rank.THREE, Suit.CLUB));
+		p1.setHoleCard(new CardImp(Rank.FIVE, Suit.DIAMOND));
+
+		p2.setHoleCard(new CardImp(Rank.NINE, Suit.DIAMOND));
+		p2.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
+
+		p3.setHoleCard(new CardImp(Rank.NINE, Suit.DIAMOND));
+		p3.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+
+		evalList = evaluationManager.evaluate(players, sevenCards);
+
+		Assert.assertNotNull(evalList);
+		Assert.assertTrue(evalList.size() == players.size());
+
+		evalObj = evalList.get(0);
+
+		Assert.assertEquals(p2, evalObj.getPlayer());
 	}
 
 	@Test
