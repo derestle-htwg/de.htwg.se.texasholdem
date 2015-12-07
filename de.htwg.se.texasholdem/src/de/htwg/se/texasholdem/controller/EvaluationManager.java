@@ -29,4 +29,6 @@ public interface EvaluationManager {
 	List<Card> isRoyalFlush(List<Card> cards);
 
 	List<EvaluationObject> evaluate(List<Player> players, List<Card> communityCards);
+
+	int getSumOfCards(List<Card> cards);
 }

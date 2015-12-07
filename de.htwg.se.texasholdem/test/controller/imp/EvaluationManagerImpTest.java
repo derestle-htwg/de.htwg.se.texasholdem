@@ -28,7 +28,7 @@ public class EvaluationManagerImpTest {
 	private Card sevenH, sevenD;
 	private Card twoH, threeH, fourH, fiveH, sixH, nineH, tenH, jackH, queenH, kingH;
 
-	private Player p1, p2, p3;
+	private Player p1, p2, p3, p4, p5;
 
 	@Before
 	public void _setup() {
@@ -67,19 +67,37 @@ public class EvaluationManagerImpTest {
 		twoH = new CardImp(Rank.TWO, Suit.HEART);
 
 		players = new LinkedList<Player>();
-		p1 = new PlayerImp("Max");
-		p2 = new PlayerImp("Ralf");
-		p3 = new PlayerImp("Ralf");
+		p1 = new PlayerImp("p1");
+		p2 = new PlayerImp("p2");
+		p3 = new PlayerImp("p3");
+		p4 = new PlayerImp("p4");
+		p5 = new PlayerImp("p5");
+	}
+
+	@Test
+	public void getSumOfCards_inputFiveCards_returnsSumOfThisCards() {
+		sevenCards.add(aceC);
+		sevenCards.add(fourH);
+
+		sevenCards.add(kingH);
+		sevenCards.add(queenH);
+		sevenCards.add(threeH);
+
+		int actualSumOfCards = evaluationManager.getSumOfCards(sevenCards);
+		int expectedSumOfCards = aceC.getRank().numVal() + fourH.getRank().numVal() + kingH.getRank().numVal()
+				+ queenH.getRank().numVal() + threeH.getRank().numVal();
+
+		Assert.assertEquals(expectedSumOfCards, actualSumOfCards);
+	}
+
+	@Test
+	public void evaluate_inputThreePlayers_returnsSortedWinnerListWithThreePlayers() {
+		List<EvaluationObject> evalList;
+		EvaluationObject evalObj;
 
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-	}
-
-	@Test
-	public void evaluate_input_returns() {
-		List<EvaluationObject> evalList;
-		EvaluationObject evalObj;
 
 		sevenCards.add(aceC);
 		sevenCards.add(fourH);
@@ -104,7 +122,73 @@ public class EvaluationManagerImpTest {
 
 		evalObj = evalList.get(0);
 
-		Assert.assertEquals(p3, evalObj.getPlayer());
+		Assert.assertEquals(p2, evalObj.getPlayer());
+	}
+
+	@Test
+	public void evaluate_inputTwoPlayersWithOnePair_returnsSortedWinnerListWithTwoPlayers() {
+		List<EvaluationObject> evalList;
+		EvaluationObject evalObj1, evalObj2;
+
+		players.add(p1);
+		players.add(p2);
+
+		sevenCards.add(kingH);
+		sevenCards.add(queenH);
+		sevenCards.add(eightD);
+
+		sevenCards.add(fourH);
+		sevenCards.add(threeH);
+
+		p1.setHoleCard(new CardImp(Rank.THREE, Suit.CLUB));
+		p1.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+
+		p2.setHoleCard(new CardImp(Rank.THREE, Suit.DIAMOND));
+		p2.setHoleCard(new CardImp(Rank.FIVE, Suit.DIAMOND));
+
+		evalList = evaluationManager.evaluate(players, sevenCards);
+
+		Assert.assertNotNull(evalList);
+		Assert.assertTrue(evalList.size() == players.size());
+
+		evalObj1 = evalList.get(0);
+		evalObj2 = evalList.get(1);
+
+		Assert.assertTrue(evalObj1.isSplit() == evalObj2.isSplit());
+		Assert.assertTrue(evalObj1.getRanking().ordinal() == evalObj2.getRanking().ordinal());
+	}
+
+	@Test
+	public void evaluate_inputTwoPlayersWithHighestCard_returnsSortedWinnerListWithTwoPlayers() {
+		List<EvaluationObject> evalList;
+		EvaluationObject evalObj1, evalObj2;
+
+		players.add(p1);
+		players.add(p2);
+
+		sevenCards.add(aceH);
+		sevenCards.add(queenH);
+		sevenCards.add(tenH);
+
+		sevenCards.add(eightD);
+		sevenCards.add(threeH);
+
+		p1.setHoleCard(new CardImp(Rank.ACE, Suit.DIAMOND));
+		p1.setHoleCard(new CardImp(Rank.FIVE, Suit.CLUB));
+
+		p2.setHoleCard(new CardImp(Rank.ACE, Suit.SPACE));
+		p2.setHoleCard(new CardImp(Rank.TWO, Suit.SPACE));
+
+		evalList = evaluationManager.evaluate(players, sevenCards);
+
+		Assert.assertNotNull(evalList);
+		Assert.assertTrue(evalList.size() == players.size());
+
+		evalObj1 = evalList.get(0);
+		evalObj2 = evalList.get(1);
+
+		Assert.assertTrue(evalObj1.isSplit() == evalObj2.isSplit());
+		Assert.assertTrue(evalObj1.getRanking().ordinal() == evalObj2.getRanking().ordinal());
 	}
 
 	@Test

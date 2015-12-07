@@ -1,7 +1,7 @@
 package de.htwg.se.texasholdem.model.imp;
 
 public enum Rank {
-	
+
 	TWO {
 		@Override
 		public String toString() {
@@ -79,6 +79,9 @@ public enum Rank {
 		public String toString() {
 			return "A";
 		}
-	}
+	};
 
+	public int numVal() {
+		return this.ordinal();
+	}
 }

@@ -7,17 +7,14 @@ import de.htwg.se.texasholdem.model.Player;
 
 public class EvaluationObject implements Comparable<EvaluationObject> {
 
-	private int position;
+	private boolean split;
 	private Player player;
 	private List<Card> cards;
 	private CardRank ranking;
 
 	public EvaluationObject(Player player) {
 		this.player = player;
-	}
-
-	public int getPosition() {
-		return this.position;
+		this.split = false;
 	}
 
 	public Player getPlayer() {
@@ -48,6 +45,14 @@ public class EvaluationObject implements Comparable<EvaluationObject> {
 		} else {
 			return -1;
 		}
+	}
+
+	public boolean isSplit() {
+		return this.split;
+	}
+
+	public void setPosition(boolean split) {
+		this.split = split;
 	}
 
 }

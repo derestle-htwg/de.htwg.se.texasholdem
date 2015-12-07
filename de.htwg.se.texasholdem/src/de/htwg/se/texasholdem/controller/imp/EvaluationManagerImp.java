@@ -47,16 +47,46 @@ public class EvaluationManagerImp implements EvaluationManager {
 		Collections.sort(evalList);
 
 		// Evaluate Kicker Card of player
-		for (EvaluationObject evalObj : evalList) {
+		for (EvaluationObject evalObj1 : evalList) {
 			for (EvaluationObject evalObj2 : evalList) {
-				if (evalObj.getRanking().ordinal() == evalObj2.getRanking().ordinal()) {
-
+				if (evalObj1 == evalObj2) {
 					break;
+				}
+				if (evalObj1.getRanking().ordinal() == evalObj2.getRanking().ordinal()) {
+					if (getSumOfCards(evalObj1.getCards()) == getSumOfCards(evalObj2.getCards())) {
+
+						List<Card> evalObj1Cards = getAllCardsButNoWinningCards(evalObj1.getPlayer().getHoleCards(),
+								communityCards, evalObj1.getCards());
+						List<Card> evalObj2Cards = getAllCardsButNoWinningCards(evalObj2.getPlayer().getHoleCards(),
+								communityCards, evalObj2.getCards());
+
+						Card highestCardEvalObj1 = getHighestCard(evalObj1Cards).get(0);
+						Card highestCardEvalObj2 = getHighestCard(evalObj2Cards).get(0);
+
+						if (highestCardEvalObj1.getRank().numVal() == highestCardEvalObj2.getRank().numVal()) {
+							evalObj1.setPosition(true);
+							evalObj2.setPosition(true);
+						} else if (highestCardEvalObj1.getRank().numVal() < highestCardEvalObj2.getRank().numVal()) {
+							Collections.swap(evalList, evalList.indexOf(evalObj1), evalList.indexOf(evalObj2));
+						}
+
+					} else if (getSumOfCards(evalObj1.getCards()) < getSumOfCards(evalObj2.getCards())) {
+						Collections.swap(evalList, evalList.indexOf(evalObj1), evalList.indexOf(evalObj2));
+					}
 				}
 			}
 		}
 
 		return evalList;
+	}
+
+	private List<Card> getAllCardsButNoWinningCards(List<Card> holeCards, List<Card> communityCards,
+			List<Card> winningCards) {
+		List<Card> allCardsButNoWinningCards = new LinkedList<Card>();
+		allCardsButNoWinningCards.addAll(holeCards);
+		allCardsButNoWinningCards.addAll(communityCards);
+		allCardsButNoWinningCards.removeAll(winningCards);
+		return allCardsButNoWinningCards;
 	}
 
 	private CardListRankingPair evaluateCards(List<Card> playerCards, List<Card> communityCards) {
@@ -126,5 +156,15 @@ public class EvaluationManagerImp implements EvaluationManager {
 
 	public List<Card> isRoyalFlush(List<Card> cards) {
 		return CardRank.ROYAL_FLUSH.evaluate(cards);
+	}
+
+	public int getSumOfCards(List<Card> cards) {
+		int sum = 0;
+
+		for (Card c : cards) {
+			sum += c.getRank().numVal();
+		}
+
+		return sum;
 	}
 }

@@ -205,7 +205,9 @@ public enum CardRank {
 
 				if (straightFlush.size() >= 5) {
 					straightFlush = CardRank.STRAIGHT.evaluate(straightFlush);
-					if (straightFlush.size() > 5) {
+					if (straightFlush == null) {
+						return null;
+					} else if (straightFlush.size() > 5) {
 						return getFiveHighestCards(straightFlush);
 					}
 					return straightFlush;
