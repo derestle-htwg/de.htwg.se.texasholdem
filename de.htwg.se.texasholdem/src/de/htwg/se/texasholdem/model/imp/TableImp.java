@@ -27,6 +27,20 @@ public class TableImp implements Table {
 		players.add(player);
 	}
 
+	/**
+	 * returns a string of the form +---+ (i.e. in the case of blockSize = 1)
+	 */
+	String blockSeparator(int blockSize) {
+		StringBuffer result = new StringBuffer("+");
+		for (int i = 0; i < blockSize; i++) {
+			for (int j = 0; j < 12; j++) {
+				result.append("-");
+			}
+			result.append("+");
+		}
+		return result.toString();
+	}
+
 	public void clearCommunityCards() {
 		communityCards.clear();
 	}
@@ -64,4 +78,61 @@ public class TableImp implements Table {
 		this.smallBlind = smallBlind;
 	}
 
+	/*
+	 * @Override public String toString() { return toString(" "); }
+	 */
+
+	@Override
+	public String toString() {
+		String newLine = System.getProperty("line.separator");
+		List<String> stringList;
+		final int FOUR = 4, ZERO = 0;
+		int btmRow = players.size() > FOUR ? players.size() % FOUR : ZERO;
+		int topRow = players.size() - btmRow;
+
+		// TOP ROW
+		String result = blockSeparator(topRow) + newLine;
+		for (int row = 0; row < 3; row++) {
+			result = result + "|";
+			for (int i = 0; i < topRow; i++) {
+				stringList = players.get(i).getPlayerStats();
+				result = result + " " + stringList.get(row) + " |";
+			}
+			result = result + newLine;
+		}
+
+		result = result + blockSeparator(topRow) + newLine + newLine;
+
+		// COMMUNITY CARDS
+		int communityCardSize = 23;
+		int separatorSum = ((this.players.size() % 4) * 12 + ((this.players.size() % 4 + 1))) / 2;
+		int separator = separatorSum / 2;
+
+		if (communityCards.isEmpty()) {
+			result = result + newLine;
+		} else {
+			if (separatorSum <= communityCardSize) {
+
+			}
+		}
+
+		// POT
+
+		// BOTTOM ROW
+		if (btmRow != 0) {
+			result = result + blockSeparator(btmRow) + newLine;
+			for (int row = 0; row < 3; row++) {
+				result = result + "|";
+				for (int i = topRow; i < btmRow + topRow; i++) {
+					stringList = players.get(i).getPlayerStats();
+					result = result + " " + stringList.get(row) + " |";
+				}
+				result = result + newLine;
+			}
+
+			result = result + blockSeparator(btmRow) + newLine;
+		}
+
+		return result.toString();
+	}
 }
