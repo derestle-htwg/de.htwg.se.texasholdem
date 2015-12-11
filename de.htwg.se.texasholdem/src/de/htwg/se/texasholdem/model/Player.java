@@ -12,6 +12,8 @@ public interface Player {
 
 	public String getPlayerName();
 
+	public List<String> getPlayerStats();
+
 	public void setHoleCard(Card holeCard);
 
 	public void setPlayerMoney(int playerMoney);

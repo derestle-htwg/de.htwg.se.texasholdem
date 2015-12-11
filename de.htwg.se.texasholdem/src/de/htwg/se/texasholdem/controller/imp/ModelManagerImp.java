@@ -61,6 +61,10 @@ public class ModelManagerImp implements ModelManager {
 		return table.getSmallBlind();
 	}
 
+	public String getTableString() {
+		return table.toString();
+	}
+
 	public boolean hasMoney(Player player) {
 		return playerManager.getPlayerMoney(player) > 0;
 	}

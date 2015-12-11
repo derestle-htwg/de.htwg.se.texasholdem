@@ -23,4 +23,6 @@ public interface Table {
 	void setPot(int value);
 
 	void setSmallBlind(int smallBlind);
+
+	String toString();
 }

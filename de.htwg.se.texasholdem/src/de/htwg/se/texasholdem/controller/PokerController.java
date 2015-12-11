@@ -4,4 +4,6 @@ import de.htwg.se.texasholdem.util.observer.IObservable;
 
 public interface PokerController extends IObservable {
 
+	String getTableString();
+
 }

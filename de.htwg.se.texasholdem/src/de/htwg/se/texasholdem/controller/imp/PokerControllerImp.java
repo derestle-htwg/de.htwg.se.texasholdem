@@ -15,6 +15,10 @@ public class PokerControllerImp extends Observable implements PokerController {
 		gameManager = new GameManagerImp(modelManager);
 	}
 
+	public String getTableString() {
+		return modelManager.getTableString();
+	}
+
 	public void initializeGame() {
 
 	}

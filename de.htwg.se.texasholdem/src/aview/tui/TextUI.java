@@ -13,8 +13,7 @@ public class TextUI implements IObserver {
 	}
 
 	private void printTUI() {
-		// TODO Auto-generated method stub
-
+		controller.getTableString();
 	}
 
 	public void update() {
