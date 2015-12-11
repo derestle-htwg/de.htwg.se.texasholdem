@@ -1,5 +1,7 @@
 package de.htwg.se.texasholdem.controller;
 
-public interface PokerController {
+import de.htwg.se.texasholdem.util.observer.IObservable;
+
+public interface PokerController extends IObservable {
 
 }
