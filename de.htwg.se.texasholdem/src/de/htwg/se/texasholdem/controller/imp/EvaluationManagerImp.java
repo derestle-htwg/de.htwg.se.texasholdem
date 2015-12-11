@@ -21,12 +21,12 @@ public class EvaluationManagerImp implements EvaluationManager {
 			this.cardRank = cardRank;
 		}
 
-		public List<Card> getCards() {
-			return cards;
-		}
-
 		public CardRank getCardRank() {
 			return cardRank;
+		}
+
+		public List<Card> getCards() {
+			return cards;
 		}
 	}
 
@@ -80,15 +80,6 @@ public class EvaluationManagerImp implements EvaluationManager {
 		return evalList;
 	}
 
-	private List<Card> getAllCardsButNoWinningCards(List<Card> holeCards, List<Card> communityCards,
-			List<Card> winningCards) {
-		List<Card> allCardsButNoWinningCards = new LinkedList<Card>();
-		allCardsButNoWinningCards.addAll(holeCards);
-		allCardsButNoWinningCards.addAll(communityCards);
-		allCardsButNoWinningCards.removeAll(winningCards);
-		return allCardsButNoWinningCards;
-	}
-
 	private CardListRankingPair evaluateCards(List<Card> playerCards, List<Card> communityCards) {
 		List<Card> cards = new LinkedList<Card>();
 		List<Card> winningCards = new LinkedList<Card>();
@@ -116,46 +107,19 @@ public class EvaluationManagerImp implements EvaluationManager {
 		return evalList;
 	}
 
+	private List<Card> getAllCardsButNoWinningCards(List<Card> holeCards, List<Card> communityCards,
+			List<Card> winningCards) {
+		List<Card> allCardsButNoWinningCards = new LinkedList<Card>();
+		allCardsButNoWinningCards.addAll(holeCards);
+		// allCardsButNoWinningCards.addAll(communityCards);
+		allCardsButNoWinningCards.removeAll(winningCards);
+		return allCardsButNoWinningCards;
+	}
+
 	// <------------- EVALUATION METHODS -------------->
 
 	public List<Card> getHighestCard(List<Card> cards) {
 		return CardRank.HIGHEST_CARD.evaluate(cards);
-	}
-
-	public List<Card> isOnePair(List<Card> cards) {
-		return CardRank.ONE_PAIR.evaluate(cards);
-	}
-
-	public List<Card> isTwoPair(List<Card> cards) {
-		return CardRank.TWO_PAIR.evaluate(cards);
-	}
-
-	public List<Card> isThreeOfAKind(List<Card> cards) {
-		return CardRank.THREE_OF_A_KIND.evaluate(cards);
-	}
-
-	public List<Card> isStraight(List<Card> cards) {
-		return CardRank.STRAIGHT.evaluate(cards);
-	}
-
-	public List<Card> isFlush(List<Card> cards) {
-		return CardRank.FLUSH.evaluate(cards);
-	}
-
-	public List<Card> isFullHouse(List<Card> cards) {
-		return CardRank.FULL_HOUSE.evaluate(cards);
-	}
-
-	public List<Card> isFourOfAKind(List<Card> cards) {
-		return CardRank.FOUR_OF_A_KIND.evaluate(cards);
-	}
-
-	public List<Card> isStraightFlush(List<Card> cards) {
-		return CardRank.STRAIGHT_FLUSH.evaluate(cards);
-	}
-
-	public List<Card> isRoyalFlush(List<Card> cards) {
-		return CardRank.ROYAL_FLUSH.evaluate(cards);
 	}
 
 	public int getSumOfCards(List<Card> cards) {
@@ -166,5 +130,41 @@ public class EvaluationManagerImp implements EvaluationManager {
 		}
 
 		return sum;
+	}
+
+	public List<Card> isFlush(List<Card> cards) {
+		return CardRank.FLUSH.evaluate(cards);
+	}
+
+	public List<Card> isFourOfAKind(List<Card> cards) {
+		return CardRank.FOUR_OF_A_KIND.evaluate(cards);
+	}
+
+	public List<Card> isFullHouse(List<Card> cards) {
+		return CardRank.FULL_HOUSE.evaluate(cards);
+	}
+
+	public List<Card> isOnePair(List<Card> cards) {
+		return CardRank.ONE_PAIR.evaluate(cards);
+	}
+
+	public List<Card> isRoyalFlush(List<Card> cards) {
+		return CardRank.ROYAL_FLUSH.evaluate(cards);
+	}
+
+	public List<Card> isStraight(List<Card> cards) {
+		return CardRank.STRAIGHT.evaluate(cards);
+	}
+
+	public List<Card> isStraightFlush(List<Card> cards) {
+		return CardRank.STRAIGHT_FLUSH.evaluate(cards);
+	}
+
+	public List<Card> isThreeOfAKind(List<Card> cards) {
+		return CardRank.THREE_OF_A_KIND.evaluate(cards);
+	}
+
+	public List<Card> isTwoPair(List<Card> cards) {
+		return CardRank.TWO_PAIR.evaluate(cards);
 	}
 }
