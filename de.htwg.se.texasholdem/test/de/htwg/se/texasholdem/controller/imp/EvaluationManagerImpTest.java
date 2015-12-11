@@ -1,4 +1,4 @@
-package controller.imp;
+package de.htwg.se.texasholdem.controller.imp;
 
 import java.util.LinkedList;
 import java.util.List;
