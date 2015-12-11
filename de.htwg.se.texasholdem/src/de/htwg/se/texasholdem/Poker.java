@@ -27,6 +27,12 @@ public class Poker {
 		table.addPlayer(p5);
 		table.addPlayer(p6);
 
+		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
+		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
+		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
+		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
+		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
+
 		p1.setPlayerMoney(1234567);
 
 		p1.setHoleCard(new CardImp(Rank.ACE, Suit.CLUB));

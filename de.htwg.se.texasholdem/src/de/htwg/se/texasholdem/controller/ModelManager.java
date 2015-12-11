@@ -26,6 +26,8 @@ public interface ModelManager {
 
 	int getSmallBlind();
 
+	String getTableString();
+
 	boolean hasMoney(Player player);
 
 	void resetGame();

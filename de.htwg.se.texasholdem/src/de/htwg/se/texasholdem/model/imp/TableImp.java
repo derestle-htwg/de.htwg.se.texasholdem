@@ -106,17 +106,21 @@ public class TableImp implements Table {
 		// COMMUNITY CARDS
 		int communityCardSize = 23;
 		int separatorSum = ((this.players.size() % 4) * 12 + ((this.players.size() % 4 + 1))) / 2;
-		int separator = separatorSum / 2;
+		int separator = (separatorSum / 2) - 3;
+		StringBuilder sb = new StringBuilder();
 
 		if (communityCards.isEmpty()) {
 			result = result + newLine;
 		} else {
-			if (separatorSum <= communityCardSize) {
-
+			for (int i = 0; i < this.communityCards.size(); i++) {
+				sb.append(this.communityCards.get(i).toString());
+				sb.append("   ");
 			}
+			result = result + sb.toString() + newLine;
 		}
 
 		// POT
+		result = result + "Pot: " + String.valueOf(this.potValue) + " Cr" + newLine;
 
 		// BOTTOM ROW
 		if (btmRow != 0) {
