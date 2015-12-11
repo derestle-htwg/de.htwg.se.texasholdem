@@ -63,7 +63,7 @@ public class PlayerImp implements Player {
 
 		sb.delete(0, sb.length());
 
-		if (this.getHoleCards().size() != 0) {
+		if (!this.getHoleCards().isEmpty()) {
 			for (int i = 0; i < this.getHoleCards().size(); i++) {
 				sb.append(" ");
 				sb.append(holeCards.get(i).toString());

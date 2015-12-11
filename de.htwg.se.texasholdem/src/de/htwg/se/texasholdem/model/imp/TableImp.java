@@ -31,7 +31,7 @@ public class TableImp implements Table {
 	 * returns a string of the form +---+ (i.e. in the case of blockSize = 1)
 	 */
 	String blockSeparator(int blockSize) {
-		StringBuffer result = new StringBuffer("+");
+		StringBuilder result = new StringBuilder("+");
 		for (int i = 0; i < blockSize; i++) {
 			for (int j = 0; j < 12; j++) {
 				result.append("-");
@@ -78,16 +78,12 @@ public class TableImp implements Table {
 		this.smallBlind = smallBlind;
 	}
 
-	/*
-	 * @Override public String toString() { return toString(" "); }
-	 */
-
 	@Override
 	public String toString() {
 		String newLine = System.getProperty("line.separator");
 		List<String> stringList;
-		final int FOUR = 4, ZERO = 0;
-		int btmRow = players.size() > FOUR ? players.size() % FOUR : ZERO;
+		final int four = 4, zero = 0;
+		int btmRow = players.size() > four ? players.size() % four : zero;
 		int topRow = players.size() - btmRow;
 
 		// TOP ROW
@@ -103,10 +99,8 @@ public class TableImp implements Table {
 
 		result = result + blockSeparator(topRow) + newLine + newLine;
 
-		// COMMUNITY CARDS
-		int communityCardSize = 23;
-		int separatorSum = ((this.players.size() % 4) * 12 + ((this.players.size() % 4 + 1))) / 2;
-		int separator = (separatorSum / 2) - 3;
+		// COMMUNITY CARD
+		int separatorSum = ((this.players.size() % 4) * 12 + (this.players.size() % 4 + 1)) / 2;
 		StringBuilder sb = new StringBuilder();
 
 		if (communityCards.isEmpty()) {
@@ -120,7 +114,7 @@ public class TableImp implements Table {
 		}
 
 		// POT
-		result = result + "Pot: " + String.valueOf(this.potValue) + " Cr" + newLine;
+		result = result + "Pot: " + this.potValue + " Cr" + newLine;
 
 		// BOTTOM ROW
 		if (btmRow != 0) {

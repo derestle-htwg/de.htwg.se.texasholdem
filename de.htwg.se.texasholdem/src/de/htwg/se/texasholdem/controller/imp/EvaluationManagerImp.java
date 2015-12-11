@@ -37,7 +37,7 @@ public class EvaluationManagerImp implements EvaluationManager {
 		// seven cards in sum
 		for (Player player : players) {
 			EvaluationObject evalObj = new EvaluationObject(player);
-			CardListRankingPair clrp = (evaluateCards(player.getHoleCards(), communityCards));
+			CardListRankingPair clrp = evaluateCards(player.getHoleCards(), communityCards);
 			evalObj.setCards(clrp.getCards());
 			evalObj.setRanking(clrp.getCardRank());
 			evalList.add(evalObj);
@@ -56,9 +56,9 @@ public class EvaluationManagerImp implements EvaluationManager {
 					if (getSumOfCards(evalObj1.getCards()) == getSumOfCards(evalObj2.getCards())) {
 
 						List<Card> evalObj1Cards = getAllCardsButNoWinningCards(evalObj1.getPlayer().getHoleCards(),
-								communityCards, evalObj1.getCards());
+								evalObj1.getCards());
 						List<Card> evalObj2Cards = getAllCardsButNoWinningCards(evalObj2.getPlayer().getHoleCards(),
-								communityCards, evalObj2.getCards());
+								evalObj2.getCards());
 
 						Card highestCardEvalObj1 = getHighestCard(evalObj1Cards).get(0);
 						Card highestCardEvalObj2 = getHighestCard(evalObj2Cards).get(0);
@@ -92,26 +92,18 @@ public class EvaluationManagerImp implements EvaluationManager {
 		// Iterate over all evaluation methods of CardRank
 		do {
 			winningCards = cardRank.evaluate(cards);
-			if (winningCards == null && cardRank.ordinal() > 0) {
+			if (winningCards.isEmpty() && cardRank.ordinal() > 0) {
 				cardRank = CardRank.values()[cardRank.ordinal() - 1];
 			}
-		} while (winningCards == null && cardRank.ordinal() >= 0);
+		} while (winningCards.isEmpty() && cardRank.ordinal() >= 0);
 
 		return new CardListRankingPair(winningCards, cardRank);
 	}
 
-	// Set's position value and changes the order of the List with
-	// EvaluationObjects
-	private List<EvaluationObject> evaluateWinner(List<EvaluationObject> evalList) {
-
-		return evalList;
-	}
-
-	private List<Card> getAllCardsButNoWinningCards(List<Card> holeCards, List<Card> communityCards,
-			List<Card> winningCards) {
+	private List<Card> getAllCardsButNoWinningCards(List<Card> holeCards, List<Card> winningCards) {
 		List<Card> allCardsButNoWinningCards = new LinkedList<Card>();
 		allCardsButNoWinningCards.addAll(holeCards);
-		// allCardsButNoWinningCards.addAll(communityCards);
+
 		allCardsButNoWinningCards.removeAll(winningCards);
 		return allCardsButNoWinningCards;
 	}

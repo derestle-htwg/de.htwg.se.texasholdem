@@ -24,5 +24,6 @@ public interface Table {
 
 	void setSmallBlind(int smallBlind);
 
+	@Override
 	String toString();
 }

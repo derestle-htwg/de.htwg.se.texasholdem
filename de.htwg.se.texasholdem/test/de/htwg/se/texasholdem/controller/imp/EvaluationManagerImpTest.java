@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.EvaluationManager;
-import de.htwg.se.texasholdem.controller.imp.EvaluationManagerImp;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
@@ -278,7 +277,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> royalFlush = evaluationManager.isRoyalFlush(sevenCards);
 
-		Assert.assertNull(royalFlush);
+		Assert.assertTrue(royalFlush.isEmpty());
 	}
 
 	@Test
@@ -359,7 +358,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> straightFlush = evaluationManager.isStraightFlush(sevenCards);
 
-		Assert.assertNull(straightFlush);
+		Assert.assertTrue(straightFlush.isEmpty());
 	}
 
 	@Test
@@ -421,7 +420,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> fullHouse = evaluationManager.isFullHouse(sevenCards);
 
-		Assert.assertNull(fullHouse);
+		Assert.assertTrue(fullHouse.isEmpty());
 	}
 
 	@Test
@@ -481,7 +480,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> flush = evaluationManager.isFlush(sevenCards);
 
-		Assert.assertNull(flush);
+		Assert.assertTrue(flush.isEmpty());
 	}
 
 	@Test
@@ -593,7 +592,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> sameOfAKind = evaluationManager.isFourOfAKind(sevenCards);
 
-		Assert.assertNull(sameOfAKind);
+		Assert.assertTrue(sameOfAKind.isEmpty());
 	}
 
 	@Test
@@ -610,7 +609,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> sameOfAKind = evaluationManager.isThreeOfAKind(sevenCards);
 
-		Assert.assertNull(sameOfAKind);
+		Assert.assertTrue(sameOfAKind.isEmpty());
 	}
 
 	@Test
@@ -646,7 +645,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> pairs = evaluationManager.isTwoPair(sevenCards);
 
-		Assert.assertNull(pairs);
+		Assert.assertTrue(pairs.isEmpty());
 	}
 
 	@Test
@@ -679,7 +678,7 @@ public class EvaluationManagerImpTest {
 
 		List<Card> pairs = evaluationManager.isOnePair(sevenCards);
 
-		Assert.assertNull(pairs);
+		Assert.assertTrue(pairs.isEmpty());
 	}
 
 	@Test
