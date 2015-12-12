@@ -17,7 +17,7 @@ public interface PokerController extends IObservable {
 
 	List<Player> getPlayerList();
 
-	Player getStartPlayer();
+	Player getDealer();
 
 	void setPlayerActive(Player player);
 

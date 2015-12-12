@@ -45,7 +45,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		return modelManager.getPlayerList();
 	}
 
-	public Player getStartPlayer() {
+	public Player getDealer() {
 		return dealer;
 	}
 
