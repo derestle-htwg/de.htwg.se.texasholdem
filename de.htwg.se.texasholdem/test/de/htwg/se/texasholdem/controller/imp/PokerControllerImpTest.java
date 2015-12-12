@@ -22,9 +22,9 @@ public class PokerControllerImpTest {
 		p2 = new PlayerImp("Player Two");
 		p3 = new PlayerImp("Player Three");
 
-		pokerController.addPlayer(p1);
-		pokerController.addPlayer(p2);
-		pokerController.addPlayer(p3);
+		pokerController.addPlayer("Player One");
+		pokerController.addPlayer("Player Two");
+		pokerController.addPlayer("Player Three");
 
 		pokerController.setPlayerActive(p1);
 		pokerController.setPlayerActive(p2);
@@ -44,7 +44,7 @@ public class PokerControllerImpTest {
 	}
 
 	@Test
-	public void getStartPlayer_inputNone_returnsStartPlayer() {
+	public void getDealer_inputNone_returnsDealer() {
 		pokerController.setRandomDealer();
 
 		Assert.assertEquals(PlayerImp.class, pokerController.getDealer().getClass());
@@ -92,13 +92,13 @@ public class PokerControllerImpTest {
 		int smallBlind = 30;
 		int credits = 100;
 
-		pokerController.setDealer(p1);
+		pokerController.setDealer(pokerController.getPlayerList().get(0));
 		pokerController.setStartCredits(credits);
 		pokerController.setCreditsToplayer();
 		pokerController.setBlinds(smallBlind);
 		pokerController.payBlinds();
 
-		Assert.assertEquals(credits - smallBlind, p2.getPlayerMoney());
-		Assert.assertEquals(credits - smallBlind * 2, p3.getPlayerMoney());
+		Assert.assertEquals(credits - smallBlind, pokerController.getPlayerList().get(1).getPlayerMoney());
+		Assert.assertEquals(credits - smallBlind * 2, pokerController.getPlayerList().get(2).getPlayerMoney());
 	}
 }

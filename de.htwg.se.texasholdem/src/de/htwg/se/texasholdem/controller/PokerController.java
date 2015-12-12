@@ -9,7 +9,7 @@ public interface PokerController extends IObservable {
 
 	String getTableString();
 
-	void addPlayer(Player player);
+	void addPlayer(String playerName);
 
 	void clearActivePlayers();
 

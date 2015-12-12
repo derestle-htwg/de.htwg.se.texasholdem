@@ -8,6 +8,7 @@ import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.BettingStatus;
+import de.htwg.se.texasholdem.model.imp.PlayerImp;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -63,8 +64,10 @@ public class PokerControllerImp extends Observable implements PokerController {
 		return this.credits;
 	}
 
-	public void addPlayer(Player player) {
+	public void addPlayer(String playerName) {
+		Player player = new PlayerImp(playerName);
 		modelManager.addPlayer(player);
+		notifyObservers();
 	}
 
 	public void clearActivePlayers() {
