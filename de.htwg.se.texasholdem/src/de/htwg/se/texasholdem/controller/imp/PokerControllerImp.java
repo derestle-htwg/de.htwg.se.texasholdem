@@ -24,12 +24,12 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private int credits;
 	private BettingStatus bettingStatus;
 	private GameStatus gameStatus;
-	private List<BettingObjectImp> bettingLog;
+	private List<BettingObject> bettingLog;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
 		this.activePlayers = new LinkedList<Player>();
-		this.bettingLog = new LinkedList<BettingObjectImp>();
+		this.bettingLog = new LinkedList<BettingObject>();
 		gameStatus = GameStatus.INITIALIZATION;
 	}
 
@@ -140,6 +140,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 		BettingObject bo = new BettingObjectImp(this.bettingStatus, this.currentPlayer, StakeType.CALL, credits);
 		payMoney(this.currentPlayer, credits);
 
+		this.bettingLog.add(bo);
+	}
+
+	public void raise(int credits) {
+		BettingObject bo = new BettingObjectImp(this.bettingStatus, this.currentPlayer, StakeType.RAISE, credits);
+		payMoney(this.currentPlayer, credits);
+
+		this.bettingLog.add(bo);
 	}
 
 	private void payMoney(Player player, int credits) {
