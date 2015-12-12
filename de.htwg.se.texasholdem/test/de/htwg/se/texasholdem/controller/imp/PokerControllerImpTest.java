@@ -45,7 +45,7 @@ public class PokerControllerImpTest {
 
 	@Test
 	public void getStartPlayer_inputNone_returnsStartPlayer() {
-		pokerController.setStartPlayer();
+		pokerController.setRandomDealer();
 
 		Assert.assertEquals(PlayerImp.class, pokerController.getDealer().getClass());
 		Assert.assertTrue(pokerController.getPlayerList().contains(pokerController.getDealer()));

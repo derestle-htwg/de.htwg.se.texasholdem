@@ -23,7 +23,7 @@ public interface PokerController extends IObservable {
 
 	void setPlayerNotActive(Player player);
 
-	void setStartPlayer();
+	void setRandomDealer();
 
 	void startGame();
 

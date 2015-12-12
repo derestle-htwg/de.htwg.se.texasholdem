@@ -39,4 +39,6 @@ public interface ModelManager {
 	void setPot(int potValue);
 
 	void setSmallBlind(int smallBlind);
+
+	Player getNextPlayer(Player currentPlayer);
 }

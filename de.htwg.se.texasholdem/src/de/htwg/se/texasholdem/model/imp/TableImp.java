@@ -53,11 +53,6 @@ public class TableImp implements Table {
 		return communityCards;
 	}
 
-	public Player getNextPlayer(Player player) {
-		int index = players.indexOf(player);
-		return players.get((index + 1) % players.size());
-	}
-
 	public List<Player> getPlayerList() {
 		return players;
 	}

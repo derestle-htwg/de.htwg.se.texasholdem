@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.imp.BettingStatus;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -16,6 +17,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player currentPlayer;
 	private Player dealer;
 	private int credits;
+	BettingStatus bettingStatus;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
@@ -27,7 +29,12 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void startGame() {
-		setStartPlayer();
+		setRandomDealer();
+		currentPlayer = dealer;
+
+		// Player smallBlind = modelManager.get
+
+		bettingStatus = BettingStatus.values()[0];
 	}
 
 	public void setStartCredits(int credits) {
@@ -66,7 +73,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		activePlayers.remove(player);
 	}
 
-	public void setStartPlayer() {
+	public void setRandomDealer() {
 		int randomNumber = ThreadLocalRandom.current().nextInt(0, modelManager.getPlayerList().size());
 		dealer = modelManager.getPlayerList().get(randomNumber);
 	}

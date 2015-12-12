@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.ModelManager;
-import de.htwg.se.texasholdem.controller.imp.ModelManagerImp;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.CardImp;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
@@ -98,4 +97,13 @@ public class ModelManagerImpTest {
 		Assert.assertTrue(modelManager.getCommunityCards().isEmpty());
 	}
 
+	@Test
+	public void getNextPlayer_inputPlayerP1_returnsPlayerP2() {
+		Assert.assertEquals(p2, modelManager.getNextPlayer(p1));
+	}
+
+	@Test
+	public void getNextPlayer_inputPlayerP3_returnsPlayerP1() {
+		Assert.assertEquals(p1, modelManager.getNextPlayer(p3));
+	}
 }

@@ -60,16 +60,6 @@ public class TableImpTest {
 	}
 
 	@Test
-	public void getNextPlayer_inputPlayerP1_returnsPlayerP2() {
-		Assert.assertEquals(p2, table.getNextPlayer(p1));
-	}
-
-	@Test
-	public void getNextPlayer_inputPlayerP3_returnsPlayerP1() {
-		Assert.assertEquals(p1, table.getNextPlayer(p3));
-	}
-
-	@Test
 	public void getPlayerList_inputListWithThreePlayers_returnsListWithThreePlayers() {
 
 		Assert.assertEquals(3, table.getPlayerList().size());
