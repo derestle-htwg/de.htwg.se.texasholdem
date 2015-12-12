@@ -70,4 +70,10 @@ public class PokerControllerImp extends Observable implements PokerController {
 		int randomNumber = ThreadLocalRandom.current().nextInt(0, modelManager.getPlayerList().size());
 		dealer = modelManager.getPlayerList().get(randomNumber);
 	}
+
+	public void setCreditsToplayer() {
+		for (Player p : this.getPlayerList()) {
+			p.setPlayerMoney(credits);
+		}
+	}
 }

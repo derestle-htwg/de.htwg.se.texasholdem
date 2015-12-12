@@ -30,4 +30,6 @@ public interface PokerController extends IObservable {
 	void setStartCredits(int credits);
 
 	int getStartCredits();
+
+	void setCreditsToplayer();
 }
