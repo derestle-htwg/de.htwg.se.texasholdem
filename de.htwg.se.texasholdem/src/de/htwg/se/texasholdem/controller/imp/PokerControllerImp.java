@@ -76,4 +76,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 			p.setPlayerMoney(credits);
 		}
 	}
+
+	public void setBlinds(int blindValue) {
+		modelManager.setSmallBlind(blindValue);
+	}
+
+	public int getSmallBlind() {
+		return modelManager.getSmallBlind();
+	}
+
+	public int getBigBlind() {
+		return modelManager.getBigBlind();
+	}
 }
