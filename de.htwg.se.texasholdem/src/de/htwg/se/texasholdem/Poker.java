@@ -1,66 +1,26 @@
 package de.htwg.se.texasholdem;
 
-import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.Table;
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
-import de.htwg.se.texasholdem.model.imp.TableImp;
+import java.util.Scanner;
+
+import aview.tui.TextUI;
+import de.htwg.se.texasholdem.controller.PokerController;
+import de.htwg.se.texasholdem.controller.imp.PokerControllerImp;;
 
 public class Poker {
 
+	private static Scanner scanner;
+
 	public static void main(String[] args) {
+		PokerController controller = new PokerControllerImp();
+		TextUI tui = new TextUI(controller);
 
-		Table table = new TableImp();
-		Player p1 = new PlayerImp("Dennis");
-		Player p2 = new PlayerImp("Max");
-		Player p3 = new PlayerImp("Daniel");
-		Player p4 = new PlayerImp("Christian");
-		Player p5 = new PlayerImp("Blacky");
-		Player p6 = new PlayerImp("Ralf");
+		tui.printTUI();
 
-		table.addPlayer(p1);
-		table.addPlayer(p2);
-		table.addPlayer(p3);
-		table.addPlayer(p4);
-		table.addPlayer(p5);
-		table.addPlayer(p6);
-
-		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
-		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
-		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
-		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
-		table.addCommunityCard(new CardImp(Rank.ACE, Suit.CLUB));
-
-		p1.setPlayerMoney(1234567);
-
-		p1.setHoleCard(new CardImp(Rank.ACE, Suit.CLUB));
-		p1.setHoleCard(new CardImp(Rank.ACE, Suit.DIAMOND));
-
-		String s = table.toString();
-
-		System.out.println(s);
+		// continue to read user input on the tui until the user decides to quit
+		boolean continu = true;
+		scanner = new Scanner(System.in);
+		while (continu) {
+			continu = tui.processInputLine(scanner.next());
+		}
 	}
-
-	// PokerController erstellen
-	// Erstelle TableManager
-	// Erstelle andere Manager
-
-	// Starte TUI / GUI
-
-	// Wie viele Spieler sollen an den Tisch?
-	// z.B. 4 Stück
-
-	// Wie sollen die heißen?
-	// z.B. "Hans"
-
-	// TUI -> PokerController.addPlayer("Hans")
-	// -> TableManager.addPlayer("Hans")
-	// -> PlayerManager.addPlayer("Hans")
-	// Hans hinzugefügt
-
-	// "SPIELEN"-Button gedrückt
-
-	// ...
 }
