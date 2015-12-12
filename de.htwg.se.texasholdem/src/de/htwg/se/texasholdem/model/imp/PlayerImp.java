@@ -94,4 +94,8 @@ public class PlayerImp implements Player {
 		this.playerName = playerName;
 	}
 
+	public void payMoney(int payment) {
+		this.playerCash -= payment;
+	}
+
 }

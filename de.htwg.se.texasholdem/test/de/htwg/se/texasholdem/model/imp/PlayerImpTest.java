@@ -71,4 +71,14 @@ public class PlayerImpTest {
 		Assert.assertEquals(playerNameTwo, playerTwo.getPlayerName());
 	}
 
+	@Test
+	public void payMoney_inputPlayerWith100CreditsPays20Credits_returnsPlayerWith80Credits() {
+		int credits = 100;
+		int payment = 20;
+
+		playerOne.setPlayerMoney(credits);
+		playerOne.payMoney(payment);
+
+		Assert.assertEquals(credits - payment, playerOne.getPlayerMoney());
+	}
 }

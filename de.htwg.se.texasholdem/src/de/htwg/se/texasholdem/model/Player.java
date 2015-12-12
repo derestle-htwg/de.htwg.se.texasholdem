@@ -17,4 +17,6 @@ public interface Player {
 	public void setHoleCard(Card holeCard);
 
 	public void setPlayerMoney(int playerMoney);
+
+	public void payMoney(int payment);
 }
