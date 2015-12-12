@@ -42,4 +42,6 @@ public interface PokerController extends IObservable {
 	void payBlinds();
 
 	void setDealer(Player dealer);
+
+	GameStatus getStatus();
 }

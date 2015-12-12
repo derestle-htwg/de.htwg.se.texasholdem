@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
@@ -18,11 +19,13 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player currentPlayer;
 	private Player dealer;
 	private int credits;
-	BettingStatus bettingStatus;
+	private BettingStatus bettingStatus;
+	private GameStatus gameStatus;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
 		this.activePlayers = new LinkedList<Player>();
+		gameStatus = GameStatus.INITIALIZATION;
 	}
 
 	public String getTableString() {
@@ -30,9 +33,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void startGame() {
-		setRandomDealer();
+		// setRandomDealer();
+		modelManager.resetGame();
 		bettingStatus = BettingStatus.values()[0];
+		setCreditsToplayer();
 		payBlinds();
+		gameStatus = GameStatus.RUNNING;
+		// TODO: Set Active Player list
+		notifyObservers();
 	}
 
 	public void payBlinds() {
@@ -119,5 +127,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public int getBigBlind() {
 		return modelManager.getBigBlind();
+	}
+
+	public GameStatus getStatus() {
+		return gameStatus;
 	}
 }
