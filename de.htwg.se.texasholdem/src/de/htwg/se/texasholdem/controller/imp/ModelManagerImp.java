@@ -109,4 +109,12 @@ public class ModelManagerImp implements ModelManager {
 		return playerManager.getPlayerList().get((index + 1) % playerManager.getPlayerList().size());
 	}
 
+	public void setDealer(Player dealer) {
+		table.setDealer(dealer);
+	}
+
+	public Player getDealer() {
+		return table.getDealer();
+	}
+
 }

@@ -24,6 +24,10 @@ public interface Table {
 
 	void setSmallBlind(int smallBlind);
 
+	void setDealer(Player dealer);
+
+	Player getDealer();
+
 	@Override
 	String toString();
 }

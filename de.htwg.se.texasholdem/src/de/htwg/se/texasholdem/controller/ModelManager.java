@@ -41,4 +41,8 @@ public interface ModelManager {
 	void setSmallBlind(int smallBlind);
 
 	Player getNextPlayer(Player currentPlayer);
+
+	void setDealer(Player player);
+
+	Player getDealer();
 }

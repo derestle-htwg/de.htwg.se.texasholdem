@@ -77,4 +77,11 @@ public class TableImpTest {
 		Assert.assertEquals(10, table.getSmallBlind());
 	}
 
+	@Test
+	public void getDealer_setPlayerAsDealer_returnsPlayer() {
+		table.setDealer(p1);
+
+		Assert.assertEquals(p1, table.getDealer());
+	}
+
 }

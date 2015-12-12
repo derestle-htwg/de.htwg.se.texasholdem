@@ -13,6 +13,7 @@ public class TableImp implements Table {
 	private int potValue;
 	private int smallBlind;
 	private List<Card> communityCards;
+	private Player dealer;
 
 	public TableImp() {
 		players = new LinkedList<Player>();
@@ -127,5 +128,13 @@ public class TableImp implements Table {
 		}
 
 		return result.toString();
+	}
+
+	public void setDealer(Player dealer) {
+		this.dealer = dealer;
+	}
+
+	public Player getDealer() {
+		return this.dealer;
 	}
 }
