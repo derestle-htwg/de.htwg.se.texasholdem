@@ -67,7 +67,7 @@ public class TableImp implements Table {
 	}
 
 	public void setPot(int value) {
-		potValue = value;
+		potValue += value;
 	}
 
 	public void setSmallBlind(int smallBlind) {
