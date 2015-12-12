@@ -24,4 +24,10 @@ public interface PokerController extends IObservable {
 	void setPlayerNotActive(Player player);
 
 	void setStartPlayer();
+
+	void startGame();
+
+	void setStartCredits(int credits);
+
+	int getStartCredits();
 }

@@ -15,6 +15,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private List<Player> activePlayers;
 	private Player currentPlayer;
 	private Player dealer;
+	private int credits;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
@@ -25,8 +26,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 		return modelManager.getTableString();
 	}
 
-	public void initializeGame() {
+	public void startGame() {
+		setStartPlayer();
+	}
 
+	public void setStartCredits(int credits) {
+		this.credits = credits;
+	}
+
+	public int getStartCredits() {
+		return this.credits;
 	}
 
 	public void addPlayer(Player player) {

@@ -57,4 +57,13 @@ public class PokerControllerImpTest {
 
 		Assert.assertEquals(2, pokerController.getActivePlayers().size());
 	}
+
+	@Test
+	public void getStartCredits_insertThreeThousandCredits_returnsThreeThousandCredits() {
+		int threeThousand = 3000;
+
+		pokerController.setStartCredits(threeThousand);
+
+		Assert.assertEquals(threeThousand, pokerController.getStartCredits());
+	}
 }
