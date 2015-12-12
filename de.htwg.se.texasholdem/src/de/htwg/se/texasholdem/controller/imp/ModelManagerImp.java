@@ -82,7 +82,7 @@ public class ModelManagerImp implements ModelManager {
 		}
 
 		// Clear Pot on Table
-		table.setPot(0);
+		table.clearPot();
 	}
 
 	public void setHoleCards(Player player) {

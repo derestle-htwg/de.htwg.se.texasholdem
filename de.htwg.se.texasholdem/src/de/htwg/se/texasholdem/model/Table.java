@@ -30,4 +30,6 @@ public interface Table {
 
 	@Override
 	String toString();
+
+	void clearPot();
 }

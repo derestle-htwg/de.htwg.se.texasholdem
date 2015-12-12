@@ -137,4 +137,8 @@ public class TableImp implements Table {
 	public Player getDealer() {
 		return this.dealer;
 	}
+
+	public void clearPot() {
+		this.potValue = 0;
+	}
 }
