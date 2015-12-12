@@ -8,7 +8,7 @@ import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.BettingStatus;
+import de.htwg.se.texasholdem.model.imp.BettingStatusImp;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
@@ -19,7 +19,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player currentPlayer;
 	private Player dealer;
 	private int credits;
-	private BettingStatus bettingStatus;
+	private BettingStatusImp bettingStatus;
 	private GameStatus gameStatus;
 
 	public PokerControllerImp() {
@@ -35,7 +35,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public void startGame() {
 		// setRandomDealer();
 		modelManager.resetGame();
-		bettingStatus = BettingStatus.values()[0];
+		bettingStatus = BettingStatusImp.values()[0];
 		setCreditsToplayer();
 		payBlinds();
 		gameStatus = GameStatus.RUNNING;
