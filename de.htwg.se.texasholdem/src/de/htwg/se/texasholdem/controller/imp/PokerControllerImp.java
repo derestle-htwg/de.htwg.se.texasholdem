@@ -11,10 +11,10 @@ import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
 
-	private Player startPlayer;
 	private ModelManager modelManager;
 	private List<Player> activePlayers;
 	private Player currentPlayer;
+	private Player dealer;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
@@ -46,7 +46,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public Player getStartPlayer() {
-		return startPlayer;
+		return dealer;
 	}
 
 	public void setPlayerActive(Player player) {
@@ -59,6 +59,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public void setStartPlayer() {
 		int randomNumber = ThreadLocalRandom.current().nextInt(0, modelManager.getPlayerList().size());
-		startPlayer = modelManager.getPlayerList().get(randomNumber);
+		dealer = modelManager.getPlayerList().get(randomNumber);
 	}
 }
