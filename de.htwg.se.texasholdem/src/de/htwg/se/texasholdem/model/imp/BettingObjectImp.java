@@ -1,22 +1,22 @@
 package de.htwg.se.texasholdem.model.imp;
 
+import de.htwg.se.texasholdem.model.BettingObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.BettingStatus;
 
-public class BettingObject implements BettingStatus {
-	private BettingStatusImp bettingStatus;
+public class BettingObjectImp implements BettingObject {
+	private BettingStatus bettingStatus;
 	private Player player;
 	private StakeType stakeType;
 	private int stake;
 
-	BettingObject(BettingStatusImp bettingStatus, Player player, StakeType stakeType, int stake) {
+	public BettingObjectImp(BettingStatus bettingStatus, Player player, StakeType stakeType, int stake) {
 		this.bettingStatus = bettingStatus;
 		this.player = player;
 		this.stakeType = stakeType;
 		this.stake = stake;
 	}
 
-	public BettingStatusImp getBettingStatus() {
+	public BettingStatus getBettingStatus() {
 		return bettingStatus;
 	}
 

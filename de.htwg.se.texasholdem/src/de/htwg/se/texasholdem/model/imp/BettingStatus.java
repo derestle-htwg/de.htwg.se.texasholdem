@@ -1,5 +1,5 @@
 package de.htwg.se.texasholdem.model.imp;
 
-public enum BettingStatusImp {
+public enum BettingStatus {
 	PRE_FLOP, FLOP, TURN, RIVER, SHOWDOWN
 }

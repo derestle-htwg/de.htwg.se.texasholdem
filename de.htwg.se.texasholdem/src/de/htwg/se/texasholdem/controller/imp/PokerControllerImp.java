@@ -7,9 +7,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
+import de.htwg.se.texasholdem.model.BettingObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.BettingStatusImp;
+import de.htwg.se.texasholdem.model.imp.BettingObjectImp;
+import de.htwg.se.texasholdem.model.imp.BettingStatus;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
+import de.htwg.se.texasholdem.model.imp.StakeType;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -19,12 +22,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player currentPlayer;
 	private Player dealer;
 	private int credits;
-	private BettingStatusImp bettingStatus;
+	private BettingStatus bettingStatus;
 	private GameStatus gameStatus;
+	private List<BettingObjectImp> bettingLog;
 
 	public PokerControllerImp() {
 		modelManager = new ModelManagerImp();
 		this.activePlayers = new LinkedList<Player>();
+		this.bettingLog = new LinkedList<BettingObjectImp>();
 		gameStatus = GameStatus.INITIALIZATION;
 	}
 
@@ -35,7 +40,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public void startGame() {
 		// setRandomDealer();
 		modelManager.resetGame();
-		bettingStatus = BettingStatusImp.values()[0];
+		bettingStatus = BettingStatus.values()[0];
 		setCreditsToplayer();
 		payBlinds();
 		gameStatus = GameStatus.RUNNING;
@@ -50,15 +55,13 @@ public class PokerControllerImp extends Observable implements PokerController {
 		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
 			// Player cannot pay smallblind
 		} else {
-			smallBlind.payMoney(getSmallBlind());
-			modelManager.setPot(getSmallBlind());
+			payMoney(smallBlind, getSmallBlind());
 		}
 
 		if (smallBlind.getPlayerMoney() < getBigBlind()) {
 			// Player cannot pay bigblind
 		} else {
-			bigBlind.payMoney(getBigBlind());
-			modelManager.setPot(getBigBlind());
+			payMoney(bigBlind, getBigBlind());
 		}
 
 		currentPlayer = modelManager.getNextPlayer(bigBlind);
@@ -131,5 +134,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public GameStatus getStatus() {
 		return gameStatus;
+	}
+
+	public void call(int credits) {
+		BettingObject bo = new BettingObjectImp(this.bettingStatus, this.currentPlayer, StakeType.CALL, credits);
+		payMoney(this.currentPlayer, credits);
+
+	}
+
+	private void payMoney(Player player, int credits) {
+		player.payMoney(credits);
+		this.modelManager.setPot(credits);
 	}
 }
