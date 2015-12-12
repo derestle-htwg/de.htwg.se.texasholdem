@@ -30,11 +30,29 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public void startGame() {
 		setRandomDealer();
-		currentPlayer = dealer;
-
-		// Player smallBlind = modelManager.get
-
 		bettingStatus = BettingStatus.values()[0];
+		payBlinds();
+	}
+
+	public void payBlinds() {
+		Player smallBlind = modelManager.getNextPlayer(dealer);
+		Player bigBlind = modelManager.getNextPlayer(smallBlind);
+
+		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
+			// Player cannot pay smallblind
+		} else {
+			smallBlind.payMoney(getSmallBlind());
+			modelManager.setPot(getSmallBlind());
+		}
+
+		if (smallBlind.getPlayerMoney() < getBigBlind()) {
+			// Player cannot pay bigblind
+		} else {
+			bigBlind.payMoney(getBigBlind());
+			modelManager.setPot(getBigBlind());
+		}
+
+		currentPlayer = modelManager.getNextPlayer(bigBlind);
 	}
 
 	public void setStartCredits(int credits) {
@@ -74,8 +92,12 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void setRandomDealer() {
-		int randomNumber = ThreadLocalRandom.current().nextInt(0, modelManager.getPlayerList().size());
-		dealer = modelManager.getPlayerList().get(randomNumber);
+		int randomNumber = ThreadLocalRandom.current().nextInt(0, activePlayers.size());
+		dealer = activePlayers.get(randomNumber);
+	}
+
+	public void setDealer(Player dealer) {
+		this.dealer = dealer;
 	}
 
 	public void setCreditsToplayer() {

@@ -86,4 +86,19 @@ public class PokerControllerImpTest {
 		Assert.assertEquals(smallBlind, pokerController.getSmallBlind());
 		Assert.assertEquals(smallBlind * 2, pokerController.getBigBlind());
 	}
+
+	@Test
+	public void payBlinds_inputTwoPlayersWithCredits_returnsPaysCreditsFromPlayers() {
+		int smallBlind = 30;
+		int credits = 100;
+
+		pokerController.setDealer(p1);
+		pokerController.setStartCredits(credits);
+		pokerController.setCreditsToplayer();
+		pokerController.setBlinds(smallBlind);
+		pokerController.payBlinds();
+
+		Assert.assertEquals(credits - smallBlind, p2.getPlayerMoney());
+		Assert.assertEquals(credits - smallBlind * 2, p3.getPlayerMoney());
+	}
 }
