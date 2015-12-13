@@ -1,9 +1,12 @@
 package de.htwg.se.texasholdem.controller.imp;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
@@ -18,6 +21,7 @@ import de.htwg.se.texasholdem.util.observer.Observable;
 public class PokerControllerImp extends Observable implements PokerController {
 
 	private ModelManager modelManager;
+	private EvaluationManager evaluationManager;
 	private List<Player> activePlayers;
 	private Player currentPlayer;
 	private Player dealer;
@@ -27,12 +31,15 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private int startCredits;
 
 	public PokerControllerImp() {
-		startCredits = 5000;
-		setBlinds(25);
+
 		modelManager = new ModelManagerImp();
+		evaluationManager = new EvaluationManagerImp();
 		this.activePlayers = new LinkedList<Player>();
 		this.bettingLog = new LinkedList<BettingObject>();
 		gameStatus = GameStatus.INITIALIZATION;
+
+		startCredits = 5000;
+		setBlinds(25);
 	}
 
 	public String getTableString() {
@@ -40,6 +47,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void startGame() {
+		// TODO: Doesn't work because of active player list not set:
 		// setRandomDealer();
 		modelManager.resetGame();
 		bettingStatus = BettingStatus.values()[0];
@@ -55,15 +63,15 @@ public class PokerControllerImp extends Observable implements PokerController {
 		Player bigBlind = modelManager.getNextPlayer(smallBlind);
 
 		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
-			// Player cannot pay smallblind
+			// TODO: Player cannot pay smallblind
 		} else {
-			payMoney(smallBlind, getSmallBlind());
+			payMoney(smallBlind, getSmallBlind(), StakeType.SMALL_BLIND);
 		}
 
 		if (smallBlind.getPlayerMoney() < getBigBlind()) {
-			// Player cannot pay bigblind
+			// TODO: Player cannot pay bigblind
 		} else {
-			payMoney(bigBlind, getBigBlind());
+			payMoney(bigBlind, getBigBlind(), StakeType.BIG_BLIND);
 		}
 
 		currentPlayer = modelManager.getNextPlayer(bigBlind);
@@ -138,8 +146,22 @@ public class PokerControllerImp extends Observable implements PokerController {
 		return gameStatus;
 	}
 
-	public int calculateCurrenctCall() {
-		int callValue;
+	public int getCurrentCallValue() {
+		int callValue = 0;
+		Map<Player, Integer> playerBidList = new HashMap<Player, Integer>();
+
+		// Build list of players and previously made bids
+		for (BettingObject bo : bettingLog) {
+			if (bo.getBettingStatus() == this.bettingStatus) {
+				if (!playerBidList.containsKey(bo.getPlayer())) {
+					playerBidList.put(bo.getPlayer(), 0);
+				}
+
+				playerBidList.replace(bo.getPlayer(), playerBidList.get(bo.getPlayer()) + bo.getStake());
+			}
+		}
+
+		// Get current player and get currentCallValue from playerBidList
 
 		return startCredits;
 	}
@@ -168,6 +190,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		case SHOWDOWN:
 			bettingStatus = BettingStatus.PRE_FLOP;
 			modelManager.resetGame();
+			bettingLog.clear();
 			break;
 		default:
 			break;
@@ -177,21 +200,19 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void call(int credits) {
-		BettingObject bo = new BettingObjectImp(this.bettingStatus, this.currentPlayer, StakeType.CALL, credits);
-		payMoney(this.currentPlayer, credits);
+		payMoney(this.currentPlayer, credits, StakeType.CALL);
 
-		this.bettingLog.add(bo);
 	}
 
 	public void raise(int credits) {
-		BettingObject bo = new BettingObjectImp(this.bettingStatus, this.currentPlayer, StakeType.RAISE, credits);
-		payMoney(this.currentPlayer, credits);
+		payMoney(this.currentPlayer, credits, StakeType.RAISE);
 
-		this.bettingLog.add(bo);
 	}
 
-	private void payMoney(Player player, int credits) {
+	private void payMoney(Player player, int credits, StakeType stakeType) {
 		player.payMoney(credits);
 		this.modelManager.setPot(credits);
+
+		this.bettingLog.add(new BettingObjectImp(this.bettingStatus, player, stakeType, credits));
 	}
 }
