@@ -73,7 +73,7 @@ public class PokerControllerImpTest {
 		int threeThousand = 3000;
 
 		pokerController.setStartCredits(threeThousand);
-		pokerController.setCreditsToplayer();
+		pokerController.setCreditsToPlayer();
 
 		Assert.assertEquals(threeThousand, pokerController.getPlayerList().get(0).getPlayerMoney());
 	}
@@ -95,7 +95,7 @@ public class PokerControllerImpTest {
 
 		pokerController.setDealer(pokerController.getPlayerList().get(0));
 		pokerController.setStartCredits(credits);
-		pokerController.setCreditsToplayer();
+		pokerController.setCreditsToPlayer();
 		pokerController.setBlinds(smallBlind);
 		pokerController.payBlinds();
 

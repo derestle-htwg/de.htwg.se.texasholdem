@@ -54,8 +54,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 		// setRandomDealer();
 		bettingStatus = BettingStatus.values()[0];
 		// TODO: Set Active Player list
+		setCreditsToPlayer();
 		fillActivePlayerList();
-		setCreditsToplayer();
 		setRandomDealer();
 		currentPlayer = getDealer();
 		resetGame();
@@ -64,6 +64,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	private void fillActivePlayerList() {
+		activePlayers.clear();
 		for (Player p : modelManager.getPlayerList()) {
 			if (p.getPlayerMoney() > 0) {
 				activePlayers.add(p);
@@ -74,6 +75,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private void resetGame() {
 		modelManager.resetGame();
 		bettingLog.clear();
+		fillActivePlayerList();
 		payBlinds();
 		setHoleCardsToAllPlayer();
 	}
@@ -119,6 +121,11 @@ public class PokerControllerImp extends Observable implements PokerController {
 		return playerList.get((index + 1) % playerList.size());
 	}
 
+	public Player getPreviousPlayer(List<Player> playerList, Player player) {
+		int index = playerList.indexOf(player);
+		return playerList.get((index + playerList.size() - 1) % playerList.size());
+	}
+
 	public void clearActivePlayers() {
 		activePlayers.clear();
 	}
@@ -152,7 +159,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		this.dealer = dealer;
 	}
 
-	public void setCreditsToplayer() {
+	public void setCreditsToPlayer() {
 		for (Player p : this.getPlayerList()) {
 			p.setPlayerMoney(startCredits);
 		}
@@ -259,20 +266,25 @@ public class PokerControllerImp extends Observable implements PokerController {
 	 */
 	private void nextPlayer() {
 
-		if (this.bettingStatus == BettingStatus.PRE_FLOP) {
-			if (endRound == true) {
-				enterNextPhase();
+		if (activePlayers.size() == 1) {
+			this.bettingStatus = BettingStatus.SHOWDOWN;
+			enterNextPhase();
+		} else {
+			if (this.bettingStatus == BettingStatus.PRE_FLOP) {
+				if (endRound == true) {
+					enterNextPhase();
+				} else {
+					currentPlayer = getNextPlayer(activePlayers, currentPlayer);
+
+					if (lastPlayerOfThisRound == currentPlayer) {
+						endRound = true;
+					}
+				}
 			} else {
 				currentPlayer = getNextPlayer(activePlayers, currentPlayer);
-
 				if (lastPlayerOfThisRound == currentPlayer) {
-					endRound = true;
+					enterNextPhase();
 				}
-			}
-		} else {
-			currentPlayer = getNextPlayer(activePlayers, currentPlayer);
-			if (lastPlayerOfThisRound == currentPlayer) {
-				enterNextPhase();
 			}
 		}
 	}
@@ -299,6 +311,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public void fold() {
 		activePlayers.remove(currentPlayer);
 		currentPlayer.clearHoleCards();
+		currentPlayer = getPreviousPlayer(activePlayers, currentPlayer);
 		nextPlayer();
 		notifyObservers();
 	}
