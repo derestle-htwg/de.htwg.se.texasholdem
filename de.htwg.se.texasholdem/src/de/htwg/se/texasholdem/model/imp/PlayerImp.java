@@ -15,6 +15,7 @@ public class PlayerImp implements Player {
 
 	public PlayerImp(String name) {
 		setPlayerName(name);
+		playerCash = 0;
 		holeCards = new LinkedList<Card>();
 	}
 
@@ -87,7 +88,7 @@ public class PlayerImp implements Player {
 	}
 
 	public void setPlayerMoney(int playerMoney) {
-		this.playerCash = playerMoney;
+		this.playerCash += playerMoney;
 	}
 
 	private void setPlayerName(String playerName) {

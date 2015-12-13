@@ -19,6 +19,11 @@ public class TextUI implements IObserver {
 	}
 
 	public void printTUI() {
+		if (!(controller.getStatus() == GameStatus.INITIALIZATION)) {
+			System.out.println("############################################################");
+			System.out.print("Last: " + controller.getLastEvent());
+		}
+
 		System.out.println("############################################################");
 		System.out.println(controller.getTableString());
 

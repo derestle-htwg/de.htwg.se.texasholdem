@@ -10,7 +10,6 @@ import de.htwg.se.texasholdem.model.Card;
 
 public enum CardRank {
 	HIGHEST_CARD {
-
 		@Override
 		public List<Card> evaluate(List<Card> cards) {
 			List<Card> highestCardList = new LinkedList<Card>();
@@ -28,6 +27,11 @@ public enum CardRank {
 			highestCardList.add(highestCard);
 
 			return highestCardList;
+		}
+
+		@Override
+		public String toString() {
+			return "Highest Card";
 		}
 	},
 	ONE_PAIR {
@@ -61,6 +65,11 @@ public enum CardRank {
 				return Collections.emptyList();
 			}
 		}
+
+		@Override
+		public String toString() {
+			return "One Pair";
+		}
 	},
 	TWO_PAIR {
 		@Override
@@ -79,6 +88,11 @@ public enum CardRank {
 				return pairsList;
 			}
 		}
+
+		@Override
+		public String toString() {
+			return "Two Pair";
+		}
 	},
 	THREE_OF_A_KIND {
 		@Override
@@ -90,6 +104,11 @@ public enum CardRank {
 			} else {
 				return Collections.emptyList();
 			}
+		}
+
+		@Override
+		public String toString() {
+			return "Three of a kind";
 		}
 	},
 	STRAIGHT {
@@ -130,6 +149,11 @@ public enum CardRank {
 			}
 			return Collections.emptyList();
 		}
+
+		@Override
+		public String toString() {
+			return "Straight";
+		}
 	},
 	FLUSH {
 		@Override
@@ -152,6 +176,11 @@ public enum CardRank {
 				}
 			}
 			return Collections.emptyList();
+		}
+
+		@Override
+		public String toString() {
+			return "Flush";
 		}
 	},
 	FULL_HOUSE {
@@ -176,6 +205,11 @@ public enum CardRank {
 				}
 			}
 		}
+
+		@Override
+		public String toString() {
+			return "Full House";
+		}
 	},
 	FOUR_OF_A_KIND {
 		@Override
@@ -187,6 +221,11 @@ public enum CardRank {
 			} else {
 				return Collections.emptyList();
 			}
+		}
+
+		@Override
+		public String toString() {
+			return "Four of a kind";
 		}
 	},
 	STRAIGHT_FLUSH {
@@ -215,6 +254,11 @@ public enum CardRank {
 			}
 			return Collections.emptyList();
 		}
+
+		@Override
+		public String toString() {
+			return "Straight Flush";
+		}
 	},
 	ROYAL_FLUSH {
 		@Override
@@ -230,6 +274,11 @@ public enum CardRank {
 			}
 
 			return Collections.emptyList();
+		}
+
+		@Override
+		public String toString() {
+			return "Royal Flush";
 		}
 	};
 

@@ -11,9 +11,12 @@ import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.BettingObject;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.imp.BettingObjectImp;
 import de.htwg.se.texasholdem.model.imp.BettingStatus;
+import de.htwg.se.texasholdem.model.imp.CardRank;
+import de.htwg.se.texasholdem.model.imp.EvaluationObject;
 import de.htwg.se.texasholdem.model.imp.PlayerImp;
 import de.htwg.se.texasholdem.model.imp.StakeType;
 import de.htwg.se.texasholdem.util.observer.Observable;
@@ -31,6 +34,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player lastPlayerOfThisRound;
 	private int startCredits;
 	private boolean endRound;
+	private List<String> logger;
 
 	public PokerControllerImp() {
 
@@ -38,6 +42,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		evaluationManager = new EvaluationManagerImp();
 		this.activePlayers = new LinkedList<Player>();
 		this.bettingLog = new LinkedList<BettingObject>();
+		this.logger = new LinkedList<String>();
 		gameStatus = GameStatus.INITIALIZATION;
 		endRound = false;
 
@@ -236,15 +241,15 @@ public class PokerControllerImp extends Observable implements PokerController {
 			break;
 		case RIVER:
 			bettingStatus = BettingStatus.SHOWDOWN;
-			currentPlayer = getNextPlayer(activePlayers, getDealer());
-			lastPlayerOfThisRound = currentPlayer;
+			// currentPlayer = getNextPlayer(activePlayers, getDealer());
+			// lastPlayerOfThisRound = currentPlayer;
+			enterNextPhase();
 			break;
 		case SHOWDOWN:
+			showDown();
 			bettingStatus = BettingStatus.PRE_FLOP;
-
-			// Gewinner ermitteln
-
 			notifyObservers();
+
 			resetGame();
 			setDealer(getNextPlayer(activePlayers, getDealer()));
 			// enterNextPhase();
@@ -256,6 +261,39 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 		endRound = false;
 		notifyObservers();
+	}
+
+	private void showDown() {
+		List<EvaluationObject> evalList = evaluationManager.evaluate(activePlayers, modelManager.getCommunityCards());
+		CardRank highestRank = evalList.get(0).getRanking();
+		boolean split = evalList.get(0).isSplit();
+
+		// TODO: Prüfen ob Gewinner All-In ist
+		if (split == false) {
+			// Nur ein Gewinner
+			String event = "[" + bettingStatus.toString() + "][" + evalList.get(0).getPlayer().getPlayerName()
+					+ "] WON " + modelManager.getPot() + " Cr with cards: ";
+			for (Card c : evalList.get(0).getCards()) {
+				event = event + c.toString() + "  ";
+			}
+			event = event + " [" + highestRank.toString() + "]";
+			logger.add(event);
+			evalList.get(0).getPlayer().setPlayerMoney(modelManager.getPot());
+		} else {
+			int splitCounter = 0;
+			for (EvaluationObject eo : evalList) {
+				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
+					splitCounter++;
+				}
+			}
+
+			for (EvaluationObject eo : evalList) {
+				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
+					eo.getPlayer().setPlayerMoney(modelManager.getPot() / splitCounter);
+				}
+			}
+		}
+
 	}
 
 	/*
@@ -295,12 +333,54 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void call() {
+		recordEvent(this.currentPlayer, StakeType.CALL, getCurrentCallValue());
 		payMoney(this.currentPlayer, getCurrentCallValue(), StakeType.CALL);
 		nextPlayer();
 		notifyObservers();
 	}
 
+	public String getLastEvent() {
+		if (logger.isEmpty()) {
+			return "";
+		} else {
+			return logger.get(logger.size() - 1);
+		}
+	}
+
+	private void recordEvent(Player player, StakeType stakeType, int credits) {
+		String newLine = System.getProperty("line.separator");
+		String event = "[" + bettingStatus.toString() + "][" + player.getPlayerName() + "] ";
+
+		switch (stakeType) {
+		case CALL:
+			if (credits > 0) {
+				event = event + "Call " + credits + " Cr";
+			} else {
+				event = event + "Check";
+
+			}
+			break;
+		case RAISE:
+			event = event + "Raise " + credits + " Cr";
+			break;
+		case ALL_IN:
+			event = event + "ALL-IN";
+			break;
+		case BIG_BLIND:
+			event = event + "Big Blind " + credits + " Cr";
+			break;
+		case SMALL_BLIND:
+			event = event + "Small Blind " + credits + " Cr";
+			break;
+		default:
+			break;
+		}
+		event = event + newLine;
+		logger.add(event);
+	}
+
 	public void raise(int credits) {
+		recordEvent(this.currentPlayer, StakeType.RAISE, credits);
 		payMoney(this.currentPlayer, credits, StakeType.RAISE);
 		lastPlayerOfThisRound = currentPlayer;
 		endRound = false;
@@ -309,9 +389,11 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void fold() {
+		logger.add("[" + bettingStatus.toString() + "][" + currentPlayer.getPlayerName() + "] FOLD");
+		Player tempNextPlayer = getPreviousPlayer(activePlayers, currentPlayer);
 		activePlayers.remove(currentPlayer);
 		currentPlayer.clearHoleCards();
-		currentPlayer = getPreviousPlayer(activePlayers, currentPlayer);
+		currentPlayer = tempNextPlayer;
 		nextPlayer();
 		notifyObservers();
 	}

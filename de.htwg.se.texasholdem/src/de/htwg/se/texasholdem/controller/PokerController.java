@@ -57,4 +57,6 @@ public interface PokerController extends IObservable {
 
 	String getBettingStatus();
 
+	String getLastEvent();
+
 }
