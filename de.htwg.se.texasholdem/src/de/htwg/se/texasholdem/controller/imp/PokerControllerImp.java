@@ -54,15 +54,21 @@ public class PokerControllerImp extends Observable implements PokerController {
 		// setRandomDealer();
 		bettingStatus = BettingStatus.values()[0];
 		// TODO: Set Active Player list
-		for (Player p : modelManager.getPlayerList()) {
-			activePlayers.add(p);
-		}
+		fillActivePlayerList();
 		setCreditsToplayer();
 		setRandomDealer();
 		currentPlayer = getDealer();
 		resetGame();
 		gameStatus = GameStatus.RUNNING;
 		notifyObservers();
+	}
+
+	private void fillActivePlayerList() {
+		for (Player p : modelManager.getPlayerList()) {
+			if (p.getPlayerMoney() > 0) {
+				activePlayers.add(p);
+			}
+		}
 	}
 
 	private void resetGame() {
@@ -73,8 +79,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void payBlinds() {
-		Player smallBlind = modelManager.getNextPlayer(dealer);
-		Player bigBlind = modelManager.getNextPlayer(smallBlind);
+		Player smallBlind = getNextPlayer(activePlayers, dealer);
+		Player bigBlind = getNextPlayer(activePlayers, smallBlind);
 
 		lastPlayerOfThisRound = bigBlind;
 
@@ -90,7 +96,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 			payMoney(bigBlind, getBigBlind(), StakeType.BIG_BLIND);
 		}
 
-		currentPlayer = modelManager.getNextPlayer(bigBlind);
+		currentPlayer = getNextPlayer(activePlayers, bigBlind);
 		notifyObservers();
 	}
 
@@ -106,6 +112,11 @@ public class PokerControllerImp extends Observable implements PokerController {
 		Player player = new PlayerImp(playerName);
 		modelManager.addPlayer(player);
 		notifyObservers();
+	}
+
+	public Player getNextPlayer(List<Player> playerList, Player player) {
+		int index = playerList.indexOf(player);
+		return playerList.get((index + 1) % playerList.size());
 	}
 
 	public void clearActivePlayers() {
@@ -201,30 +212,35 @@ public class PokerControllerImp extends Observable implements PokerController {
 			for (int i = 0; i < 3; i++) {
 				modelManager.addCommunityCard();
 			}
-			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			currentPlayer = getNextPlayer(activePlayers, getDealer());
 			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case FLOP:
 			bettingStatus = BettingStatus.TURN;
 			modelManager.addCommunityCard();
-			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			currentPlayer = getNextPlayer(activePlayers, getDealer());
 			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case TURN:
 			bettingStatus = BettingStatus.RIVER;
 			modelManager.addCommunityCard();
-			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			currentPlayer = getNextPlayer(activePlayers, getDealer());
 			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case RIVER:
 			bettingStatus = BettingStatus.SHOWDOWN;
-			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			currentPlayer = getNextPlayer(activePlayers, getDealer());
 			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case SHOWDOWN:
 			bettingStatus = BettingStatus.PRE_FLOP;
-			currentPlayer = modelManager.getNextPlayer(getDealer());
+
+			// Gewinner ermitteln
+
+			notifyObservers();
 			resetGame();
+			setDealer(getNextPlayer(activePlayers, getDealer()));
+			// enterNextPhase();
 
 			break;
 		default:
@@ -247,14 +263,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 			if (endRound == true) {
 				enterNextPhase();
 			} else {
-				currentPlayer = modelManager.getNextPlayer(currentPlayer);
+				currentPlayer = getNextPlayer(activePlayers, currentPlayer);
 
 				if (lastPlayerOfThisRound == currentPlayer) {
 					endRound = true;
 				}
 			}
 		} else {
-			currentPlayer = modelManager.getNextPlayer(currentPlayer);
+			currentPlayer = getNextPlayer(activePlayers, currentPlayer);
 			if (lastPlayerOfThisRound == currentPlayer) {
 				enterNextPhase();
 			}

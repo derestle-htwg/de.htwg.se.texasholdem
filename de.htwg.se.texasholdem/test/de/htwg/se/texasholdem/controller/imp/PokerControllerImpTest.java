@@ -119,4 +119,5 @@ public class PokerControllerImpTest {
 
 		Assert.assertEquals(smallBlind * 2, callValue);
 	}
+
 }

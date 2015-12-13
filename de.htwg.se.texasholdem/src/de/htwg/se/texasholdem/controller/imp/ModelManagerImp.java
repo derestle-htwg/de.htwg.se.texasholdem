@@ -104,11 +104,6 @@ public class ModelManagerImp implements ModelManager {
 		table.setSmallBlind(smallBlind);
 	}
 
-	public Player getNextPlayer(Player player) {
-		int index = playerManager.getPlayerList().indexOf(player);
-		return playerManager.getPlayerList().get((index + 1) % playerManager.getPlayerList().size());
-	}
-
 	public void setDealer(Player dealer) {
 		table.setDealer(dealer);
 	}

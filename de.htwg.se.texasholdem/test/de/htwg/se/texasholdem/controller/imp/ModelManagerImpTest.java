@@ -98,16 +98,6 @@ public class ModelManagerImpTest {
 	}
 
 	@Test
-	public void getNextPlayer_inputPlayerP1_returnsPlayerP2() {
-		Assert.assertEquals(p2, modelManager.getNextPlayer(p1));
-	}
-
-	@Test
-	public void getNextPlayer_inputPlayerP3_returnsPlayerP1() {
-		Assert.assertEquals(p1, modelManager.getNextPlayer(p3));
-	}
-
-	@Test
 	public void getDealer_setDealer_returnsDealerPlayer() {
 		modelManager.setDealer(p1);
 
