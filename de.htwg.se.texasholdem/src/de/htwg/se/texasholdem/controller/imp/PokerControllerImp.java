@@ -21,12 +21,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private List<Player> activePlayers;
 	private Player currentPlayer;
 	private Player dealer;
-	private int credits;
 	private BettingStatus bettingStatus;
 	private GameStatus gameStatus;
 	private List<BettingObject> bettingLog;
+	private int startCredits;
 
 	public PokerControllerImp() {
+		startCredits = 5000;
+		setBlinds(25);
 		modelManager = new ModelManagerImp();
 		this.activePlayers = new LinkedList<Player>();
 		this.bettingLog = new LinkedList<BettingObject>();
@@ -68,11 +70,11 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void setStartCredits(int credits) {
-		this.credits = credits;
+		this.startCredits = credits;
 	}
 
 	public int getStartCredits() {
-		return this.credits;
+		return this.startCredits;
 	}
 
 	public void addPlayer(String playerName) {
@@ -116,7 +118,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public void setCreditsToplayer() {
 		for (Player p : this.getPlayerList()) {
-			p.setPlayerMoney(credits);
+			p.setPlayerMoney(startCredits);
 		}
 	}
 
@@ -134,6 +136,44 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public GameStatus getStatus() {
 		return gameStatus;
+	}
+
+	public int calculateCurrenctCall() {
+		int callValue;
+
+		return startCredits;
+	}
+
+	public void enterNextPhase() {
+		BettingStatus currentPhase = this.bettingStatus;
+
+		switch (currentPhase) {
+		case PRE_FLOP:
+			bettingStatus = BettingStatus.FLOP;
+			for (int i = 0; i < 3; i++) {
+				modelManager.addCommunityCard();
+			}
+			break;
+		case FLOP:
+			bettingStatus = BettingStatus.TURN;
+			modelManager.addCommunityCard();
+			break;
+		case TURN:
+			bettingStatus = BettingStatus.RIVER;
+			modelManager.addCommunityCard();
+			break;
+		case RIVER:
+			bettingStatus = BettingStatus.SHOWDOWN;
+			break;
+		case SHOWDOWN:
+			bettingStatus = BettingStatus.PRE_FLOP;
+			modelManager.resetGame();
+			break;
+		default:
+			break;
+		}
+
+		notifyObservers();
 	}
 
 	public void call(int credits) {
