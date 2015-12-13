@@ -44,4 +44,17 @@ public interface PokerController extends IObservable {
 	void setDealer(Player dealer);
 
 	GameStatus getStatus();
+
+	int getCurrentCallValue();
+
+	Player getCurrentPlayer();
+
+	void fold();
+
+	void call();
+
+	void raise(int credits);
+
+	String getBettingStatus();
+
 }

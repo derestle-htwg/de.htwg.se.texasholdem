@@ -26,7 +26,10 @@ public class TextUI implements IObserver {
 			System.out.println(
 					"Available commands: p - add new Player; b - set Small Blind;  c - set Start Credits; s - start Game");
 		} else {
-			System.out.println("Available commands: f - fold; c - call; r - raise");
+			System.out.println("Current Phase: " + controller.getBettingStatus() + " Current Player: "
+					+ controller.getCurrentPlayer().getPlayerName());
+			System.out.println("You have to call: " + controller.getCurrentCallValue());
+			System.out.println("Available commands: f - fold; c - call/check; r - raise");
 		}
 
 	}
@@ -42,26 +45,51 @@ public class TextUI implements IObserver {
 
 	public boolean processInputLine(String line) {
 		boolean continu = true;
-		if (line.equalsIgnoreCase("p")) {
-			System.out.println("Insert player name: ");
-			String playerName = scanner.next();
-			controller.addPlayer(playerName);
-		}
 
-		if (line.equalsIgnoreCase("c")) {
-			System.out.println("Insert credits: ");
-			int credits = Integer.parseInt(scanner.next());
-			controller.setStartCredits(credits);
-		}
+		if (controller.getStatus() == GameStatus.INITIALIZATION) {
+			// Add new Player
+			if (line.equalsIgnoreCase("p")) {
+				System.out.println("Insert player name: ");
+				String playerName = scanner.next();
+				controller.addPlayer(playerName);
+			}
 
-		if (line.equalsIgnoreCase("b")) {
-			System.out.println("Small Blind: ");
-			int smallBlind = Integer.parseInt(scanner.next());
-			controller.setBlinds(smallBlind);
-			;
-		}
-		if (line.equalsIgnoreCase("s")) {
-			controller.startGame();
+			// Set Start Credits
+			if (line.equalsIgnoreCase("c")) {
+				System.out.println("Insert credits: ");
+				int credits = Integer.parseInt(scanner.next());
+				controller.setStartCredits(credits);
+			}
+
+			// Set Blinds
+			if (line.equalsIgnoreCase("b")) {
+				System.out.println("Small Blind: ");
+				int smallBlind = Integer.parseInt(scanner.next());
+				controller.setBlinds(smallBlind);
+				;
+			}
+
+			// Start Game
+			if (line.equalsIgnoreCase("s")) {
+				controller.startGame();
+			}
+		} else {
+			// Fold
+			if (line.equalsIgnoreCase("f")) {
+				controller.fold();
+			}
+
+			// Call
+			if (line.equalsIgnoreCase("c")) {
+				controller.call();
+			}
+
+			// Raise
+			if (line.equalsIgnoreCase("r")) {
+				System.out.println("Raise value: ");
+				int credits = Integer.parseInt(scanner.next());
+				controller.raise(credits);
+			}
 		}
 		return continu;
 	}

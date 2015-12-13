@@ -28,7 +28,10 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private BettingStatus bettingStatus;
 	private GameStatus gameStatus;
 	private List<BettingObject> bettingLog;
+	private Player lastPlayerOfThisRound;
 	private int startCredits;
+	private boolean endRound;
+	private boolean hasChecked;
 
 	public PokerControllerImp() {
 
@@ -37,6 +40,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		this.activePlayers = new LinkedList<Player>();
 		this.bettingLog = new LinkedList<BettingObject>();
 		gameStatus = GameStatus.INITIALIZATION;
+		endRound = false;
 
 		startCredits = 5000;
 		setBlinds(25);
@@ -51,16 +55,24 @@ public class PokerControllerImp extends Observable implements PokerController {
 		// setRandomDealer();
 		modelManager.resetGame();
 		bettingStatus = BettingStatus.values()[0];
-		setCreditsToplayer();
-		payBlinds();
-		gameStatus = GameStatus.RUNNING;
 		// TODO: Set Active Player list
+		for (Player p : modelManager.getPlayerList()) {
+			activePlayers.add(p);
+		}
+		setCreditsToplayer();
+		setRandomDealer();
+		currentPlayer = getDealer();
+		payBlinds();
+		setHoleCardsToAllPlayer();
+		gameStatus = GameStatus.RUNNING;
 		notifyObservers();
 	}
 
 	public void payBlinds() {
 		Player smallBlind = modelManager.getNextPlayer(dealer);
 		Player bigBlind = modelManager.getNextPlayer(smallBlind);
+
+		lastPlayerOfThisRound = bigBlind;
 
 		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
 			// TODO: Player cannot pay smallblind
@@ -75,6 +87,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		}
 
 		currentPlayer = modelManager.getNextPlayer(bigBlind);
+		notifyObservers();
 	}
 
 	public void setStartCredits(int credits) {
@@ -117,7 +130,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public void setRandomDealer() {
 		int randomNumber = ThreadLocalRandom.current().nextInt(0, activePlayers.size());
-		dealer = activePlayers.get(randomNumber);
+		setDealer(activePlayers.get(randomNumber));
 	}
 
 	public void setDealer(Player dealer) {
@@ -147,7 +160,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public int getCurrentCallValue() {
-		int callValue = 0;
+		int highestValue = 0;
+		int currentPlayerValue = 0;
 		Map<Player, Integer> playerBidList = new HashMap<Player, Integer>();
 
 		// Build list of players and previously made bids
@@ -162,8 +176,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 		}
 
 		// Get current player and get currentCallValue from playerBidList
+		for (Map.Entry<Player, Integer> entry : playerBidList.entrySet()) {
+			if (entry.getValue().intValue() > highestValue) {
+				highestValue = entry.getValue().intValue();
+			}
+			if (entry.getKey() == currentPlayer) {
+				currentPlayerValue = entry.getValue().intValue();
+			}
+		}
 
-		return startCredits;
+		return highestValue - currentPlayerValue;
 	}
 
 	public void enterNextPhase() {
@@ -175,38 +197,94 @@ public class PokerControllerImp extends Observable implements PokerController {
 			for (int i = 0; i < 3; i++) {
 				modelManager.addCommunityCard();
 			}
+			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case FLOP:
 			bettingStatus = BettingStatus.TURN;
 			modelManager.addCommunityCard();
+			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case TURN:
 			bettingStatus = BettingStatus.RIVER;
 			modelManager.addCommunityCard();
+			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case RIVER:
 			bettingStatus = BettingStatus.SHOWDOWN;
+			currentPlayer = modelManager.getNextPlayer(modelManager.getDealer());
+			lastPlayerOfThisRound = currentPlayer;
 			break;
 		case SHOWDOWN:
 			bettingStatus = BettingStatus.PRE_FLOP;
 			modelManager.resetGame();
 			bettingLog.clear();
+			currentPlayer = modelManager.getNextPlayer(getDealer());
+			payBlinds();
+			setHoleCardsToAllPlayer();
+
 			break;
 		default:
 			break;
 		}
 
+		endRound = false;
 		notifyObservers();
 	}
 
-	public void call(int credits) {
-		payMoney(this.currentPlayer, credits, StakeType.CALL);
+	/*
+	 * Sets next Player
+	 *
+	 * 1) Checks if there are more than one player => if there is only one
+	 * player, this player has won 2) Checks if to enter next phase
+	 */
+	// TODO: DOESN'T WORK
+	private void nextPlayer() {
 
+		if (this.bettingStatus == BettingStatus.PRE_FLOP) {
+			if (endRound == true) {
+				enterNextPhase();
+			} else {
+				currentPlayer = modelManager.getNextPlayer(currentPlayer);
+
+				if (lastPlayerOfThisRound == currentPlayer) {
+					endRound = true;
+				}
+			}
+		} else {
+			currentPlayer = modelManager.getNextPlayer(currentPlayer);
+			if (lastPlayerOfThisRound == currentPlayer) {
+				enterNextPhase();
+			}
+		}
+	}
+
+	public void check() {
+		nextPlayer();
+		notifyObservers();
+	}
+
+	public void call() {
+		payMoney(this.currentPlayer, getCurrentCallValue(), StakeType.CALL);
+		nextPlayer();
+		notifyObservers();
 	}
 
 	public void raise(int credits) {
 		payMoney(this.currentPlayer, credits, StakeType.RAISE);
+		lastPlayerOfThisRound = currentPlayer;
+		endRound = false;
+		nextPlayer();
+		notifyObservers();
+	}
 
+	public void fold() {
+		activePlayers.remove(currentPlayer);
+		currentPlayer.clearHoleCards();
+		nextPlayer();
+		notifyObservers();
 	}
 
 	private void payMoney(Player player, int credits, StakeType stakeType) {
@@ -214,5 +292,19 @@ public class PokerControllerImp extends Observable implements PokerController {
 		this.modelManager.setPot(credits);
 
 		this.bettingLog.add(new BettingObjectImp(this.bettingStatus, player, stakeType, credits));
+	}
+
+	public Player getCurrentPlayer() {
+		return this.currentPlayer;
+	}
+
+	private void setHoleCardsToAllPlayer() {
+		for (Player p : activePlayers) {
+			modelManager.setHoleCards(p);
+		}
+	}
+
+	public String getBettingStatus() {
+		return this.bettingStatus.toString();
 	}
 }
