@@ -31,7 +31,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player lastPlayerOfThisRound;
 	private int startCredits;
 	private boolean endRound;
-	private boolean hasChecked;
 
 	public PokerControllerImp() {
 
@@ -53,7 +52,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public void startGame() {
 		// TODO: Doesn't work because of active player list not set:
 		// setRandomDealer();
-		modelManager.resetGame();
 		bettingStatus = BettingStatus.values()[0];
 		// TODO: Set Active Player list
 		for (Player p : modelManager.getPlayerList()) {
@@ -62,10 +60,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 		setCreditsToplayer();
 		setRandomDealer();
 		currentPlayer = getDealer();
-		payBlinds();
-		setHoleCardsToAllPlayer();
+		resetGame();
 		gameStatus = GameStatus.RUNNING;
 		notifyObservers();
+	}
+
+	private void resetGame() {
+		modelManager.resetGame();
+		bettingLog.clear();
+		payBlinds();
+		setHoleCardsToAllPlayer();
 	}
 
 	public void payBlinds() {
@@ -219,11 +223,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 			break;
 		case SHOWDOWN:
 			bettingStatus = BettingStatus.PRE_FLOP;
-			modelManager.resetGame();
-			bettingLog.clear();
 			currentPlayer = modelManager.getNextPlayer(getDealer());
-			payBlinds();
-			setHoleCardsToAllPlayer();
+			resetGame();
 
 			break;
 		default:
@@ -240,7 +241,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 	 * 1) Checks if there are more than one player => if there is only one
 	 * player, this player has won 2) Checks if to enter next phase
 	 */
-	// TODO: DOESN'T WORK
 	private void nextPlayer() {
 
 		if (this.bettingStatus == BettingStatus.PRE_FLOP) {
