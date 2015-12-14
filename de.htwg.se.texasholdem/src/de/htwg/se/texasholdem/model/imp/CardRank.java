@@ -214,13 +214,7 @@ public enum CardRank {
 	FOUR_OF_A_KIND {
 		@Override
 		public List<Card> evaluate(List<Card> cards) {
-			List<Card> cardsOfSameKind = findCardsofSameKind(cards);
-
-			if (cardsOfSameKind != null) {
-				return cardsOfSameKind;
-			} else {
-				return Collections.emptyList();
-			}
+			return CardRank.THREE_OF_A_KIND.evaluate(cards);
 		}
 
 		@Override
