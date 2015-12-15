@@ -3,9 +3,9 @@ package de.htwg.se.texasholdem.aview.tui;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.TableImp;
+import de.htwg.se.texasholdem.model.Table;
 
 public class TextUITest {
 
@@ -13,11 +13,11 @@ public class TextUITest {
 
 	@Test
 	public void _setup() {
-		table = new TableImp();
+		table = new Table();
 
-		Player p1 = new PlayerImp("Dennis");
-		Player p2 = new PlayerImp("Dennis");
-		Player p3 = new PlayerImp("Dennis");
+		Player p1 = new Player("Dennis");
+		Player p2 = new Player("Dennis");
+		Player p3 = new Player("Dennis");
 
 		table.addPlayer(p1);
 		table.addPlayer(p2);

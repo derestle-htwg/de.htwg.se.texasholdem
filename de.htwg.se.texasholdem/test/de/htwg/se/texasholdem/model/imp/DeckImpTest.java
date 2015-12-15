@@ -7,20 +7,24 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Deck;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
 
 public class DeckImpTest {
 
-	private DeckImp deck;
+	private Deck deck;
 	// private LinkedList<Card> copyFromDeck;
 
 	@Before
 	public void _setup() {
-		deck = new DeckImp();
+		deck = new Deck();
 
 		/* Create Deck with 52 Cards */
 		for (Rank r : Rank.values()) {
 			for (Suit s : Suit.values()) {
-				deck.addCard(new CardImp(r, s));
+				deck.addCard(new Card(r, s));
 			}
 		}
 
@@ -35,7 +39,7 @@ public class DeckImpTest {
 	@Test
 	public void getCard_inputDeckWith52Cards_returnsOneCard() {
 		Card card = deck.getCard();
-		Assert.assertEquals(CardImp.class, card.getClass());
+		Assert.assertEquals(Card.class, card.getClass());
 	}
 
 	@Test

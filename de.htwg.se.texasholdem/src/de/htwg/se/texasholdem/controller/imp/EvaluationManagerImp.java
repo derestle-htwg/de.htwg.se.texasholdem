@@ -6,9 +6,9 @@ import java.util.List;
 
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.CardRank;
+import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.CardRank;
-import de.htwg.se.texasholdem.model.imp.EvaluationObject;
 
 public class EvaluationManagerImp implements EvaluationManager {
 
@@ -66,7 +66,7 @@ public class EvaluationManagerImp implements EvaluationManager {
 						if (highestCardEvalObj1.getRank().numVal() == highestCardEvalObj2.getRank().numVal()) {
 							evalObj1.setPosition(true);
 							evalObj2.setPosition(true);
-						} else if (highestCardEvalObj1.getRank().numVal() < highestCardEvalObj2.getRank().numVal()) {
+						} else if (highestCardEvalObj1.getRank().numVal() > highestCardEvalObj2.getRank().numVal()) {
 							Collections.swap(evalList, evalList.indexOf(evalObj1), evalList.indexOf(evalObj2));
 						}
 

@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.EvaluationObject;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
 
 public class EvaluationManagerImpTest {
 
@@ -34,41 +34,41 @@ public class EvaluationManagerImpTest {
 		evaluationManager = new EvaluationManagerImp();
 		sevenCards = new LinkedList<Card>();
 
-		aceH = new CardImp(Rank.ACE, Suit.HEART);
-		aceD = new CardImp(Rank.ACE, Suit.DIAMOND);
-		aceC = new CardImp(Rank.ACE, Suit.CLUB);
-		aceS = new CardImp(Rank.ACE, Suit.SPACE);
+		aceH = new Card(Rank.ACE, Suit.HEART);
+		aceD = new Card(Rank.ACE, Suit.DIAMOND);
+		aceC = new Card(Rank.ACE, Suit.CLUB);
+		aceS = new Card(Rank.ACE, Suit.SPACE);
 
-		kingH = new CardImp(Rank.KING, Suit.HEART);
+		kingH = new Card(Rank.KING, Suit.HEART);
 
-		queenH = new CardImp(Rank.QUEEN, Suit.HEART);
+		queenH = new Card(Rank.QUEEN, Suit.HEART);
 
-		jackH = new CardImp(Rank.JACK, Suit.HEART);
+		jackH = new Card(Rank.JACK, Suit.HEART);
 
-		tenH = new CardImp(Rank.TEN, Suit.HEART);
+		tenH = new Card(Rank.TEN, Suit.HEART);
 
-		nineH = new CardImp(Rank.NINE, Suit.HEART);
+		nineH = new Card(Rank.NINE, Suit.HEART);
 
-		eightH = new CardImp(Rank.EIGHT, Suit.HEART);
-		eightD = new CardImp(Rank.EIGHT, Suit.DIAMOND);
+		eightH = new Card(Rank.EIGHT, Suit.HEART);
+		eightD = new Card(Rank.EIGHT, Suit.DIAMOND);
 
-		sevenH = new CardImp(Rank.SEVEN, Suit.HEART);
-		sevenD = new CardImp(Rank.SEVEN, Suit.DIAMOND);
+		sevenH = new Card(Rank.SEVEN, Suit.HEART);
+		sevenD = new Card(Rank.SEVEN, Suit.DIAMOND);
 
-		sixH = new CardImp(Rank.SIX, Suit.HEART);
+		sixH = new Card(Rank.SIX, Suit.HEART);
 
-		fiveH = new CardImp(Rank.FIVE, Suit.HEART);
+		fiveH = new Card(Rank.FIVE, Suit.HEART);
 
-		fourH = new CardImp(Rank.FOUR, Suit.HEART);
+		fourH = new Card(Rank.FOUR, Suit.HEART);
 
-		threeH = new CardImp(Rank.THREE, Suit.HEART);
+		threeH = new Card(Rank.THREE, Suit.HEART);
 
-		twoH = new CardImp(Rank.TWO, Suit.HEART);
+		twoH = new Card(Rank.TWO, Suit.HEART);
 
 		players = new LinkedList<Player>();
-		p1 = new PlayerImp("p1");
-		p2 = new PlayerImp("p2");
-		p3 = new PlayerImp("p3");
+		p1 = new Player("p1");
+		p2 = new Player("p2");
+		p3 = new Player("p3");
 	}
 
 	@Test
@@ -102,14 +102,14 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(sixH);
 		sevenCards.add(fiveH);
 
-		p1.setHoleCard(new CardImp(Rank.THREE, Suit.CLUB));
-		p1.setHoleCard(new CardImp(Rank.FIVE, Suit.DIAMOND));
+		p1.setHoleCard(new Card(Rank.THREE, Suit.CLUB));
+		p1.setHoleCard(new Card(Rank.FIVE, Suit.DIAMOND));
 
-		p2.setHoleCard(new CardImp(Rank.NINE, Suit.DIAMOND));
-		p2.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.NINE, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.JACK, Suit.DIAMOND));
 
-		p3.setHoleCard(new CardImp(Rank.NINE, Suit.DIAMOND));
-		p3.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+		p3.setHoleCard(new Card(Rank.NINE, Suit.DIAMOND));
+		p3.setHoleCard(new Card(Rank.TWO, Suit.DIAMOND));
 
 		evalList = evaluationManager.evaluate(players, sevenCards);
 
@@ -137,14 +137,14 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(queenH);
 		sevenCards.add(threeH);
 
-		p1.setHoleCard(new CardImp(Rank.TWO, Suit.CLUB));
-		p1.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
+		p1.setHoleCard(new Card(Rank.TWO, Suit.CLUB));
+		p1.setHoleCard(new Card(Rank.JACK, Suit.DIAMOND));
 
-		p3.setHoleCard(new CardImp(Rank.KING, Suit.DIAMOND));
-		p3.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+		p3.setHoleCard(new Card(Rank.KING, Suit.DIAMOND));
+		p3.setHoleCard(new Card(Rank.TWO, Suit.DIAMOND));
 
-		p2.setHoleCard(new CardImp(Rank.JACK, Suit.DIAMOND));
-		p2.setHoleCard(new CardImp(Rank.TEN, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.JACK, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.TEN, Suit.DIAMOND));
 
 		evalList = evaluationManager.evaluate(players, sevenCards);
 
@@ -171,11 +171,11 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(fourH);
 		sevenCards.add(threeH);
 
-		p1.setHoleCard(new CardImp(Rank.THREE, Suit.CLUB));
-		p1.setHoleCard(new CardImp(Rank.TWO, Suit.DIAMOND));
+		p1.setHoleCard(new Card(Rank.THREE, Suit.CLUB));
+		p1.setHoleCard(new Card(Rank.TWO, Suit.DIAMOND));
 
-		p2.setHoleCard(new CardImp(Rank.THREE, Suit.DIAMOND));
-		p2.setHoleCard(new CardImp(Rank.FIVE, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.THREE, Suit.DIAMOND));
+		p2.setHoleCard(new Card(Rank.FIVE, Suit.DIAMOND));
 
 		evalList = evaluationManager.evaluate(players, sevenCards);
 
@@ -204,11 +204,11 @@ public class EvaluationManagerImpTest {
 		sevenCards.add(eightD);
 		sevenCards.add(threeH);
 
-		p1.setHoleCard(new CardImp(Rank.ACE, Suit.DIAMOND));
-		p1.setHoleCard(new CardImp(Rank.FIVE, Suit.CLUB));
+		p1.setHoleCard(new Card(Rank.ACE, Suit.DIAMOND));
+		p1.setHoleCard(new Card(Rank.FIVE, Suit.CLUB));
 
-		p2.setHoleCard(new CardImp(Rank.ACE, Suit.SPACE));
-		p2.setHoleCard(new CardImp(Rank.TWO, Suit.SPACE));
+		p2.setHoleCard(new Card(Rank.ACE, Suit.SPACE));
+		p2.setHoleCard(new Card(Rank.TWO, Suit.SPACE));
 
 		evalList = evaluationManager.evaluate(players, sevenCards);
 

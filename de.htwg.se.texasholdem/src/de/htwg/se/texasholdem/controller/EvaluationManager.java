@@ -3,8 +3,8 @@ package de.htwg.se.texasholdem.controller;
 import java.util.List;
 
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.EvaluationObject;
 
 public interface EvaluationManager {
 

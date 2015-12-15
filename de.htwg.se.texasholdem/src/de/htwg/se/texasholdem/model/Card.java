@@ -1,15 +1,35 @@
 package de.htwg.se.texasholdem.model;
 
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
+public class Card {
 
-public interface Card {
+	private Rank rank;
+	private Suit suit;
+
+	public Card(Rank rank, Suit suit) {
+		setRank(rank);
+		setSuit(suit);
+
+	}
+
+	public Rank getRank() {
+		return rank;
+	}
+
+	public Suit getSuit() {
+		return suit;
+	}
+
+	private void setRank(Rank rank) {
+		this.rank = rank;
+	}
+
+	private void setSuit(Suit suit) {
+		this.suit = suit;
+	}
 
 	@Override
-	public String toString();
-
-	public Rank getRank();
-
-	public Suit getSuit();
-
+	public String toString() {
+		StringBuilder s = new StringBuilder(rank + " " + suit);
+		return s.toString();
+	}
 }

@@ -5,9 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.ModelManager;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
+import de.htwg.se.texasholdem.model.Player;
 
 public class ModelManagerImpTest {
 
@@ -19,9 +19,9 @@ public class ModelManagerImpTest {
 		modelManager = new ModelManagerImp();
 		modelManager.resetGame();
 
-		p1 = new PlayerImp("Spieler 1");
-		p2 = new PlayerImp("Spieler 2");
-		p3 = new PlayerImp("Spieler 3");
+		p1 = new Player("Spieler 1");
+		p2 = new Player("Spieler 2");
+		p3 = new Player("Spieler 3");
 
 		modelManager.addPlayer(p1);
 		modelManager.addPlayer(p2);
@@ -42,8 +42,8 @@ public class ModelManagerImpTest {
 
 	@Test
 	public void getCards_inputTwoCardsForPlayer_returnsTwoCards() {
-		Assert.assertEquals(CardImp.class, modelManager.getHoleCards(p1).get(0).getClass());
-		Assert.assertEquals(CardImp.class, modelManager.getHoleCards(p1).get(1).getClass());
+		Assert.assertEquals(Card.class, modelManager.getHoleCards(p1).get(0).getClass());
+		Assert.assertEquals(Card.class, modelManager.getHoleCards(p1).get(1).getClass());
 		Assert.assertEquals(2, modelManager.getHoleCards(p1).size());
 	}
 

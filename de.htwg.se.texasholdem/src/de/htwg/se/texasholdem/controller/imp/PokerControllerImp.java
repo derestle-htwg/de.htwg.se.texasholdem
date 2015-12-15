@@ -11,14 +11,14 @@ import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.BettingObject;
+import de.htwg.se.texasholdem.model.BettingObject;
+import de.htwg.se.texasholdem.model.BettingStatus;
 import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.CardRank;
+import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.BettingObjectImp;
-import de.htwg.se.texasholdem.model.imp.BettingStatus;
-import de.htwg.se.texasholdem.model.imp.CardRank;
-import de.htwg.se.texasholdem.model.imp.EvaluationObject;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.StakeType;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.StakeType;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -97,7 +97,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 			payMoney(smallBlind, getSmallBlind(), StakeType.SMALL_BLIND);
 		}
 
-		if (smallBlind.getPlayerMoney() < getBigBlind()) {
+		if (bigBlind.getPlayerMoney() < getBigBlind()) {
 			// TODO: Player cannot pay bigblind
 		} else {
 			payMoney(bigBlind, getBigBlind(), StakeType.BIG_BLIND);
@@ -116,7 +116,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void addPlayer(String playerName) {
-		Player player = new PlayerImp(playerName);
+		Player player = new Player(playerName);
 		modelManager.addPlayer(player);
 		notifyObservers();
 	}
@@ -278,7 +278,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 			}
 			event = event + " [" + highestRank.toString() + "]";
 			logger.add(event);
-			evalList.get(0).getPlayer().setPlayerMoney(modelManager.getPot());
+			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
 		} else {
 			int splitCounter = 0;
 			for (EvaluationObject eo : evalList) {
@@ -289,7 +289,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 			for (EvaluationObject eo : evalList) {
 				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
-					eo.getPlayer().setPlayerMoney(modelManager.getPot() / splitCounter);
+					eo.getPlayer().addPlayerMoney(modelManager.getPot() / splitCounter);
 				}
 			}
 		}
@@ -402,7 +402,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		player.payMoney(credits);
 		this.modelManager.setPot(credits);
 
-		this.bettingLog.add(new BettingObjectImp(this.bettingStatus, player, stakeType, credits));
+		this.bettingLog.add(new BettingObject(this.bettingStatus, player, stakeType, credits));
 	}
 
 	public Player getCurrentPlayer() {

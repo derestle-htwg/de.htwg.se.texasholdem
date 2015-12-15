@@ -1,4 +1,4 @@
-package de.htwg.se.texasholdem.model.imp;
+package de.htwg.se.texasholdem.model;
 
 public enum Suit {
 	

@@ -7,20 +7,22 @@ import org.junit.Test;
 import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.controller.imp.DeckManagerImp;
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Table;
 
 public class TableImpTest {
 
-	private TableImp table;
+	private Table table;
 
 	private Player p1, p2, p3;
 
 	@Before
 	public void _setup() {
-		table = new TableImp();
+		table = new Table();
 
-		p1 = new PlayerImp("Ralf");
-		p2 = new PlayerImp("Hugo");
-		p3 = new PlayerImp("Peter");
+		p1 = new Player("Ralf");
+		p2 = new Player("Hugo");
+		p3 = new Player("Peter");
 
 		table.addPlayer(p1);
 		table.addPlayer(p2);

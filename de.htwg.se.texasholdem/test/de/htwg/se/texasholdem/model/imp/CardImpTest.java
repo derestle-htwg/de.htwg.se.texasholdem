@@ -4,13 +4,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.se.texasholdem.model.Card;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
+
 public class CardImpTest {
 
-	CardImp card;
+	Card card;
 
 	@Before
 	public void _setup() {
-		card = new CardImp(Rank.TWO, Suit.HEART);
+		card = new Card(Rank.TWO, Suit.HEART);
 	}
 
 	@Test
@@ -19,7 +23,7 @@ public class CardImpTest {
 
 		for (Rank r : Rank.values()) {
 			for (Suit s : Suit.values()) {
-				card = new CardImp(r, s);
+				card = new Card(r, s);
 				sb.setLength(0);
 				sb.append(r + " " + s);
 				Assert.assertEquals(sb.toString(), card.toString());

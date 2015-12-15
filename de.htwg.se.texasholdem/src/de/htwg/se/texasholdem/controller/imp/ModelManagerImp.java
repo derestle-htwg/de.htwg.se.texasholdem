@@ -9,7 +9,7 @@ import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Deck;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
-import de.htwg.se.texasholdem.model.imp.TableImp;
+import de.htwg.se.texasholdem.model.Table;
 
 public class ModelManagerImp implements ModelManager {
 
@@ -20,7 +20,7 @@ public class ModelManagerImp implements ModelManager {
 	private final DeckManager deckManager;
 
 	public ModelManagerImp() {
-		table = new TableImp();
+		table = new Table();
 		deckManager = new DeckManagerImp();
 		playerManager = new PlayerManagerImp(table.getPlayerList());
 	}

@@ -36,7 +36,7 @@ public class PlayerManagerImp implements PlayerManager {
 	}
 
 	public void setPlayerMoney(Player player, int money) {
-		player.setPlayerMoney(money);
+		player.addPlayerMoney(money);
 	}
 
 }

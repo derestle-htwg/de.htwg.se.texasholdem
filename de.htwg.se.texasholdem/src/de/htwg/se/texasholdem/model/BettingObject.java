@@ -1,16 +1,32 @@
 package de.htwg.se.texasholdem.model;
 
-import de.htwg.se.texasholdem.model.imp.BettingStatus;
-import de.htwg.se.texasholdem.model.imp.StakeType;
+public class BettingObject {
+	private BettingStatus bettingStatus;
+	private Player player;
+	private StakeType stakeType;
+	private int stake;
 
-public interface BettingObject {
+	public BettingObject(BettingStatus bettingStatus, Player player, StakeType stakeType, int stake) {
+		this.bettingStatus = bettingStatus;
+		this.player = player;
+		this.stakeType = stakeType;
+		this.stake = stake;
+	}
 
-	BettingStatus getBettingStatus();
+	public BettingStatus getBettingStatus() {
+		return bettingStatus;
+	}
 
-	Player getPlayer();
+	public Player getPlayer() {
+		return player;
+	}
 
-	StakeType getStakeType();
+	public StakeType getStakeType() {
+		return stakeType;
+	}
 
-	int getStake();
+	public int getStake() {
+		return stake;
+	}
 
 }

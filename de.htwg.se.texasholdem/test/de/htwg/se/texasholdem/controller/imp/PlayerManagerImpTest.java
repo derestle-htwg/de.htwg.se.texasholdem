@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.PlayerManager;
 import de.htwg.se.texasholdem.controller.imp.PlayerManagerImp;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
 
 public class PlayerManagerImpTest {
 
@@ -26,11 +26,11 @@ public class PlayerManagerImpTest {
 
 	@Test
 	public void getHoleCards_inputTwoCards_returnsTwoCards() {
-		Player player = new PlayerImp("Gustav");
+		Player player = new Player("Gustav");
 		playerManager.addPlayer(player);
 
-		CardImp holeCard1 = new CardImp(Rank.ACE, Suit.CLUB);
-		CardImp holeCard2 = new CardImp(Rank.EIGHT, Suit.DIAMOND);
+		Card holeCard1 = new Card(Rank.ACE, Suit.CLUB);
+		Card holeCard2 = new Card(Rank.EIGHT, Suit.DIAMOND);
 
 		playerManager.setHoleCard(player, holeCard1);
 		playerManager.setHoleCard(player, holeCard2);
@@ -41,15 +41,15 @@ public class PlayerManagerImpTest {
 
 	@Test
 	public void getPlayerList_inputTwoPlayers_returnsListWithTwoPlayers() {
-		playerManager.addPlayer(new PlayerImp("Peter"));
-		playerManager.addPlayer(new PlayerImp("Hans"));
+		playerManager.addPlayer(new Player("Peter"));
+		playerManager.addPlayer(new Player("Hans"));
 
 		Assert.assertEquals(2, playerManager.getPlayerList().size());
 	}
 
 	@Test
 	public void getPlayerMoney_input3000Cash_returns3000Cash() {
-		Player player = new PlayerImp("Gustav");
+		Player player = new Player("Gustav");
 		playerManager.addPlayer(player);
 		playerManager.setPlayerMoney(player, 3000);
 		Assert.assertEquals(3000, playerManager.getPlayerMoney(player));

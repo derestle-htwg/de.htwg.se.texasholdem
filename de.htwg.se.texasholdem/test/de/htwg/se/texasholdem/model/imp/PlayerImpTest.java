@@ -4,7 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Player;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
 
 public class PlayerImpTest {
 
@@ -16,8 +20,8 @@ public class PlayerImpTest {
 	private Player playerTwo;
 	private Player playerThree;
 
-	private CardImp firstCard;
-	private CardImp secondCard;
+	private Card firstCard;
+	private Card secondCard;
 
 	@Before
 	public void _setup() {
@@ -26,12 +30,12 @@ public class PlayerImpTest {
 		playerNameTwo = "Gil";
 		playerNameThree = "Cloe";
 
-		playerOne = new PlayerImp(playerNameOne);
-		playerTwo = new PlayerImp(playerNameTwo);
-		playerThree = new PlayerImp(playerNameThree);
+		playerOne = new Player(playerNameOne);
+		playerTwo = new Player(playerNameTwo);
+		playerThree = new Player(playerNameThree);
 
-		firstCard = new CardImp(Rank.ACE, Suit.HEART);
-		secondCard = new CardImp(Rank.ACE, Suit.CLUB);
+		firstCard = new Card(Rank.ACE, Suit.HEART);
+		secondCard = new Card(Rank.ACE, Suit.CLUB);
 
 		playerTwo.setHoleCard(firstCard);
 		playerTwo.setHoleCard(secondCard);
@@ -52,7 +56,7 @@ public class PlayerImpTest {
 
 	@Test
 	public void getPlayerCash_inputPlayerOneCash_returnPlayerOneCash() {
-		playerOne.setPlayerMoney(500);
+		playerOne.addPlayerMoney(500);
 		Assert.assertEquals(500, playerOne.getPlayerMoney());
 	}
 
@@ -76,7 +80,7 @@ public class PlayerImpTest {
 		int credits = 100;
 		int payment = 20;
 
-		playerOne.setPlayerMoney(credits);
+		playerOne.addPlayerMoney(credits);
 		playerOne.payMoney(payment);
 
 		Assert.assertEquals(credits - payment, playerOne.getPlayerMoney());

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.imp.PlayerImp;
+import de.htwg.se.texasholdem.model.Player;
 
 public class PokerControllerImpTest {
 
@@ -18,9 +18,9 @@ public class PokerControllerImpTest {
 	public void _setup() {
 		pokerController = new PokerControllerImp();
 
-		p1 = new PlayerImp("Player One");
-		p2 = new PlayerImp("Player Two");
-		p3 = new PlayerImp("Player Three");
+		p1 = new Player("Player One");
+		p2 = new Player("Player Two");
+		p3 = new Player("Player Three");
 
 		pokerController.addPlayer("Player One");
 		pokerController.addPlayer("Player Two");
@@ -29,6 +29,7 @@ public class PokerControllerImpTest {
 		pokerController.setPlayerActive(p1);
 		pokerController.setPlayerActive(p2);
 		pokerController.setPlayerActive(p3);
+		pokerController.startGame();
 	}
 
 	@Test
@@ -47,7 +48,7 @@ public class PokerControllerImpTest {
 	public void getDealer_inputNone_returnsDealer() {
 		pokerController.setRandomDealer();
 
-		Assert.assertEquals(PlayerImp.class, pokerController.getDealer().getClass());
+		Assert.assertEquals(Player.class, pokerController.getDealer().getClass());
 		// TODO: FIX
 		// Assert.assertTrue(pokerController.getPlayerList().contains(pokerController.getDealer()));
 	}
@@ -93,6 +94,7 @@ public class PokerControllerImpTest {
 		int smallBlind = 30;
 		int credits = 100;
 
+		
 		pokerController.setDealer(pokerController.getPlayerList().get(0));
 		pokerController.setStartCredits(credits);
 		pokerController.setCreditsToPlayer();

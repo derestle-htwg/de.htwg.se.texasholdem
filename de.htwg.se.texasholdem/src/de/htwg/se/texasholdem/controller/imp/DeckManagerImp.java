@@ -1,18 +1,18 @@
 package de.htwg.se.texasholdem.controller.imp;
 
 import de.htwg.se.texasholdem.controller.DeckManager;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Deck;
-import de.htwg.se.texasholdem.model.imp.CardImp;
-import de.htwg.se.texasholdem.model.imp.DeckImp;
-import de.htwg.se.texasholdem.model.imp.Rank;
-import de.htwg.se.texasholdem.model.imp.Suit;
+import de.htwg.se.texasholdem.model.Deck;
+import de.htwg.se.texasholdem.model.Rank;
+import de.htwg.se.texasholdem.model.Suit;
 
 public class DeckManagerImp implements DeckManager {
 
 	private final Deck deck;
 
 	public DeckManagerImp() {
-		deck = new DeckImp();
+		deck = new Deck();
 	}
 
 	public void createShuffledDeck() {
@@ -21,7 +21,7 @@ public class DeckManagerImp implements DeckManager {
 
 		for (Suit s : Suit.values()) {
 			for (Rank r : Rank.values()) {
-				deck.addCard(new CardImp(r, s));
+				deck.addCard(new Card(r, s));
 			}
 		}
 
