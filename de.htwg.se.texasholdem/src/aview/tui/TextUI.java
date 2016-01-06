@@ -3,6 +3,8 @@ package aview.tui;
 import java.awt.Event;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.util.observer.IObserver;
@@ -12,6 +14,8 @@ public class TextUI implements IObserver {
 	private static Scanner scanner;
 	private PokerController controller;
 
+	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
+
 	public TextUI(PokerController controller) {
 		this.controller = controller;
 		controller.addObserver(this);
@@ -20,21 +24,21 @@ public class TextUI implements IObserver {
 
 	public void printTUI() {
 		if (!(controller.getStatus() == GameStatus.INITIALIZATION)) {
-			System.out.println("############################################################");
-			System.out.print("Last: " + controller.getLastEvent());
+			logger.info("############################################################");
+			logger.info("Last: " + controller.getLastEvent());
 		}
 
-		System.out.println("############################################################");
-		System.out.println(controller.getTableString());
+		logger.info("############################################################");
+		logger.info(controller.getTableString());
 
 		if (controller.getStatus() == GameStatus.INITIALIZATION) {
-			System.out.println(
+			logger.info(
 					"Available commands: p - add new Player; b - set Small Blind;  c - set Start Credits; s - start Game");
 		} else {
-			System.out.println("Current Phase: " + controller.getBettingStatus() + " Current Player: "
+			logger.info("Current Phase: " + controller.getBettingStatus() + " Current Player: "
 					+ controller.getCurrentPlayer().getPlayerName());
-			System.out.println("You have to call: " + controller.getCurrentCallValue());
-			System.out.println("Available commands: f - fold; c - call/check; r - raise");
+			logger.info("You have to call: " + controller.getCurrentCallValue());
+			logger.info("Available commands: f - fold; c - call/check; r - raise");
 		}
 
 	}
@@ -54,21 +58,21 @@ public class TextUI implements IObserver {
 		if (controller.getStatus() == GameStatus.INITIALIZATION) {
 			// Add new Player
 			if (line.equalsIgnoreCase("p")) {
-				System.out.println("Insert player name: ");
+				logger.info("Insert player name: ");
 				String playerName = scanner.next();
 				controller.addPlayer(playerName);
 			}
 
 			// Set Start Credits
 			if (line.equalsIgnoreCase("c")) {
-				System.out.println("Insert credits: ");
+				logger.info("Insert credits: ");
 				int credits = Integer.parseInt(scanner.next());
 				controller.setStartCredits(credits);
 			}
 
 			// Set Blinds
 			if (line.equalsIgnoreCase("b")) {
-				System.out.println("Small Blind: ");
+				logger.info("Small Blind: ");
 				int smallBlind = Integer.parseInt(scanner.next());
 				controller.setBlinds(smallBlind);
 				;
@@ -91,7 +95,7 @@ public class TextUI implements IObserver {
 
 			// Raise
 			if (line.equalsIgnoreCase("r")) {
-				System.out.println("Raise value: ");
+				logger.info("Raise value: ");
 				int credits = Integer.parseInt(scanner.next());
 				controller.raise(credits);
 			}

@@ -3,7 +3,7 @@ package de.htwg.se.texasholdem.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Table{
+public class Table {
 
 	private List<Player> players;
 	private int potValue;
@@ -79,7 +79,7 @@ public class Table{
 		int topRow = players.size() - btmRow;
 
 		// TOP ROW
-		String result = blockSeparator(topRow) + newLine;
+		String result = newLine + blockSeparator(topRow) + newLine;
 		for (int row = 0; row < 3; row++) {
 			result = result + "|";
 			for (int i = 0; i < topRow; i++) {

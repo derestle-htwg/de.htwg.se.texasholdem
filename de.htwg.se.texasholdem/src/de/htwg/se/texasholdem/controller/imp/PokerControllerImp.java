@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.log4j.Logger;
+
 import de.htwg.se.texasholdem.controller.EvaluationManager;
 import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
@@ -32,7 +34,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Player lastPlayerOfThisRound;
 	private int startCredits;
 	private boolean endRound;
-	private List<String> logger;
+	private List<String> loggerText;
+
+	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
 
 	public PokerControllerImp() {
 
@@ -40,7 +44,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		evaluationManager = new EvaluationManagerImp();
 		this.activePlayers = new LinkedList<Player>();
 		this.bettingLog = new LinkedList<BettingObject>();
-		this.logger = new LinkedList<String>();
+		this.loggerText = new LinkedList<String>();
 		gameStatus = GameStatus.INITIALIZATION;
 		endRound = false;
 
@@ -75,11 +79,34 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	private void resetGame() {
+		int playersWithMoney = 0;
+
+		for (Player p : modelManager.getPlayerList()) {
+			if (p.getPlayerMoney() > 0) {
+				playersWithMoney++;
+			}
+		}
+
+		if (playersWithMoney <= 1) {
+			endGame();
+		}
+
 		modelManager.resetGame();
 		bettingLog.clear();
 		fillActivePlayerList();
 		payBlinds();
 		setHoleCardsToAllPlayer();
+	}
+
+	private void endGame() {
+		Player winner = null;
+		for (Player p : modelManager.getPlayerList()) {
+			if (winner == null || p.getPlayerMoney() > winner.getPlayerMoney()) {
+				winner = p;
+			}
+		}
+		logger.info("GAME ENDED - WINNER IS: " + winner.getPlayerName());
+		System.exit(0);
 	}
 
 	public void payBlinds() {
@@ -358,11 +385,13 @@ public class PokerControllerImp extends Observable implements PokerController {
 			// Only one Person won
 			String event = "[" + bettingStatus.toString() + "][" + evalList.get(0).getPlayer().getPlayerName()
 					+ "] WON " + modelManager.getPot() + " Cr with cards: ";
-			for (Card c : evalList.get(0).getCards()) {
-				event = event + c.toString() + "  ";
+			if (!evalList.get(0).getCards().isEmpty()) {
+				for (Card c : evalList.get(0).getCards()) {
+					event = event + c.toString() + "  ";
+				}
 			}
 			event = event + " [" + highestRank.toString() + "]";
-			logger.add(event);
+			loggerText.add(event);
 			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
 		}
 
@@ -412,10 +441,10 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public String getLastEvent() {
-		if (logger.isEmpty()) {
+		if (loggerText.isEmpty()) {
 			return "";
 		} else {
-			return logger.get(logger.size() - 1);
+			return loggerText.get(loggerText.size() - 1);
 		}
 	}
 
@@ -448,7 +477,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 			break;
 		}
 		event = event + newLine;
-		logger.add(event);
+		loggerText.add(event);
 	}
 
 	public void raise(int credits) {
@@ -461,7 +490,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void fold() {
-		logger.add("[" + bettingStatus.toString() + "][" + currentPlayer.getPlayerName() + "] FOLD");
+		loggerText.add("[" + bettingStatus.toString() + "][" + currentPlayer.getPlayerName() + "] FOLD");
 		Player tempNextPlayer = getPreviousPlayer(activePlayers, currentPlayer);
 		activePlayers.remove(currentPlayer);
 		currentPlayer.clearHoleCards();
