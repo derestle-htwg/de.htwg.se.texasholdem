@@ -3,15 +3,17 @@ package de.htwg.se.texasholdem.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player{
+public class Player {
 
 	private String playerName;
 
 	private int playerCash;
 	private List<Card> holeCards;
+	private boolean allin;
 
 	public Player(String name) {
 		setPlayerName(name);
+		allin = false;
 		playerCash = 0;
 		holeCards = new LinkedList<Card>();
 	}
@@ -87,7 +89,7 @@ public class Player{
 	public void addPlayerMoney(int playerMoney) {
 		this.playerCash += playerMoney;
 	}
-	
+
 	public void setPlayerMoney(int playerMoney) {
 		this.playerCash = playerMoney;
 	}
