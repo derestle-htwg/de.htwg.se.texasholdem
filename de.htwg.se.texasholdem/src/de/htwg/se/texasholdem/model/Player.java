@@ -102,4 +102,9 @@ public class Player {
 		this.playerCash -= payment;
 	}
 
+	public void setAllIn(boolean isAllIn) {
+		this.allin = isAllIn;
+
+	}
+
 }

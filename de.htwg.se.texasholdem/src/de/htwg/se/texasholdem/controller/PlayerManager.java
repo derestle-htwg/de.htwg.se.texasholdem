@@ -19,4 +19,5 @@ public interface PlayerManager {
 
 	void setPlayerMoney(Player player, int money);
 
+	void setPlayerAllIn(Player player, boolean isAllIn);
 }

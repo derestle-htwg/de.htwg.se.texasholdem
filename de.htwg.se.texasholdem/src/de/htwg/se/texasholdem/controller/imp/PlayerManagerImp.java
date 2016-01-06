@@ -39,4 +39,9 @@ public class PlayerManagerImp implements PlayerManager {
 		player.addPlayerMoney(money);
 	}
 
+	public void setPlayerAllIn(Player player, boolean isAllIn) {
+		player.setAllIn(isAllIn);
+
+	}
+
 }
