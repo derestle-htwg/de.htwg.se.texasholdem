@@ -11,12 +11,10 @@ import de.htwg.se.texasholdem.controller.GameStatus;
 import de.htwg.se.texasholdem.controller.ModelManager;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.BettingObject;
-import de.htwg.se.texasholdem.model.BettingObject;
 import de.htwg.se.texasholdem.model.BettingStatus;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.CardRank;
 import de.htwg.se.texasholdem.model.EvaluationObject;
-import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.StakeType;
 import de.htwg.se.texasholdem.util.observer.Observable;
@@ -265,21 +263,74 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	private void showDown() {
 		List<EvaluationObject> evalList = evaluationManager.evaluate(activePlayers, modelManager.getCommunityCards());
+		Map<Player, BettingStatus> allinList = new HashMap<Player, BettingStatus>();
+		Map<Player, BettingStatus> winnerAllinList = new HashMap<Player, BettingStatus>();
 		CardRank highestRank = evalList.get(0).getRanking();
 		boolean split = evalList.get(0).isSplit();
 
-		// TODO: Prüfen ob Gewinner All-In ist
-		if (split == false) {
-			// Nur ein Gewinner
-			String event = "[" + bettingStatus.toString() + "][" + evalList.get(0).getPlayer().getPlayerName()
-					+ "] WON " + modelManager.getPot() + " Cr with cards: ";
-			for (Card c : evalList.get(0).getCards()) {
-				event = event + c.toString() + "  ";
+		// Check if a player is All-In and add them into a list
+		for (BettingObject bo : bettingLog) {
+			if (bo.getStakeType() == StakeType.ALL_IN) {
+				allinList.put(bo.getPlayer(), bo.getBettingStatus());
 			}
-			event = event + " [" + highestRank.toString() + "]";
-			logger.add(event);
-			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
-		} else {
+		}
+
+		// Has only one person won?
+		if (split == true) {
+			// Several persons won
+
+			// Is winner All-In?
+			for (EvaluationObject eo : evalList) {
+				if (eo.isSplit() && allinList.containsKey(eo.getPlayer())) {
+					winnerAllinList.put(eo.getPlayer(), allinList.get(eo.getPlayer()));
+				}
+			}
+			if (!winnerAllinList.isEmpty()) {
+
+				if (winnerAllinList.size() == 1) {
+
+					// Calculated Pot for Winner and Split Pot for other Players
+					int winnerPot = 0;
+					boolean allinFound = false;
+					Player firstPlayerInBettingRound = null;
+					Map<Player, BettingStatus> map = new HashMap<Player, BettingStatus>();
+					Map.Entry<Player, BettingStatus> entry = map.entrySet().iterator().next();
+					Player winner = entry.getKey();
+
+					// First: Add stake of all previous BettingStatus to
+					// winnerPot
+					// Second: If bo.bettingStatus is BettingStatus in which
+					// Player went ALl-In, save first player that started the
+					// betting round
+					// Third: If bo.getPlayer() is winner, and winner went
+					// All-In, set 'allinFound = true' and continue adding the
+					// stakes (only the amount of winner-all-in-value * players)
+					// to the winnerPot. If winner was found the second time, do
+					// not add the stake to the pot and break for-loop
+					for (BettingObject bo : bettingLog) {
+						if (winnerAllinList.get(0).ordinal() > bo.getBettingStatus().ordinal()) {
+							winnerPot += bo.getStake();
+						} else if (winnerAllinList.get(0) == bo.getBettingStatus()) {
+							if (firstPlayerInBettingRound == null) {
+								firstPlayerInBettingRound = bo.getPlayer();
+							}
+							if (allinFound == true && bo.getPlayer() == winner) {
+								break;
+							}
+
+							if (bo.getPlayer() == winner && bo.getStakeType() == StakeType.ALL_IN) {
+								allinFound = true;
+							}
+
+							winnerPot += bo.getStake();
+						}
+					}
+					winner.addPlayerMoney(winnerPot);
+				}
+
+			}
+			// Mehrere Gewinner, Pot gerecht aufteilen
+
 			int splitCounter = 0;
 			for (EvaluationObject eo : evalList) {
 				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
@@ -292,6 +343,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 					eo.getPlayer().addPlayerMoney(modelManager.getPot() / splitCounter);
 				}
 			}
+		} else {
+			// Only one Person won
+			String event = "[" + bettingStatus.toString() + "][" + evalList.get(0).getPlayer().getPlayerName()
+					+ "] WON " + modelManager.getPot() + " Cr with cards: ";
+			for (Card c : evalList.get(0).getCards()) {
+				event = event + c.toString() + "  ";
+			}
+			event = event + " [" + highestRank.toString() + "]";
+			logger.add(event);
+			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
 		}
 
 	}
