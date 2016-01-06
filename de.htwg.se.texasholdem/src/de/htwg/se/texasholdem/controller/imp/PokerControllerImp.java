@@ -56,7 +56,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 		// TODO: Doesn't work because of active player list not set:
 		// setRandomDealer();
 		bettingStatus = BettingStatus.values()[0];
-		// TODO: Set Active Player list
 		setCreditsToPlayer();
 		fillActivePlayerList();
 		setRandomDealer();
@@ -91,14 +90,26 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
 			// TODO: Player cannot pay smallblind
-		} else {
-			payMoney(smallBlind, getSmallBlind(), StakeType.SMALL_BLIND);
+			smallBlind = getNextPlayer(activePlayers, smallBlind);
+			bigBlind = getNextPlayer(activePlayers, bigBlind);
+			activePlayers.remove(getPreviousPlayer(activePlayers, smallBlind));
 		}
+
+		if (activePlayers.size() <= 1) {
+			showDown();
+		}
+
+		payMoney(smallBlind, getSmallBlind(), StakeType.SMALL_BLIND);
 
 		if (bigBlind.getPlayerMoney() < getBigBlind()) {
 			// TODO: Player cannot pay bigblind
-		} else {
-			payMoney(bigBlind, getBigBlind(), StakeType.BIG_BLIND);
+			bigBlind = getNextPlayer(activePlayers, bigBlind);
+			activePlayers.remove(getPreviousPlayer(activePlayers, bigBlind));
+		}
+		payMoney(bigBlind, getBigBlind(), StakeType.BIG_BLIND);
+
+		if (activePlayers.size() <= 1) {
+			showDown();
 		}
 
 		currentPlayer = getNextPlayer(activePlayers, bigBlind);
