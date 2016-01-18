@@ -29,7 +29,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		StringBuilder s = new StringBuilder(rank + " " + suit);
+		StringBuilder s = new StringBuilder(rank.toString() + suit);
 		return s.toString();
 	}
 }

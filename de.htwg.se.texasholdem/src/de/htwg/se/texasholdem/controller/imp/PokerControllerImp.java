@@ -19,6 +19,7 @@ import de.htwg.se.texasholdem.model.CardRank;
 import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.StakeType;
+import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -518,5 +519,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public String getBettingStatus() {
 		return this.bettingStatus.toString();
+	}
+
+	public ModelManager getGameData() {
+		return this.modelManager;
 	}
 }

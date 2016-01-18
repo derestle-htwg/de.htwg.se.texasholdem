@@ -29,7 +29,7 @@ public class TextUI implements IObserver {
 		}
 
 		logger.info("############################################################");
-		logger.info(controller.getTableString());
+		logger.info(controller.getGameData().getTableString());
 
 		if (controller.getStatus() == GameStatus.INITIALIZATION) {
 			logger.info(

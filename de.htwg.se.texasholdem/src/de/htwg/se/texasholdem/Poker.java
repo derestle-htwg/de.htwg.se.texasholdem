@@ -5,6 +5,8 @@ import java.util.Scanner;
 import org.apache.log4j.PropertyConfigurator;
 
 import aview.tui.TextUI;
+import de.htwg.se.texasholdem.UI.GameUI;
+import de.htwg.se.texasholdem.UI.SetupUI;
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.controller.imp.PokerControllerImp;;
 
@@ -17,15 +19,19 @@ public class Poker {
 		PropertyConfigurator.configure("log4j.properties");
 
 		PokerController controller = new PokerControllerImp();
-		TextUI tui = new TextUI(controller);
+		
+		de.htwg.se.texasholdem.UI.SetupUI setupUI = new SetupUI(controller);
+		de.htwg.se.texasholdem.UI.GameUI ui = new GameUI(controller); 
+				
+		//TextUI tui = new TextUI(controller);
 
-		tui.printTUI();
+		//tui.printTUI();
 
 		// continue to read user input on the tui until the user decides to quit
 		boolean continu = true;
 		scanner = new Scanner(System.in);
 		while (continu) {
-			continu = tui.processInputLine(scanner.next());
+			//continu = tui.processInputLine(scanner.next());
 		}
 	}
 }

@@ -5,25 +5,25 @@ public enum Suit {
 	SPACE {
 		@Override
 		public String toString() {
-			return "S";
+			return "\u2660";
 		}
 	},
 	DIAMOND {
 		@Override
 		public String toString() {
-			return "D";
+			return "\u2666";
 		}
 	},
 	HEART {
 		@Override
 		public String toString() {
-			return "H";
+			return "\u2665";
 		}
 	},
 	CLUB {
 		@Override
 		public String toString() {
-			return "C";
+			return "\u2663";
 		}
 	}
 
