@@ -107,4 +107,8 @@ public class Player {
 
 	}
 
+	public boolean isAllIn() {
+		return this.allin;
+	}
+
 }

@@ -405,11 +405,19 @@ public class PokerControllerImp extends Observable implements PokerController {
 	 * player, this player has won 2) Checks if to enter next phase
 	 */
 	private void nextPlayer() {
-
 		if (activePlayers.size() == 1) {
 			this.bettingStatus = BettingStatus.SHOWDOWN;
 			enterNextPhase();
 		} else {
+			// Check if someone is all-in
+			// Check if there are any other player which are not all-in
+			List<Player> allInList = new LinkedList<Player>();
+			for (Player player : activePlayers) {
+				if (player.isAllIn()) {
+					allInList.add(player);
+				}
+			}
+			
 			if (this.bettingStatus == BettingStatus.PRE_FLOP) {
 				if (endRound == true) {
 					enterNextPhase();
@@ -425,7 +433,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 				if (lastPlayerOfThisRound == currentPlayer) {
 					enterNextPhase();
 				}
+				if ((currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2)) || (!currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2) && (currentPlayer != lastPlayerOfThisRound))) {
+					while (this.bettingStatus != BettingStatus.RIVER) {
+						enterNextPhase();
+					}
+					enterNextPhase();
+				}
 			}
+
 		}
 	}
 
@@ -435,8 +450,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void call() {
-		recordEvent(this.currentPlayer, StakeType.CALL, getCurrentCallValue());
-		payMoney(this.currentPlayer, getCurrentCallValue(), StakeType.CALL);
+		if (getCurrentCallValue() >= this.currentPlayer.getPlayerMoney()) {
+			this.currentPlayer.setAllIn(true);
+			recordEvent(this.currentPlayer, StakeType.ALL_IN, this.currentPlayer.getPlayerMoney());
+			payMoney(this.currentPlayer, this.currentPlayer.getPlayerMoney(), StakeType.ALL_IN);
+		} else {
+			recordEvent(this.currentPlayer, StakeType.CALL, getCurrentCallValue());
+			payMoney(this.currentPlayer, getCurrentCallValue(), StakeType.CALL);
+		}
 		nextPlayer();
 		notifyObservers();
 	}
@@ -459,14 +480,13 @@ public class PokerControllerImp extends Observable implements PokerController {
 				event = event + "Call " + credits + " Cr";
 			} else {
 				event = event + "Check";
-
 			}
 			break;
 		case RAISE:
 			event = event + "Raise " + credits + " Cr";
 			break;
 		case ALL_IN:
-			event = event + "ALL-IN";
+			event = event + "ALL-IN " + credits + " Cr";
 			break;
 		case BIG_BLIND:
 			event = event + "Big Blind " + credits + " Cr";
@@ -482,8 +502,15 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void raise(int credits) {
-		recordEvent(this.currentPlayer, StakeType.RAISE, credits);
-		payMoney(this.currentPlayer, credits, StakeType.RAISE);
+		if (credits >= this.currentPlayer.getPlayerMoney()) {
+			credits = this.currentPlayer.getPlayerMoney();
+			this.currentPlayer.setAllIn(true);
+			recordEvent(this.currentPlayer, StakeType.ALL_IN, credits);
+			payMoney(this.currentPlayer, credits, StakeType.ALL_IN);
+		} else {
+			recordEvent(this.currentPlayer, StakeType.RAISE, credits);
+			payMoney(this.currentPlayer, credits, StakeType.RAISE);
+		}
 		lastPlayerOfThisRound = currentPlayer;
 		endRound = false;
 		nextPlayer();

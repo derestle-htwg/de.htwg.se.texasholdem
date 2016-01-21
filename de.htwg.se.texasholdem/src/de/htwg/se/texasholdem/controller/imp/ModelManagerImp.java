@@ -79,6 +79,7 @@ public class ModelManagerImp implements ModelManager {
 		// Clear HoleCards on each Players Hand
 		for (Player p : playerManager.getPlayerList()) {
 			p.clearHoleCards();
+			p.setAllIn(false);
 		}
 
 		// Clear Pot on Table

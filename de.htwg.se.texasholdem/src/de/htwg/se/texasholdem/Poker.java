@@ -20,18 +20,18 @@ public class Poker {
 
 		PokerController controller = new PokerControllerImp();
 		
-		de.htwg.se.texasholdem.UI.SetupUI setupUI = new SetupUI(controller);
-		de.htwg.se.texasholdem.UI.GameUI ui = new GameUI(controller); 
+		//de.htwg.se.texasholdem.UI.SetupUI setupUI = new SetupUI(controller);
+		//de.htwg.se.texasholdem.UI.GameUI ui = new GameUI(controller); 
 				
-		//TextUI tui = new TextUI(controller);
+		TextUI tui = new TextUI(controller);
 
-		//tui.printTUI();
+		tui.printTUI();
 
 		// continue to read user input on the tui until the user decides to quit
 		boolean continu = true;
 		scanner = new Scanner(System.in);
 		while (continu) {
-			//continu = tui.processInputLine(scanner.next());
+			continu = tui.processInputLine(scanner.next());
 		}
 	}
 }
