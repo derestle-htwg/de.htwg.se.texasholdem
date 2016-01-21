@@ -3,7 +3,6 @@ package de.htwg.se.texasholdem.controller.imp;
 import de.htwg.se.texasholdem.controller.DeckManager;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Deck;
-import de.htwg.se.texasholdem.model.Deck;
 import de.htwg.se.texasholdem.model.Rank;
 import de.htwg.se.texasholdem.model.Suit;
 

@@ -92,7 +92,7 @@ public class Table {
 		result = result + blockSeparator(topRow) + newLine + newLine;
 
 		// COMMUNITY CARD
-		int separatorSum = ((this.players.size() % 4) * 12 + (this.players.size() % 4 + 1)) / 2;
+
 		StringBuilder sb = new StringBuilder();
 
 		if (communityCards.isEmpty()) {

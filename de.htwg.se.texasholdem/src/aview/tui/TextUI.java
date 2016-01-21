@@ -57,21 +57,21 @@ public class TextUI implements IObserver {
 
 		if (controller.getStatus() == GameStatus.INITIALIZATION) {
 			// Add new Player
-			if (line.equalsIgnoreCase("p")) {
+			if ("p".equalsIgnoreCase(line)) {
 				logger.info("Insert player name: ");
 				String playerName = scanner.next();
 				controller.addPlayer(playerName);
 			}
 
 			// Set Start Credits
-			if (line.equalsIgnoreCase("c")) {
+			if ("c".equalsIgnoreCase(line)) {
 				logger.info("Insert credits: ");
 				int credits = Integer.parseInt(scanner.next());
 				controller.setStartCredits(credits);
 			}
 
 			// Set Blinds
-			if (line.equalsIgnoreCase("b")) {
+			if ("b".equalsIgnoreCase(line)) {
 				logger.info("Small Blind: ");
 				int smallBlind = Integer.parseInt(scanner.next());
 				controller.setBlinds(smallBlind);
@@ -79,22 +79,22 @@ public class TextUI implements IObserver {
 			}
 
 			// Start Game
-			if (line.equalsIgnoreCase("s")) {
+			if ("s".equalsIgnoreCase(line)) {
 				controller.startGame();
 			}
 		} else {
 			// Fold
-			if (line.equalsIgnoreCase("f")) {
+			if ("f".equalsIgnoreCase(line)) {
 				controller.fold();
 			}
 
 			// Call
-			if (line.equalsIgnoreCase("c")) {
+			if ("c".equalsIgnoreCase(line)) {
 				controller.call();
 			}
 
 			// Raise
-			if (line.equalsIgnoreCase("r")) {
+			if ("r".equalsIgnoreCase(line)) {
 				logger.info("Raise value: ");
 				int credits = Integer.parseInt(scanner.next());
 				controller.raise(credits);

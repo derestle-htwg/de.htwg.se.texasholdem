@@ -19,7 +19,6 @@ import de.htwg.se.texasholdem.model.CardRank;
 import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.StakeType;
-import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -58,8 +57,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void startGame() {
-		// TODO: Doesn't work because of active player list not set:
-		// setRandomDealer();
 		bettingStatus = BettingStatus.values()[0];
 		setCreditsToPlayer();
 		fillActivePlayerList();
@@ -117,7 +114,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 		lastPlayerOfThisRound = bigBlind;
 
 		if (smallBlind.getPlayerMoney() < getSmallBlind()) {
-			// TODO: Player cannot pay smallblind
 			smallBlind = getNextPlayer(activePlayers, smallBlind);
 			bigBlind = getNextPlayer(activePlayers, bigBlind);
 			activePlayers.remove(getPreviousPlayer(activePlayers, smallBlind));
@@ -130,7 +126,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 		payMoney(smallBlind, getSmallBlind(), StakeType.SMALL_BLIND);
 
 		if (bigBlind.getPlayerMoney() < getBigBlind()) {
-			// TODO: Player cannot pay bigblind
 			bigBlind = getNextPlayer(activePlayers, bigBlind);
 			activePlayers.remove(getPreviousPlayer(activePlayers, bigBlind));
 		}
@@ -315,7 +310,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		}
 
 		// Has only one person won?
-		if (split == true) {
+		if (split) {
 			// Several persons won
 
 			// Is winner All-In?
@@ -353,7 +348,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 							if (firstPlayerInBettingRound == null) {
 								firstPlayerInBettingRound = bo.getPlayer();
 							}
-							if (allinFound == true && bo.getPlayer() == winner) {
+							if (allinFound && bo.getPlayer() == winner) {
 								break;
 							}
 
@@ -372,13 +367,13 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 			int splitCounter = 0;
 			for (EvaluationObject eo : evalList) {
-				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
+				if (eo.getRanking() == highestRank && eo.isSplit()) {
 					splitCounter++;
 				}
 			}
 
 			for (EvaluationObject eo : evalList) {
-				if (eo.getRanking() == highestRank && eo.isSplit() == true) {
+				if (eo.getRanking() == highestRank && eo.isSplit()) {
 					eo.getPlayer().addPlayerMoney(modelManager.getPot() / splitCounter);
 				}
 			}
@@ -417,9 +412,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 					allInList.add(player);
 				}
 			}
-			
+
 			if (this.bettingStatus == BettingStatus.PRE_FLOP) {
-				if (endRound == true) {
+				if (endRound) {
 					enterNextPhase();
 				} else {
 					currentPlayer = getNextPlayer(activePlayers, currentPlayer);
@@ -433,7 +428,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 				if (lastPlayerOfThisRound == currentPlayer) {
 					enterNextPhase();
 				}
-				if ((currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2)) || (!currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2) && (currentPlayer != lastPlayerOfThisRound))) {
+				if ((currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2))
+						|| (!currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2)
+								&& (currentPlayer != lastPlayerOfThisRound))) {
 					while (this.bettingStatus != BettingStatus.RIVER) {
 						enterNextPhase();
 					}
