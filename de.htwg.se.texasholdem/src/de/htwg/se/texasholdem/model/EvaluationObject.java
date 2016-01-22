@@ -34,6 +34,7 @@ public class EvaluationObject implements Comparable<EvaluationObject> {
 		this.cards = cards;
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		return compareTo((EvaluationObject) o) == 0;
 	}
@@ -42,7 +43,7 @@ public class EvaluationObject implements Comparable<EvaluationObject> {
 	public int hashCode(){
 		return super.hashCode();
 	}
-
+	
 	public int compareTo(EvaluationObject e){
 		if (this.getRanking().ordinal() < e.getRanking().ordinal()) {
 			return 1;
