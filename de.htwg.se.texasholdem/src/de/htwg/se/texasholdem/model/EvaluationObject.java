@@ -33,17 +33,22 @@ public class EvaluationObject implements Comparable<EvaluationObject> {
 	public void setCards(List<Card> cards) {
 		this.cards = cards;
 	}
+	
+	public boolean equals(Object o){
+		return compareTo((EvaluationObject) o) == 0;
+	}
 
-	public int compareTo(EvaluationObject o) {
-		if (this.getRanking().ordinal() < o.getRanking().ordinal()) {
+	public int compareTo(EvaluationObject e){
+		if (this.getRanking().ordinal() < e.getRanking().ordinal()) {
 			return 1;
-		} else if (this.getRanking().ordinal() == o.getRanking().ordinal()) {
+		} else if (this.getRanking().ordinal() == e.getRanking().ordinal()) {
 			return 0;
 		} else {
 			return -1;
 		}
 	}
-
+	
+	
 	public boolean isSplit() {
 		return this.split;
 	}

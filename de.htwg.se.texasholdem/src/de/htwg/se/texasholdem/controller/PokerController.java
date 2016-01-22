@@ -2,10 +2,16 @@ package de.htwg.se.texasholdem.controller;
 
 import java.util.List;
 
+import com.google.inject.ImplementedBy;
+
+import de.htwg.se.texasholdem.controller.imp.PokerControllerImp;
+import de.htwg.se.texasholdem.model.BettingStatus;
+import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.util.observer.IObservable;
 
+@ImplementedBy(PokerControllerImp.class)
 public interface PokerController extends IObservable {
 
 	ModelManager getGameData();
@@ -56,8 +62,12 @@ public interface PokerController extends IObservable {
 
 	void raise(int credits);
 
-	String getBettingStatus();
+	BettingStatus getBettingStatus();
 
 	String getLastEvent();
+	
+	Player getWinningPlayer();
+	
+	List<Card> getWinningCards();
 
 }

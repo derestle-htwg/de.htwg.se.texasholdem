@@ -124,7 +124,7 @@ public class GameUI extends JFrame implements ActionListener, IObserver {
 		Money.setLocation(xGrid*3, yGrid*6);
 		Money.setSize(100, 20);
 		Pot.setLocation(xGrid*10, yGrid*3);
-		Pot.setSize(100, 20);
+		Pot.setSize(400, 80);
 		
 		btnCall.setLocation(xGrid*16, yGrid*4);
 		btnCall.setSize(130, 30);
@@ -143,31 +143,91 @@ public class GameUI extends JFrame implements ActionListener, IObserver {
 
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		if(arg0.getSource() == btnCall){
+			controller.call();
+		} else if(arg0.getSource() == btnRaise){
+			int ans = -1;
+			while(ans < 0){
+				try{
+				ans = Integer.parseInt( JOptionPane.showInputDialog(this.getGlassPane(),
+						"Um wieviel wollen sie erhöhen?",
+				        "Titel",
+				        JOptionPane.INFORMATION_MESSAGE,
+				        null,
+				        null,
+				        "5").toString());
+				}
+				catch(Exception error){
+					ans = -1;
+				}
+			}
+					
+			
+			controller.raise(ans);
+		} else if(arg0.getSource() == btnFold){
+			controller.fold();
+		}
 	}
 
-	public void updateScreen(Player inPlayer) {
+	public void updateScreen(PokerController inController) {
 		// TODO Auto-generated method stub
+		Player inPlayer = inController.getCurrentPlayer();
+				
+		if(inPlayer != null && inPlayer.getHoleCards().size() > 0)
+			DrawCard(PlayerCards[0],inPlayer.getHoleCards().get(0));
+		else
+			DrawCard(PlayerCards[0],null);
 		
-		DrawCard(PlayerCards[0],inPlayer==null?null:inPlayer.getHoleCards().get(0));
-		DrawCard(PlayerCards[1],inPlayer==null?null:inPlayer.getHoleCards().get(1));
+		if(inPlayer != null && inPlayer.getHoleCards().size() > 1)
+			DrawCard(PlayerCards[1],inPlayer==null?null:inPlayer.getHoleCards().get(1));
+		else
+			DrawCard(PlayerCards[1],null);
+		
+		
 		if(controller.getGameData().getCommunityCards().size()>0)
 			DrawCard(CommunityCards[0],controller.getGameData().getCommunityCards().get(0));
+		else
+			DrawCard(CommunityCards[0],null);
+		
 		if(controller.getGameData().getCommunityCards().size()>1)
 			DrawCard(CommunityCards[1],controller.getGameData().getCommunityCards().get(1));
+		else
+			DrawCard(CommunityCards[1],null);
+		
 		if(controller.getGameData().getCommunityCards().size()>2)
 			DrawCard(CommunityCards[2],controller.getGameData().getCommunityCards().get(2));
+		else
+			DrawCard(CommunityCards[2],null);
+		
 		if(controller.getGameData().getCommunityCards().size()>3)
 			DrawCard(CommunityCards[3],controller.getGameData().getCommunityCards().get(3));
+		else
+			DrawCard(CommunityCards[3],null);
+		
 		if(controller.getGameData().getCommunityCards().size()>4)
 			DrawCard(CommunityCards[4],controller.getGameData().getCommunityCards().get(4));
+		else
+			DrawCard(CommunityCards[4],null);
 		
-		Name.setText("Name: ");
-		Money.setText("Money: ");
-		Pot.setText("Pot: ");
+		Name.setText("Name: " + inPlayer.getPlayerName());
+		Money.setText("Money: " + inPlayer.getPlayerMoney());
+		Pot.setText("<html>Pot: " + inController.getGameData().getPot() + "<br>" + controller.getLastEvent() + "<br>" + controller.getBettingStatus() + "<br>Call: " + controller.getCurrentCallValue() + "</html>");
+		
 		
 	}
 	
+	private void HidePlayerData() {
+		// TODO Auto-generated method stub
+		DrawCard(PlayerCards[0],null);
+		DrawCard(PlayerCards[1],null);
+		DrawCard(CommunityCards[0],null);
+		DrawCard(CommunityCards[1],null);
+		DrawCard(CommunityCards[2],null);
+		DrawCard(CommunityCards[3],null);
+		DrawCard(CommunityCards[4],null);
+		
+	}
+
 	private static Font myFont = new Font("Serif", Font.BOLD, 36);
 	
 	private void DrawCard(JPanel pnl, Card card){
@@ -190,24 +250,34 @@ public class GameUI extends JFrame implements ActionListener, IObserver {
 				g.setColor(Color.red);
 			}
 			g.drawString(card.toString() ,8, pnl.getHeight()/2);
-			
 		}
-		
-		
 		g.dispose();
 	}
 
 	public void update() {
 		if(controller.getStatus() == GameStatus.INITIALIZATION)
 			return;
+		
+		if(controller.getBettingStatus() == BettingStatus.SHOWDOWN)//LastWinningCards
+		{
+			String winningText = controller.getWinningPlayer() + " hat gewonnen mit ";
+			for(Card myCard : controller.getWinningCards()){
+				winningText += myCard.toString() + " ";		
+			}
+			JOptionPane.showMessageDialog(this, winningText , "Spielende", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
 		this.setVisible(true);
 		// TODO Auto-generated method stub
 		if(controller.getCurrentPlayer() != currentPlayer)
 		{
+			HidePlayerData();
 			currentPlayer = controller.getCurrentPlayer(); 
 			JOptionPane.showMessageDialog(this, currentPlayer.getPlayerName()+ " ist jetzt an der Reihe", "Spielerwechsel", JOptionPane.INFORMATION_MESSAGE);
 		}
-		updateScreen(currentPlayer);
+		
+		updateScreen(controller);
 	}
 
 }

@@ -11,6 +11,9 @@ import javafx.collections.transformation.SortedList;
 import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.*;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
+
 import com.sun.javafx.scene.control.behavior.ScrollBarBehavior;
 
 import de.htwg.se.texasholdem.controller.PokerController;
@@ -18,20 +21,21 @@ import de.htwg.se.texasholdem.util.observer.IObserver;
 
 public class SetupUI extends JFrame implements ActionListener {
 	
-PokerController controller;
+	private PokerController controller;
 
-	JPanel pnl = new JPanel();
+	private JPanel pnl = new JPanel();
 
-	JButton btnStartGame = new JButton();
-	JButton btnNewPlayer = new JButton();
-	JTextField txtPlayerName = new JTextField();
-	JTextField txtPlayerMoney = new JTextField();
-	JTextField txtBlinds = new JTextField();
-	JLabel lblMoney = new JLabel();
-	JLabel lblName = new JLabel();
-	JLabel lblBlinds = new JLabel();
+	private JButton btnStartGame = new JButton();
+	private JButton btnNewPlayer = new JButton();
+	private JTextField txtPlayerName = new JTextField();
+	private JTextField txtPlayerMoney = new JTextField();
+	private JTextField txtBlinds = new JTextField();
+	private JLabel lblMoney = new JLabel();
+	private JLabel lblName = new JLabel();
+	private JLabel lblBlinds = new JLabel();
 			
 	private int playerCount = 0;
+	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
 	
 	public SetupUI(PokerController inController){
 		controller = inController;
@@ -110,7 +114,7 @@ PokerController controller;
 			money = Integer.parseInt(txtPlayerMoney.getText());
 			blinds = Integer.parseInt(txtBlinds.getText());
 		}catch(Exception e){
-			
+			logger.log(Priority.INFO, e.getMessage());
 		}
 		if(money != 0 && blinds != 0){
 			

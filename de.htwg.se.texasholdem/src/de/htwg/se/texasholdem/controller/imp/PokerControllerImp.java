@@ -38,6 +38,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private List<String> loggerText;
 
 	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
+	private List<Card> LastWinningCards;
+	private Player LastWinningPlayer;
 
 	public PokerControllerImp() {
 
@@ -222,6 +224,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public GameStatus getStatus() {
 		return gameStatus;
 	}
+	
+	public List<Card> getWinningCards(){
+		return LastWinningCards;
+	}
+	
+	public Player getWinningPlayer(){
+		return LastWinningPlayer;
+	}
 
 	public int getCurrentCallValue() {
 		int highestValue = 0;
@@ -395,7 +405,9 @@ public class PokerControllerImp extends Observable implements PokerController {
 			loggerText.add(event);
 			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
 		}
-
+		
+		LastWinningCards = evalList.get(0).getCards(); 
+		LastWinningPlayer = evalList.get(0).getPlayer();
 	}
 
 	/*
@@ -459,7 +471,6 @@ public class PokerControllerImp extends Observable implements PokerController {
 				event = event + "Call " + credits + " Cr";
 			} else {
 				event = event + "Check";
-
 			}
 			break;
 		case RAISE:
@@ -517,8 +528,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 		}
 	}
 
-	public String getBettingStatus() {
-		return this.bettingStatus.toString();
+	public BettingStatus getBettingStatus() {
+		return this.bettingStatus;
 	}
 
 	public ModelManager getGameData() {
