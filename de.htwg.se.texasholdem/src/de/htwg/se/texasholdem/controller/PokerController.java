@@ -69,5 +69,7 @@ public interface PokerController extends IObservable {
 	Player getWinningPlayer();
 	
 	List<Card> getWinningCards();
+	
+	boolean getGameOver();
 
 }

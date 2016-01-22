@@ -40,7 +40,12 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
 	private List<Card> LastWinningCards;
 	private Player LastWinningPlayer;
+	private boolean gameOver = false;
 
+	public boolean getGameOver(){
+		return gameOver;
+	}
+	
 	public PokerControllerImp() {
 
 		modelManager = new ModelManagerImp();
@@ -93,12 +98,14 @@ public class PokerControllerImp extends Observable implements PokerController {
 		if (playersWithMoney <= 1) {
 			endGame();
 		}
-
-		modelManager.resetGame();
-		bettingLog.clear();
-		fillActivePlayerList();
-		payBlinds();
-		setHoleCardsToAllPlayer();
+		else
+		{
+			modelManager.resetGame();
+			bettingLog.clear();
+			fillActivePlayerList();
+			payBlinds();
+			setHoleCardsToAllPlayer();
+		}
 	}
 
 	private void endGame() {
@@ -109,7 +116,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 			}
 		}
 		logger.info("GAME ENDED - WINNER IS: " + winner.getPlayerName());
-		System.exit(0);
+		gameOver = true;
+		
 	}
 
 	public void payBlinds() {

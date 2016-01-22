@@ -255,6 +255,14 @@ public class GameUI extends JFrame implements ActionListener, IObserver {
 	}
 
 	public void update() {
+		if(controller.getGameOver()){
+			
+			JOptionPane.showMessageDialog(this, "Es ist nur noch ein Spieler übrig: " + controller.getWinningPlayer().getPlayerName() , "Spielende", JOptionPane.INFORMATION_MESSAGE);
+			this.setVisible(false);
+			this.dispose();
+			return;
+		}
+		
 		if(controller.getStatus() == GameStatus.INITIALIZATION)
 			return;
 		
@@ -264,7 +272,7 @@ public class GameUI extends JFrame implements ActionListener, IObserver {
 			for(Card myCard : controller.getWinningCards()){
 				winningText += myCard.toString() + " ";		
 			}
-			JOptionPane.showMessageDialog(this, winningText , "Spielende", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, winningText , "Rundenende", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		

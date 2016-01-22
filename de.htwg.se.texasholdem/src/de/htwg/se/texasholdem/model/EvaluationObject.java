@@ -37,6 +37,11 @@ public class EvaluationObject implements Comparable<EvaluationObject> {
 	public boolean equals(Object o){
 		return compareTo((EvaluationObject) o) == 0;
 	}
+	
+	@Override
+	public int hashCode(){
+		return super.hashCode();
+	}
 
 	public int compareTo(EvaluationObject e){
 		if (this.getRanking().ordinal() < e.getRanking().ordinal()) {

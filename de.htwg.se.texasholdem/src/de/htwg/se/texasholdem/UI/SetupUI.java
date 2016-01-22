@@ -114,7 +114,7 @@ public class SetupUI extends JFrame implements ActionListener {
 			money = Integer.parseInt(txtPlayerMoney.getText());
 			blinds = Integer.parseInt(txtBlinds.getText());
 		}catch(Exception e){
-			logger.log(Priority.INFO, e.getMessage());
+			logger.log(Priority.INFO, e);
 		}
 		if(money != 0 && blinds != 0){
 			
@@ -122,6 +122,7 @@ public class SetupUI extends JFrame implements ActionListener {
 			controller.setBlinds(blinds);
 			this.setVisible(false);
 			controller.startGame();
+			this.dispose();
 		}
 		else{
 			if(money == 0)
