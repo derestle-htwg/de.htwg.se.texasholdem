@@ -3,6 +3,7 @@
 Das Programm besteht aus einer Setup Routine und anschließen dem eigentlichen Spiel.
 In der Setup Routine werden die Spieler eingetragen und das Startgutgaben so wie die Blinds festgelegt.
 Anschließend kann man mit Spiel starten das spiel starten.
+!()[http://abload.de/img/poker2zyks.png]
 ### Setup
 Aus dem Git-Repository muss über den Link https://github.com/derestle-htwg/de.htwg.se.texasholdem.git das Projekt herunter geladen werden.
 Die benötigten Bibliotheken sind in dem Projekt enthalten. Anschließend muss man das Projekt in Eclipse importieren und kann es direkt ausführen.
