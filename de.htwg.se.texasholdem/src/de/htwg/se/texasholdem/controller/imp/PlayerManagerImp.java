@@ -41,7 +41,10 @@ public class PlayerManagerImp implements PlayerManager {
 
 	public void setPlayerAllIn(Player player, boolean isAllIn) {
 		player.setAllIn(isAllIn);
-
+	}
+	
+	public boolean isPlayerAllIn(Player player) {
+		return player.isAllIn();
 	}
 
 }
