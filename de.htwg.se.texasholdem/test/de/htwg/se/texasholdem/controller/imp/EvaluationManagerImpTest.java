@@ -37,7 +37,7 @@ public class EvaluationManagerImpTest {
 		aceH = new Card(Rank.ACE, Suit.HEART);
 		aceD = new Card(Rank.ACE, Suit.DIAMOND);
 		aceC = new Card(Rank.ACE, Suit.CLUB);
-		aceS = new Card(Rank.ACE, Suit.SPACE);
+		aceS = new Card(Rank.ACE, Suit.SPADE);
 
 		kingH = new Card(Rank.KING, Suit.HEART);
 
@@ -207,8 +207,8 @@ public class EvaluationManagerImpTest {
 		p1.setHoleCard(new Card(Rank.ACE, Suit.DIAMOND));
 		p1.setHoleCard(new Card(Rank.FIVE, Suit.CLUB));
 
-		p2.setHoleCard(new Card(Rank.ACE, Suit.SPACE));
-		p2.setHoleCard(new Card(Rank.TWO, Suit.SPACE));
+		p2.setHoleCard(new Card(Rank.ACE, Suit.SPADE));
+		p2.setHoleCard(new Card(Rank.TWO, Suit.SPADE));
 
 		evalList = evaluationManager.evaluate(players, sevenCards);
 

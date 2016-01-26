@@ -8,7 +8,6 @@ import de.htwg.se.texasholdem.controller.imp.PokerControllerImp;
 import de.htwg.se.texasholdem.model.BettingStatus;
 import de.htwg.se.texasholdem.model.Card;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.util.observer.IObservable;
 
 @ImplementedBy(PokerControllerImp.class)
@@ -27,6 +26,8 @@ public interface PokerController extends IObservable {
 	Player getDealer();
 
 	void setPlayerActive(Player player);
+
+	void removePlayer(String playerName);
 
 	void setPlayerNotActive(Player player);
 
@@ -65,11 +66,18 @@ public interface PokerController extends IObservable {
 	BettingStatus getBettingStatus();
 
 	String getLastEvent();
-	
+
 	Player getWinningPlayer();
-	
+
 	List<Card> getWinningCards();
-	
+
 	boolean getGameOver();
 
+	Player getSmallBlindPlayer();
+
+	Player getBigBlindPlayer();
+
+	Player getChipLeader();
+
+	boolean roundFinished();
 }

@@ -2,7 +2,7 @@ package de.htwg.se.texasholdem.model;
 
 public enum Suit {
 	
-	SPACE {
+	SPADE {
 		@Override
 		public String toString() {
 			return "\u2660";

@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import de.htwg.se.texasholdem.controller.PokerController;
 import de.htwg.se.texasholdem.model.Player;
-import de.htwg.se.texasholdem.model.Player;
 
 public class PokerControllerImpTest {
 
@@ -16,7 +15,7 @@ public class PokerControllerImpTest {
 
 	@Before
 	public void _setup() {
-		pokerController = new PokerControllerImp();
+		pokerController = new PokerControllerImp(null);
 
 		p1 = new Player("Player One");
 		p2 = new Player("Player Two");
@@ -94,7 +93,6 @@ public class PokerControllerImpTest {
 		int smallBlind = 30;
 		int credits = 100;
 
-		
 		pokerController.setDealer(pokerController.getPlayerList().get(0));
 		pokerController.setStartCredits(credits);
 		pokerController.setCreditsToPlayer();

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +20,6 @@ import de.htwg.se.texasholdem.model.CardRank;
 import de.htwg.se.texasholdem.model.EvaluationObject;
 import de.htwg.se.texasholdem.model.Player;
 import de.htwg.se.texasholdem.model.StakeType;
-import de.htwg.se.texasholdem.model.Table;
 import de.htwg.se.texasholdem.util.observer.Observable;
 
 public class PokerControllerImp extends Observable implements PokerController {
@@ -36,17 +36,21 @@ public class PokerControllerImp extends Observable implements PokerController {
 	private int startCredits;
 	private boolean endRound;
 	private List<String> loggerText;
+	private Player smallBlind = null;
+	private Player bigBlind = null;
 
 	private Logger logger = Logger.getLogger("de.htwg.se.texasholdem.aview.tui");
 	private List<Card> LastWinningCards;
 	private Player LastWinningPlayer;
 	private boolean gameOver = false;
+	private boolean roundFinished = false;
+	private ReentrantLock lock;
 
-	public boolean getGameOver(){
+	public boolean getGameOver() {
 		return gameOver;
 	}
-	
-	public PokerControllerImp() {
+
+	public PokerControllerImp(ReentrantLock lock) {
 
 		modelManager = new ModelManagerImp();
 		evaluationManager = new EvaluationManagerImp();
@@ -55,6 +59,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 		this.loggerText = new LinkedList<String>();
 		gameStatus = GameStatus.INITIALIZATION;
 		endRound = false;
+		this.lock = lock;
 
 		startCredits = 5000;
 		setBlinds(25);
@@ -88,6 +93,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	private void resetGame() {
 		int playersWithMoney = 0;
+		roundFinished = false;
 
 		for (Player p : modelManager.getPlayerList()) {
 			if (p.getPlayerMoney() > 0) {
@@ -97,9 +103,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 		if (playersWithMoney <= 1) {
 			endGame();
-		}
-		else
-		{
+		} else {
 			modelManager.resetGame();
 			bettingLog.clear();
 			fillActivePlayerList();
@@ -109,20 +113,35 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	private void endGame() {
-		Player winner = null;
-		for (Player p : modelManager.getPlayerList()) {
-			if (winner == null || p.getPlayerMoney() > winner.getPlayerMoney()) {
-				winner = p;
-			}
-		}
+		Player winner = getChipLeader();
+		// Player winner = null;
+		// for (Player p : modelManager.getPlayerList()) {
+		// if (winner == null || p.getPlayerMoney() > winner.getPlayerMoney()) {
+		// winner = p;
+		// }
+		// }
 		logger.info("GAME ENDED - WINNER IS: " + winner.getPlayerName());
 		gameOver = true;
-		
+		gameStatus = GameStatus.ENDED;
+	}
+
+	public void removePlayer(String playerName) {
+		for (Player p : modelManager.getPlayerList()) {
+			if (p.getPlayerName().equals(playerName)) {
+				if (currentPlayer == p || modelManager.getPlayerList().size() <= 2) {
+					modelManager.getPlayerList().remove(p);
+					nextPlayer();
+				} else {
+					modelManager.getPlayerList().remove(p);
+				}
+				notifyObservers();
+			}
+		}
 	}
 
 	public void payBlinds() {
-		Player smallBlind = getNextPlayer(activePlayers, dealer);
-		Player bigBlind = getNextPlayer(activePlayers, smallBlind);
+		smallBlind = getNextPlayer(activePlayers, dealer);
+		bigBlind = getNextPlayer(activePlayers, smallBlind);
 
 		lastPlayerOfThisRound = bigBlind;
 
@@ -232,12 +251,12 @@ public class PokerControllerImp extends Observable implements PokerController {
 	public GameStatus getStatus() {
 		return gameStatus;
 	}
-	
-	public List<Card> getWinningCards(){
+
+	public List<Card> getWinningCards() {
 		return LastWinningCards;
 	}
-	
-	public Player getWinningPlayer(){
+
+	public Player getWinningPlayer() {
 		return LastWinningPlayer;
 	}
 
@@ -303,7 +322,16 @@ public class PokerControllerImp extends Observable implements PokerController {
 		case SHOWDOWN:
 			showDown();
 			bettingStatus = BettingStatus.PRE_FLOP;
+			roundFinished = true;
 			notifyObservers();
+			if (lock != null)
+				lock.unlock();
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+			}
+			if (lock != null)
+				lock.lock();
 
 			resetGame();
 			setDealer(getNextPlayer(activePlayers, getDealer()));
@@ -413,8 +441,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 			loggerText.add(event);
 			evalList.get(0).getPlayer().addPlayerMoney(modelManager.getPot());
 		}
-		
-		LastWinningCards = evalList.get(0).getCards(); 
+
+		LastWinningCards = evalList.get(0).getCards();
 		LastWinningPlayer = evalList.get(0).getPlayer();
 	}
 
@@ -428,6 +456,8 @@ public class PokerControllerImp extends Observable implements PokerController {
 		if (activePlayers.size() == 1) {
 			this.bettingStatus = BettingStatus.SHOWDOWN;
 			enterNextPhase();
+		} else if (getPlayerList().size() <= 1) {
+			endGame();
 		} else {
 			// Check if someone is all-in
 			// Check if there are any other player which are not all-in
@@ -437,7 +467,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 					allInList.add(player);
 				}
 			}
-			
+
 			if (this.bettingStatus == BettingStatus.PRE_FLOP) {
 				if (endRound == true) {
 					enterNextPhase();
@@ -453,14 +483,15 @@ public class PokerControllerImp extends Observable implements PokerController {
 				if (lastPlayerOfThisRound == currentPlayer) {
 					enterNextPhase();
 				}
-				if ((currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2)) || (!currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2) && (currentPlayer != lastPlayerOfThisRound))) {
+				if ((currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2))
+						|| (!currentPlayer.isAllIn() && !(activePlayers.size() - allInList.size() >= 2)
+								&& (currentPlayer != lastPlayerOfThisRound))) {
 					while (this.bettingStatus != BettingStatus.RIVER) {
 						enterNextPhase();
 					}
 					enterNextPhase();
 				}
 			}
-
 		}
 	}
 
@@ -522,6 +553,7 @@ public class PokerControllerImp extends Observable implements PokerController {
 	}
 
 	public void raise(int credits) {
+		credits = credits + getCurrentCallValue();
 		if (credits >= this.currentPlayer.getPlayerMoney()) {
 			credits = this.currentPlayer.getPlayerMoney();
 			this.currentPlayer.setAllIn(true);
@@ -570,5 +602,31 @@ public class PokerControllerImp extends Observable implements PokerController {
 
 	public ModelManager getGameData() {
 		return this.modelManager;
+	}
+
+	public boolean getRoundFinished() {
+		return this.roundFinished;
+	}
+
+	public Player getSmallBlindPlayer() {
+		return this.smallBlind;
+	}
+
+	public Player getBigBlindPlayer() {
+		return this.bigBlind;
+	}
+
+	public Player getChipLeader() {
+		Player chipLeader = null;
+		for (Player p : this.getPlayerList()) {
+			if (chipLeader == null || p.getPlayerMoney() > chipLeader.getPlayerMoney()) {
+				chipLeader = p;
+			}
+		}
+		return chipLeader;
+	}
+
+	public boolean roundFinished() {
+		return this.roundFinished;
 	}
 }
